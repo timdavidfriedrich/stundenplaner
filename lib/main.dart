@@ -77,8 +77,10 @@ class _NavBarState extends State<NavBar> {
           backgroundColor: Colors.white,
           elevation: 0, //## Lässt den Schwebeeffekt/Schatten verschwinden
         ),
-        body: bodyStates[
-            currentIndex], //## Ruft jeweiligen State/Tag für den Body auf
+        body: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 420),
+            child: bodyStates[
+                currentIndex]), //## Ruft jeweiligen State/Tag für den Body auf
 
         bottomNavigationBar: GestureDetector(
           //## Gestensteuerung der BottomBar
