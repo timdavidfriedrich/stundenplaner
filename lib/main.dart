@@ -3,9 +3,6 @@ import 'package:flutter/material.dart'; //## Farben, Icons, etc. (Design)
 import 'package:flutter/painting.dart'; //## Schatten, Farben, etc. (spezifischer)
 import 'package:flutter/rendering.dart'; //## Render-Zeug
 import 'package:stundenplaner/stateStundenplan.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
-
-import 'dart:io';
 
 import 'nicerStyle.dart'; //## Importiert eigenes Style-File
 import 'state_Regulator.dart'; //## Importiert den State/Tab-Regulator
