@@ -66,9 +66,33 @@ class _NavBarState extends State<NavBar> {
                       icon: Icon(Icons.settings_outlined,
                           color: Colors.black, size: 25),
                       onPressed: () {
+                        Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              transitionDuration: Duration(milliseconds: 1000),
+                              transitionsBuilder:
+                                  (context, animation, animationTime, child) {
+                                var curve = Curves.easeInOutExpo;
+                                //var curveTween = CurveTween(curve: curve);
+                                var begin = Offset(0, -1);
+                                var end = Offset.zero;
+                                var tween = Tween(begin: begin, end: end)
+                                    .chain(CurveTween(curve: curve));
+                                var offsetAnimation = animation.drive(tween);
+                                return SlideTransition(
+                                  position: offsetAnimation,
+                                  child: child,
+                                );
+                              },
+                              pageBuilder: (context, animation, animationTime) {
+                                return Settings();
+                              },
+                            ));
+                        /*
                         Navigator.of(context).push(MaterialPageRoute(
                             //## Weiterleitung auf Seite
                             builder: (context) => Settings()));
+                            */
                       },
                     ),
                   ],
