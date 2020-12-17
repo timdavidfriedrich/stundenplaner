@@ -10,21 +10,11 @@ stateTagesplanBarTitle() {
 }
 
 stateTagesplanBody() {
-  return Hero(
-      tag: "body",
-      child: Container(
-        color: Colors.blueAccent,
-        child: Center(
-          child: Text("Mein Tag", style: niceWhite),
-        ),
-      ));
-}
-
-stateTagesplanBody2() {
-  return Container(
+  return Scaffold(
+      body: Container(
     color: Colors.blueAccent,
     child: Center(
       child: Text("Mein Tag", style: niceWhite),
     ),
-  );
+  ));
 }
