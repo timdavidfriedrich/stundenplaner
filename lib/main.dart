@@ -3,6 +3,9 @@ import 'package:flutter/material.dart'; //## Farben, Icons, etc. (Design)
 import 'package:flutter/painting.dart'; //## Schatten, Farben, etc. (spezifischer)
 import 'package:flutter/rendering.dart'; //## Render-Zeug
 import 'package:stundenplaner/stateStundenplan.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
+
+import 'dart:io';
 
 import 'nicerStyle.dart'; //## Importiert eigenes Style-File
 import 'state_Regulator.dart'; //## Importiert den State/Tab-Regulator
@@ -36,6 +39,9 @@ class NavBar extends StatefulWidget {
 
 class _NavBarState extends State<NavBar> {
   int currentIndex = 1; //## Legt den Start-Index fest (Start-Tab)
+  var dragStart;
+  var dragUpdate;
+  var dragStopper = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,13 +85,20 @@ class _NavBarState extends State<NavBar> {
           onPanUpdate: (details) {
             if (details.delta.dx > 0) {
               setState(() {
-                currentIndex++;
+                if (currentIndex > 0 && dragStopper < 1) currentIndex--;
+                dragStopper++;
               });
+              print("LINKS");
             } else if (details.delta.dx < 0) {
               setState(() {
-                currentIndex--;
+                if (currentIndex < 2 && dragStopper < 1) currentIndex++;
+                dragStopper++;
               });
+              print("RECHTS");
             }
+          },
+          onPanEnd: (details) {
+            dragStopper = 0;
           },
           child: BottomNavyBar(
             //## BottomBar-Settings
