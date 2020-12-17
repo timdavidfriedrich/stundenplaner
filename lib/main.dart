@@ -36,9 +36,7 @@ class NavBar extends StatefulWidget {
 
 class _NavBarState extends State<NavBar> {
   int currentIndex = 1; //## Legt den Start-Index fest (Start-Tab)
-  var dragStart;
-  var dragUpdate;
-  var dragStopper = 0;
+  var dragStopper = 0; //## Dient als Limit bei Swipe
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,20 +50,24 @@ class _NavBarState extends State<NavBar> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    //## Die Icons in der AppBar (oben rechts)
                     IconButton(
+                      //## Report-Button
                       icon: Icon(Icons.error_outline_sharp,
                           color: Colors.black, size: 25),
                       onPressed: () {
-                        Navigator.of(context).push(
+                        Navigator.of(context).push(//## Weiterleitung auf Seite
                             MaterialPageRoute(builder: (context) => Report()));
                       },
                     ),
                     //SizedBox(width: 15,),
                     IconButton(
+                      //## Settings-Button
                       icon: Icon(Icons.settings_outlined,
                           color: Colors.black, size: 25),
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
+                            //## Weiterleitung auf Seite
                             builder: (context) => Settings()));
                       },
                     ),
@@ -79,23 +81,31 @@ class _NavBarState extends State<NavBar> {
             currentIndex], //## Ruft jeweiligen State/Tag für den Body auf
 
         bottomNavigationBar: GestureDetector(
+          //## Gestensteuerung der BottomBar
           onPanUpdate: (details) {
+            //## Erkennt Swipe (Bewegungsupdate)
             if (details.delta.dx > 0) {
+              //## Positiver Wert (links nach rechts)
               setState(() {
-                if (currentIndex > 0 && dragStopper < 1) currentIndex--;
-                dragStopper++;
+                //## Ändert State nach Bewegung
+                if (currentIndex > 0 && dragStopper < 1)
+                  currentIndex--; //## Index-Begrenzung (Fehlervermeidung)
+                dragStopper++; //## dragStopper ist Key. Sorgt dafür, dass Befehl nur EINMAL ausgeführt wird.
               });
-              print("LINKS");
+              print("SWIPE VON LINKS NACH RECHTS (--> Seite nach links)");
             } else if (details.delta.dx < 0) {
+              //## Negativer Wert (rechts nach links)
               setState(() {
-                if (currentIndex < 2 && dragStopper < 1) currentIndex++;
+                if (currentIndex < 2 && dragStopper < 1)
+                  currentIndex++; //## erhöht Index -> Rechter State
                 dragStopper++;
               });
-              print("RECHTS");
+              print("SWIPE VON RECHTS NACH LINKS (--> Seite nach rechts)");
             }
           },
           onPanEnd: (details) {
-            dragStopper = 0;
+            dragStopper =
+                0; //## Nach der Operation, Wert wieder auf 0 -> Kann erneut ausgeführt werden
           },
           child: BottomNavyBar(
             //## BottomBar-Settings
@@ -109,7 +119,8 @@ class _NavBarState extends State<NavBar> {
             onItemSelected: (index) {
               //## Ändert den aktuellen Index bei Knopfdruck
               setState(() {
-                currentIndex = index;
+                currentIndex =
+                    index; //## Der Index (currentIndex) wird erneuert
               });
             },
             items: <BottomNavyBarItem>[
