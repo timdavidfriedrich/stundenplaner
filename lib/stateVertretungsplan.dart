@@ -43,8 +43,14 @@ stateVertretungsplanBody() {
         padding: EdgeInsets.fromLTRB(10, 15, 10, 0),
         child: Container(
           //padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(40), color: Colors.grey[300]),
+          decoration: BoxDecoration(boxShadow: [
+            BoxShadow(
+              color: Colors.white70,
+              spreadRadius: 0,
+              blurRadius: 10,
+              //offset: Offset(0, 3),
+            ),
+          ], borderRadius: BorderRadius.circular(40), color: Colors.white),
           child: ListTile(
             //## Datums-Leiste
             //contentPadding: EdgeInsets.all(0),
