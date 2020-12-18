@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart'; //## iOS-Design-Language
 import 'package:flutter/material.dart'; //## Farben, Icons, etc. (Design)
 import 'package:flutter/painting.dart'; //## Schatten, Farben, etc. (spezifischer)
 import 'package:flutter/rendering.dart'; //## Render-Zeug
-import 'package:stundenplaner/stateStundenplan.dart';
 
 import 'nicerStyle.dart'; //## Importiert eigenes Style-File
 import 'state_Regulator.dart'; //## Importiert den State/Tab-Regulator
@@ -37,6 +36,7 @@ class NavBar extends StatefulWidget {
 class _NavBarState extends State<NavBar> {
   int currentIndex = 1; //## Legt den Start-Index fest (Start-Tab)
   var dragStopper = 0; //## Dient als Limit bei Swipe
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,7 +72,7 @@ class _NavBarState extends State<NavBar> {
                               transitionDuration: Duration(milliseconds: 1000),
                               transitionsBuilder:
                                   (context, animation, animationTime, child) {
-                                var curve = Curves.easeInOutExpo;
+                                var curve = Curves.easeOutExpo;
                                 //var curveTween = CurveTween(curve: curve);
                                 var begin = Offset(0, -1);
                                 var end = Offset.zero;
@@ -101,7 +101,7 @@ class _NavBarState extends State<NavBar> {
           backgroundColor: Colors.white,
           elevation: 0, //## Lässt den Schwebeeffekt/Schatten verschwinden
         ),
-        body: AnimatedSwitcher(
+        body: AnimatedContainer(
             duration: const Duration(milliseconds: 420),
             child: bodyStates[
                 currentIndex]), //## Ruft jeweiligen State/Tag für den Body auf

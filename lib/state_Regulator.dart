@@ -15,11 +15,9 @@ List barStates = [
 
 List bodyStates = [
   stateStundenplanBody(),
-  stateTagesplanBody(),
+  stateTagesplan(),
   stateVertretungsplanBody(),
 ];
 
 //SWIPE-HANDLER:
-swipeHandler(){
-  
-}
+swipeHandler() {}
