@@ -28,7 +28,7 @@ wochenHandler() {
 }
 
 stateStundenplanBarTitle() {
-  return Text("Stundenplan", style: niceTitle);
+  return Text("Stundenplan", style: niceTitle(Colors.redAccent));
 }
 
 stateStundenplanBody() {
@@ -111,13 +111,20 @@ stateStundenplanBody() {
         ],
       ),
     ),
-    floatingActionButton: FloatingActionButton(
-        focusColor: Colors.redAccent[400],
-        backgroundColor: Colors.black,
-        splashColor: Colors.redAccent,
-        child: Icon(Icons.add, color: Colors.white),
-        onPressed: () {
-          stundenplanAddOverlay();
-        }),
   );
+}
+
+stateStundenplanFab() {
+  return FloatingActionButton(
+      focusColor: Colors.redAccent[400],
+      backgroundColor: Colors.black,
+      splashColor: Colors.redAccent,
+      child: Icon(Icons.add, color: Colors.white),
+      onPressed: () {
+        stundenplanAddOverlay();
+      });
+}
+
+stateStundenplanFabLocation() {
+  return FloatingActionButtonLocation.endFloat;
 }

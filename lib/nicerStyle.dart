@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 
 var nice = GoogleFonts.montserrat(color: Colors.black);
 
-var niceTitle = GoogleFonts.montserrat(
-    fontSize: 20, fontWeight: FontWeight.w600, color: Colors.black);
+niceTitle(Color i) {
+  return GoogleFonts.montserrat(
+      fontSize: 20, fontWeight: FontWeight.w600, color: i);
+}
+
 var niceTitle2 = GoogleFonts.montserrat(
     fontSize: 32, fontWeight: FontWeight.w600, color: Colors.black);
 var niceSubtitle = GoogleFonts.montserrat(

@@ -1,11 +1,6 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-
 import 'stateStundenplan.dart';
 import 'stateTagesplan.dart';
 import 'stateVertretungsplan.dart';
-
-import 'nicerStyle.dart';
 
 List barStates = [
   stateStundenplanBarTitle(),
@@ -15,8 +10,20 @@ List barStates = [
 
 List bodyStates = [
   stateStundenplanBody(),
-  stateTagesplan(),
+  stateTagesplanBody(),
   stateVertretungsplanBody(),
+];
+
+List fabStates = [
+  stateStundenplanFab(),
+  stateTagesplanFab(),
+  stateVertretungsplanFab(),
+];
+
+List fabLocationStates = [
+  stateStundenplanFabLocation(),
+  stateTagesplanFabLocation(),
+  stateVertretungsplanFabLocation(),
 ];
 
 //SWIPE-HANDLER:
