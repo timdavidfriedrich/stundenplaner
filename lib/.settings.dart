@@ -1,6 +1,5 @@
-
 //OVERALL
-var ichBin = "schüler";  // Ich bin: schüler, lehrer, elternteil
+var ichBin = "schüler"; // Ich bin: schüler, lehrer, elternteil
 
 //STUNDENPLAN
 bool abWoche = true;
@@ -13,17 +12,16 @@ var meineKlasse = "7b";
 var meinName = "Frau Strohschein";
 bool vertretungHighlight = true;
 
-
 // Handler
 
-ichBinHandler(){
-  if(ichBin == "schüler"){
+ichBinHandler() {
+  if (ichBin == "schüler") {
     return meineKlasse;
-  }else if(ichBin == "lehrer"){
+  } else if (ichBin == "lehrer") {
     return meinName;
-  }else if(ichBin == "elternteil"){
+  } else if (ichBin == "elternteil") {
     print("lol");
-  }else{
+  } else {
     print("lol, ein error");
   }
 }

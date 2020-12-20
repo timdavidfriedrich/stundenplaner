@@ -2,42 +2,47 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
-import 'package:stundenplaner/actualSettings.dart';
+import '.settings.dart';
 
-import 'nicerStyle.dart';
-import 'fakeVertretung.dart';
-import 'vertretungsEintrag.dart';
+import '.nicerStyle.dart';
+import '.vertretung.dart';
+import 'tabVertretungsplan_eintrag.dart';
 
-stateVertretungsplanBarTitle() {
+tabVertretungsplanAppBarTitle() {
   return Text("Vertretungsplan", style: niceTitle(Colors.greenAccent[700]));
+  //return Text("Vertretungsplan", style: niceTitle(Colors.black));
 }
 
-stateVertretungsplanBody() {
+tabVertretungsplanAppBarIcon() {
+  return Colors.greenAccent[700];
+}
+
+tabVertretungsplanBody() {
   return Scaffold(
     body: Container(
-        color: Color.fromRGBO(0, 0, 0, 0.05), //## Hintergrundfarbe
+        //color: Colors.black.withOpacity(0.05), //## Hintergrundfarbe
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Expanded(
-              //## Erstellt für eine dynamische Häufigkeit die Eintröge
-              child: ListView.builder(
-                padding: EdgeInsets.fromLTRB(
-                    15, 0, 15, 15), //## Ränder um Gesamtliste
-                itemCount:
-                    vertretung["klasse"].length, //## Misst Länge für Einträge
-                itemBuilder: (context, i) {
-                  //## Geht jede Zeile durch und schreibt den Eintrag
-                  return vertretungsEintrag(i.toInt());
-                },
-              ),
-            ),
-          ],
-        )),
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Expanded(
+          //## Erstellt für eine dynamische Häufigkeit die Eintröge
+          child: ListView.builder(
+            padding:
+                EdgeInsets.fromLTRB(15, 0, 15, 15), //## Ränder um Gesamtliste
+            itemCount:
+                vertretung["klasse"].length, //## Misst Länge für Einträge
+            itemBuilder: (context, i) {
+              //## Geht jede Zeile durch und schreibt den Eintrag
+              return vertretungsEintrag(i.toInt());
+            },
+          ),
+        ),
+      ],
+    )),
   );
 }
 
-stateVertretungsplanFab() {
+tabVertretungsplanFab() {
   return FlatButton(
     onPressed: () {
       print("hi");
@@ -66,7 +71,7 @@ stateVertretungsplanFab() {
           leading: Icon(Icons.arrow_left, color: Colors.greenAccent[700]),
           title: Text(
             "Montag, 14. Dezember 2020",
-            style: niceBottomSwitch(Colors.greenAccent[700]),
+            style: niceSwitch(Colors.greenAccent[700]),
             textAlign: TextAlign.center,
           ),
           trailing: Icon(Icons.arrow_right, color: Colors.greenAccent[700]),
@@ -80,6 +85,6 @@ stateVertretungsplanFab() {
     */
 }
 
-stateVertretungsplanFabLocation() {
+tabVertretungsplanFabLocation() {
   return FloatingActionButtonLocation.centerFloat;
 }

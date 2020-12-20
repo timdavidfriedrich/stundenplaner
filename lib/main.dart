@@ -3,11 +3,11 @@ import 'package:flutter/material.dart'; //## Farben, Icons, etc. (Design)
 import 'package:flutter/painting.dart'; //## Schatten, Farben, etc. (spezifischer)
 import 'package:flutter/rendering.dart'; //## Render-Zeug
 
-import 'nicerStyle.dart'; //## Importiert eigenes Style-File
-import 'state_Regulator.dart'; //## Importiert den State/Tab-Regulator
-import 'report.dart';
-import 'settings.dart';
-import 'transitions.dart';
+import '.nicerStyle.dart'; //## Importiert eigenes Style-File
+import 'handleTabs.dart'; //## Importiert den State/Tab-Regulator
+import 'pageReport.dart';
+import 'pageSettings.dart';
+import '.transitions.dart';
 
 import 'package:bottom_navy_bar/bottom_navy_bar.dart'; //## BottomBar
 
@@ -21,18 +21,17 @@ class AppHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: NavBar(), //## NavBar
+      home: Main(), //## NavBar
     );
   }
 }
 
-class NavBar extends StatefulWidget {
-  //##
+class Main extends StatefulWidget {
   @override
-  _NavBarState createState() => _NavBarState();
+  _MainState createState() => _MainState();
 }
 
-class _NavBarState extends State<NavBar> with SingleTickerProviderStateMixin {
+class _MainState extends State<Main> with SingleTickerProviderStateMixin {
   TabController _stateController;
   int currentIndex = 1; //## Legt den Start-Index fest (Start-Tab)
   var dragStopper = 0; //## Dient als Limit bei Swipe
@@ -43,7 +42,7 @@ class _NavBarState extends State<NavBar> with SingleTickerProviderStateMixin {
     super.initState();
 
     _stateController =
-        TabController(length: bodyStates.length, vsync: this, initialIndex: 1);
+        TabController(length: tabBody.length, vsync: this, initialIndex: 1);
     _stateController.animation.addListener(() {
       setState(() {
         currentIndex = (_stateController.animation.value).round();
@@ -58,7 +57,7 @@ class _NavBarState extends State<NavBar> with SingleTickerProviderStateMixin {
       appBar: AppBar(
         //## AppBar-Settings
         //leading: Icon(Icons.menu),
-        title: barStates[currentIndex],
+        title: tabAppBarTitle[currentIndex],
         actions: <Widget>[
           Padding(
               padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
@@ -78,7 +77,7 @@ class _NavBarState extends State<NavBar> with SingleTickerProviderStateMixin {
                   IconButton(
                     //## Settings-Button
                     icon: Icon(Icons.settings_outlined,
-                        color: Colors.black, size: 25),
+                        color: tabAppBarIcon[currentIndex], size: 25),
                     onPressed: () {
                       slide(context, Offset(1, 0), Settings());
                     },
@@ -95,22 +94,22 @@ class _NavBarState extends State<NavBar> with SingleTickerProviderStateMixin {
           Center(
             child:
                 //Text(currentIndex.toString())
-                bodyStates[0],
+                tabBody[0],
           ),
           Center(
             child:
                 //Text(currentIndex.toString())
-                bodyStates[1],
+                tabBody[1],
           ),
           Center(
             child:
                 //Text(currentIndex.toString())
-                bodyStates[2],
+                tabBody[2],
           ),
         ],
       ),
-      floatingActionButton: fabStates[currentIndex],
-      floatingActionButtonLocation: fabLocationStates[currentIndex],
+      floatingActionButton: tabFab[currentIndex],
+      floatingActionButtonLocation: tabFabLocation[currentIndex],
       bottomNavigationBar: BottomNavyBar(
         //## BottomBar-Settings
         showElevation: false,

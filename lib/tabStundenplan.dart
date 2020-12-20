@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 
-import 'nicerStyle.dart';
+import '.nicerStyle.dart';
 
-import 'stundenplanOverlay.dart';
-import 'actualSettings.dart';
+import 'tabStundenplan_add.dart';
+import '.settings.dart';
 
 wochenHandler() {
   if (abWoche == true) {
@@ -17,7 +17,7 @@ wochenHandler() {
       leading: Icon(Icons.arrow_left, color: Colors.white),
       title: Text(
         "A-Woche",
-        style: niceSubtitle,
+        style: niceSubtitle(Colors.white),
         textAlign: TextAlign.center,
       ),
       trailing: Icon(Icons.arrow_right, color: Colors.white),
@@ -27,13 +27,19 @@ wochenHandler() {
   }
 }
 
-stateStundenplanBarTitle() {
+tabStundenplanAppBarTitle() {
   return Text("Stundenplan", style: niceTitle(Colors.redAccent));
+  //return Text("Stundenplan", style: niceTitle(Colors.black));
 }
 
-stateStundenplanBody() {
+tabStundenplanAppBarIcon() {
+  return Colors.redAccent;
+}
+
+tabStundenplanBody() {
   return Scaffold(
     body: Container(
+      //color: Colors.black.withOpacity(0.05),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -114,7 +120,7 @@ stateStundenplanBody() {
   );
 }
 
-stateStundenplanFab() {
+tabStundenplanFab() {
   return FloatingActionButton(
       focusColor: Colors.redAccent[400],
       backgroundColor: Colors.black,
@@ -125,6 +131,6 @@ stateStundenplanFab() {
       });
 }
 
-stateStundenplanFabLocation() {
+tabStundenplanFabLocation() {
   return FloatingActionButtonLocation.endFloat;
 }

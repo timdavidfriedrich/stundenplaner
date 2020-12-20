@@ -3,32 +3,21 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart'; //## Farben, Icons, etc. (Design)
 import 'package:flutter/painting.dart'; //## Schatten, Farben, etc. (spezifischer)
 import 'package:flutter/rendering.dart'; //## Render-Zeug
-import 'package:stundenplaner/actualSettings.dart';
 
-import 'nicerStyle.dart'; //## Importiert eigenes Style-File
+import '.nicerStyle.dart'; //## Importiert eigenes Style-File
 import 'main.dart';
 
-import 'eintragHandler.dart';
-
-class Settings extends StatefulWidget {
-  @override
-  _SettingsState createState() => _SettingsState();
-}
-
-class _SettingsState extends State<Settings> {
-  int _value = 1;
+class Report extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-            padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
             color: Colors.white,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text("Einstellungen", style: niceTitle2),
-                Text("Ich bin ein Text", style: nice),
-                // hier könnte ein DropdownButton hingesetzt werden
+                Text("Feedback", style: niceBigTitle(Colors.black)),
+                Text("Ich bin ein Text", style: nice(Colors.black)),
                 Row(
                   //mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -41,8 +30,7 @@ class _SettingsState extends State<Settings> {
                       color: Colors.grey[200],
                       child: Icon(Icons.arrow_back, color: Colors.grey[400]),
                       onPressed: () {
-                        Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) => AppHome()));
+                        Navigator.of(context).pop(); //popAndPushNamed();
                       },
                     ),
                     Spacer(flex: 1),
@@ -52,12 +40,12 @@ class _SettingsState extends State<Settings> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(100)),
                       color: Colors.greenAccent[400],
-                      child: Text("Speichern", style: niceWhite),
+                      child: Text("Feedback senden", style: nice(Colors.white)),
                       onPressed: () {
-                        vertretungHighlight = !vertretungHighlight;
+                        Navigator.of(context).pop();
                       },
                     ),
-                    Spacer(flex: 3),
+                    Spacer(flex: 3)
                   ],
                 )
               ],

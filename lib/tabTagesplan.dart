@@ -5,26 +5,31 @@ import 'package:flutter/rendering.dart';
 
 import 'dart:async';
 
-import 'nicerStyle.dart';
+import '.nicerStyle.dart';
 
-stateTagesplanBarTitle() {
+tabTagesplanAppBarTitle() {
   return Text("Mein heutiger Tag", style: niceTitle(Colors.blueAccent));
+  //return Text("Mein heutiger Tag", style: niceTitle(Colors.black));
 }
 
-stateTagesplanBody() {
+tabTagesplanAppBarIcon() {
+  return Colors.blueAccent;
+}
+
+tabTagesplanBody() {
   return Scaffold(
       body: Container(
-    color: Colors.blueAccent,
+    //color: Colors.black.withOpacity(0.05),
     child: Center(
-      child: Text("Mein Tag", style: niceWhite),
+      child: Text("Mein Tag", style: nice(Colors.white)),
     ),
   ));
 }
 
-stateTagesplanFab() {
+tabTagesplanFab() {
   return null;
 }
 
-stateTagesplanFabLocation() {
+tabTagesplanFabLocation() {
   return null;
 }

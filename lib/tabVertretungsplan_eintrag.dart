@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'nicerStyle.dart';
-import 'random.dart';
-import 'fakeVertretung.dart';
-import 'eintragHandler.dart';
+import '.nicerStyle.dart';
+import '.random.dart';
+import '.vertretung.dart';
+import 'handleEintrag.dart';
 
 class vertretungsEintrag extends StatelessWidget {
   final int c;
