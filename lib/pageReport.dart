@@ -16,8 +16,8 @@ class Report extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text("Feedback", style: niceBigTitle(Colors.black)),
-                Text("Ich bin ein Text", style: nice(Colors.black)),
+                Text("Feedback", style: niceBigTitle()),
+                Text("Ich bin ein Text", style: nice()),
                 Row(
                   //mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -40,7 +40,7 @@ class Report extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(100)),
                       color: Colors.greenAccent[400],
-                      child: Text("Feedback senden", style: nice(Colors.white)),
+                      child: Text("Feedback senden", style: nice2()),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },

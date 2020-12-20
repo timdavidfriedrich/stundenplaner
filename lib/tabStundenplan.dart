@@ -28,7 +28,7 @@ wochenHandler() {
 }
 
 tabStundenplanAppBarTitle() {
-  return Text("Stundenplan", style: niceTitle(Colors.redAccent));
+  return Text("Stundenplan", style: niceAppBarTitle());
   //return Text("Stundenplan", style: niceTitle(Colors.black));
 }
 
@@ -39,7 +39,7 @@ tabStundenplanAppBarIcon() {
 tabStundenplanBody() {
   return Scaffold(
     body: Container(
-      //color: Colors.black.withOpacity(0.05),
+      color: Colors.black.withOpacity(0.03),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[

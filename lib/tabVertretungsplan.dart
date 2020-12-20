@@ -9,7 +9,7 @@ import '.vertretung.dart';
 import 'tabVertretungsplan_eintrag.dart';
 
 tabVertretungsplanAppBarTitle() {
-  return Text("Vertretungsplan", style: niceTitle(Colors.greenAccent[700]));
+  return Text("Vertretungsplan", style: niceAppBarTitle());
   //return Text("Vertretungsplan", style: niceTitle(Colors.black));
 }
 
@@ -20,25 +20,25 @@ tabVertretungsplanAppBarIcon() {
 tabVertretungsplanBody() {
   return Scaffold(
     body: Container(
-        //color: Colors.black.withOpacity(0.05), //## Hintergrundfarbe
+        color: Colors.black.withOpacity(0.03), //## Hintergrundfarbe
         child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Expanded(
-          //## Erstellt für eine dynamische Häufigkeit die Eintröge
-          child: ListView.builder(
-            padding:
-                EdgeInsets.fromLTRB(15, 0, 15, 15), //## Ränder um Gesamtliste
-            itemCount:
-                vertretung["klasse"].length, //## Misst Länge für Einträge
-            itemBuilder: (context, i) {
-              //## Geht jede Zeile durch und schreibt den Eintrag
-              return vertretungsEintrag(i.toInt());
-            },
-          ),
-        ),
-      ],
-    )),
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Expanded(
+              //## Erstellt für eine dynamische Häufigkeit die Eintröge
+              child: ListView.builder(
+                padding: EdgeInsets.fromLTRB(
+                    15, 0, 15, 15), //## Ränder um Gesamtliste
+                itemCount:
+                    vertretung["klasse"].length, //## Misst Länge für Einträge
+                itemBuilder: (context, i) {
+                  //## Geht jede Zeile durch und schreibt den Eintrag
+                  return vertretungsEintrag(i.toInt());
+                },
+              ),
+            ),
+          ],
+        )),
   );
 }
 

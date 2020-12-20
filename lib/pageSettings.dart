@@ -28,8 +28,8 @@ class _SettingsState extends State<Settings> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Text("Einstellungen", style: niceBigTitle(Colors.black)),
-                    Text("Ich bin ein Text", style: nice(Colors.black)),
+                    Text("Einstellungen", style: niceBigTitle()),
+                    Text("Ich bin ein Text", style: nice()),
                     // hier könnte ein DropdownButton hingesetzt werden
                     Row(
                       //mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -54,7 +54,7 @@ class _SettingsState extends State<Settings> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(100)),
                           color: Colors.greenAccent[400],
-                          child: Text("Speichern", style: nice(Colors.white)),
+                          child: Text("Speichern", style: nice2()),
                           onPressed: () {
                             vertretungHighlight = !vertretungHighlight;
                           },

@@ -8,7 +8,7 @@ import 'dart:async';
 import '.nicerStyle.dart';
 
 tabTagesplanAppBarTitle() {
-  return Text("Mein heutiger Tag", style: niceTitle(Colors.blueAccent));
+  return Text("Mein heutiger Tag", style: niceAppBarTitle());
   //return Text("Mein heutiger Tag", style: niceTitle(Colors.black));
 }
 
@@ -19,9 +19,9 @@ tabTagesplanAppBarIcon() {
 tabTagesplanBody() {
   return Scaffold(
       body: Container(
-    //color: Colors.black.withOpacity(0.05),
+    color: Colors.black.withOpacity(0.03),
     child: Center(
-      child: Text("Mein Tag", style: nice(Colors.white)),
+      child: Text("Mein Tag", style: nice()),
     ),
   ));
 }

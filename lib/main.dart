@@ -8,6 +8,7 @@ import 'handleTabs.dart'; //## Importiert den State/Tab-Regulator
 import 'pageReport.dart';
 import 'pageSettings.dart';
 import '.transitions.dart';
+import '.settings.dart';
 
 import 'package:bottom_navy_bar/bottom_navy_bar.dart'; //## BottomBar
 
@@ -65,15 +66,7 @@ class _MainState extends State<Main> with SingleTickerProviderStateMixin {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   //## Die Icons in der AppBar (oben rechts)
-                  IconButton(
-                    //## Report-Button
-                    icon: Icon(Icons.error_outline_sharp,
-                        color: Colors.black, size: 25),
-                    onPressed: () {
-                      slide(context, Offset(1, 0), Report());
-                    },
-                  ),
-                  //SizedBox(width: 15,),
+                  betaChecker("appBarIcon", context),
                   IconButton(
                     //## Settings-Button
                     icon: Icon(Icons.settings_outlined,
