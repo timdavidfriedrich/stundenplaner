@@ -6,10 +6,11 @@ import 'package:flutter/rendering.dart'; //## Render-Zeug
 import 'main.dart';
 import 'pageReport.dart';
 import '.transitions.dart';
+import 'handleTabs.dart';
 
 //OVERALL
 bool beta = true;
-bool dark = false;
+bool dark = true;
 
 var ichBin = "schüler"; // Ich bin: schüler, lehrer, elternteil
 
@@ -30,7 +31,8 @@ betaChecker(String object, zusatz) {
     if (beta == true) {
       return IconButton(
         //## Report-Button
-        icon: Icon(Icons.error_outline_sharp, color: Colors.black, size: 25),
+        icon: Icon(Icons.error_outline_sharp,
+            color: tabAppBarIcon[zusatz], size: 25),
         onPressed: () {
           slide(zusatz, Offset(1, 0), Report());
         },

@@ -17,7 +17,7 @@ wochenHandler() {
       leading: Icon(Icons.arrow_left, color: Colors.white),
       title: Text(
         "A-Woche",
-        style: niceSubtitle(Colors.white),
+        style: niceSubtitle(),
         textAlign: TextAlign.center,
       ),
       trailing: Icon(Icons.arrow_right, color: Colors.white),
@@ -39,7 +39,7 @@ tabStundenplanAppBarIcon() {
 tabStundenplanBody() {
   return Scaffold(
     body: Container(
-      color: Colors.black.withOpacity(0.03),
+      color: t("body"),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[

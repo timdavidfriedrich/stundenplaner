@@ -22,6 +22,7 @@ class AppHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: new ThemeData(scaffoldBackgroundColor: t("body")),
       home: Main(), //## NavBar
     );
   }
@@ -56,6 +57,7 @@ class _MainState extends State<Main> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 60,
         //## AppBar-Settings
         //leading: Icon(Icons.menu),
         title: tabAppBarTitle[currentIndex],
@@ -66,11 +68,11 @@ class _MainState extends State<Main> with SingleTickerProviderStateMixin {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   //## Die Icons in der AppBar (oben rechts)
-                  betaChecker("appBarIcon", context),
+                  betaChecker("appBarIcon", currentIndex),
                   IconButton(
                     //## Settings-Button
                     icon: Icon(Icons.settings_outlined,
-                        color: tabAppBarIcon[currentIndex], size: 25),
+                        color: t("icons"), size: 25),
                     onPressed: () {
                       slide(context, Offset(1, 0), Settings());
                     },
@@ -78,7 +80,7 @@ class _MainState extends State<Main> with SingleTickerProviderStateMixin {
                 ],
               ))
         ],
-        backgroundColor: Colors.white,
+        backgroundColor: t("appBar"),
         elevation: 0, //## Lässt den Schwebeeffekt/Schatten verschwinden
       ),
       body: TabBarView(
@@ -105,6 +107,8 @@ class _MainState extends State<Main> with SingleTickerProviderStateMixin {
       floatingActionButtonLocation: tabFabLocation[currentIndex],
       bottomNavigationBar: BottomNavyBar(
         //## BottomBar-Settings
+        //containerHeight: 60,
+        backgroundColor: t("bottomBar"),
         showElevation: false,
         animationDuration: Duration(milliseconds: 420),
         curve: Curves.easeInOut,
@@ -124,19 +128,19 @@ class _MainState extends State<Main> with SingleTickerProviderStateMixin {
                 style: niceBar,
               ),
               activeColor: Colors.redAccent,
-              inactiveColor: Colors.black,
+              inactiveColor: t("icons"),
               textAlign: TextAlign.center),
           BottomNavyBarItem(
               icon: Icon(Icons.home_outlined),
               title: Text("Mein Tag", style: niceBar),
               activeColor: Colors.blueAccent,
-              inactiveColor: Colors.black,
+              inactiveColor: t("icons"),
               textAlign: TextAlign.center),
           BottomNavyBarItem(
               icon: Icon(Icons.list_alt_sharp),
               title: Text("Vertretung", style: niceBar),
               activeColor: Colors.greenAccent[700],
-              inactiveColor: Colors.black,
+              inactiveColor: t("icons"),
               textAlign: TextAlign.center),
         ],
       ),

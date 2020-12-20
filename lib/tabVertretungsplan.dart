@@ -20,7 +20,7 @@ tabVertretungsplanAppBarIcon() {
 tabVertretungsplanBody() {
   return Scaffold(
     body: Container(
-        color: Colors.black.withOpacity(0.03), //## Hintergrundfarbe
+        color: t("body"), //## Hintergrundfarbe
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -28,7 +28,7 @@ tabVertretungsplanBody() {
               //## Erstellt für eine dynamische Häufigkeit die Eintröge
               child: ListView.builder(
                 padding: EdgeInsets.fromLTRB(
-                    15, 0, 15, 15), //## Ränder um Gesamtliste
+                    15, 0, 15, 0), //## Ränder um Gesamtliste
                 itemCount:
                     vertretung["klasse"].length, //## Misst Länge für Einträge
                 itemBuilder: (context, i) {
@@ -43,13 +43,17 @@ tabVertretungsplanBody() {
 }
 
 tabVertretungsplanFab() {
+  return null;
+}
+
+tabVertretungsplanFab2() {
   return FlatButton(
     onPressed: () {
       print("hi");
     },
     child: Container(
       width: double.infinity,
-      padding: EdgeInsets.fromLTRB(10, 15, 10, 0),
+      padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
       child: Container(
         //padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
         decoration: BoxDecoration(

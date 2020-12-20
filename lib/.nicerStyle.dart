@@ -17,40 +17,51 @@ Map theme = {
   "nice2": [Colors.white, Colors.black],
   "niceAppBarTitle": [Colors.black, Colors.white],
   "niceBigTitle": [Colors.black, Colors.white],
+  "niceSubtitle": [Colors.black, Colors.white],
+
+  "niceEintragBackground": [Colors.black, Colors.grey[850]],
+  "niceEintragFont": [Colors.white, Colors.white],
+
+  "appBar": [Colors.white, Colors.black],
+  "body": [Colors.white, Colors.black],
+  "page": [Colors.white, Colors.black],
+  "bottomBar": [Colors.white, Colors.black],
+  "icons": [Colors.black, Colors.white],
 };
 
+t(String j) {
+  return theme[j][themeHandler()];
+}
+
 nice() {
-  return GoogleFonts.montserrat(color: theme["nice"][themeHandler()]);
+  return GoogleFonts.montserrat(color: t("nice"));
 }
 
 nice2() {
-  return GoogleFonts.montserrat(color: theme["nice2"][themeHandler()]);
+  return GoogleFonts.montserrat(color: t("nice2"));
 }
 
 niceAppBarTitle() {
   return GoogleFonts.montserrat(
-      fontSize: 20,
-      fontWeight: FontWeight.w600,
-      color: theme["niceAppBarTitle"][themeHandler()]);
+      fontSize: 24, fontWeight: FontWeight.w600, color: t("niceAppBarTitle"));
 }
 
 niceBigTitle() {
   return GoogleFonts.montserrat(
-      fontSize: 32,
-      fontWeight: FontWeight.w600,
-      color: theme["niceBigTitle"][themeHandler()]);
+      fontSize: 32, fontWeight: FontWeight.w600, color: t("niceBigTitle"));
 }
 
-niceSubtitle(Color i) {
+niceSubtitle() {
   return GoogleFonts.montserrat(
-      fontSize: 12, fontWeight: FontWeight.w400, color: i);
+      fontSize: 12, fontWeight: FontWeight.w400, color: t("niceSubtitle"));
 }
 
 var niceBar = GoogleFonts.montserrat(fontSize: 12, fontWeight: FontWeight.w500);
+
 var niceTableHead = GoogleFonts.montserrat(
-    fontSize: 18, color: Colors.black, fontWeight: FontWeight.w800);
+    fontSize: 18, fontWeight: FontWeight.w800, color: Colors.black);
 var niceTableSide = GoogleFonts.montserrat(
-    fontSize: 14, color: Colors.black, fontWeight: FontWeight.w400);
+    fontSize: 14, fontWeight: FontWeight.w400, color: Colors.black);
 
 niceSwitch(Color i) {
   return GoogleFonts.montserrat(

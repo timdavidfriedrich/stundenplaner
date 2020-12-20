@@ -19,7 +19,7 @@ tabTagesplanAppBarIcon() {
 tabTagesplanBody() {
   return Scaffold(
       body: Container(
-    color: Colors.black.withOpacity(0.03),
+    color: t("body"),
     child: Center(
       child: Text("Mein Tag", style: nice()),
     ),

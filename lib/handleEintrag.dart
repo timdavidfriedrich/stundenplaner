@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '.settings.dart';
+import '.nicerStyle.dart';
 import '.vertretung.dart';
 
 colorHandler(c) {
@@ -14,7 +15,7 @@ colorKlassenFokus(c) {
   if (c == ichBinHandler()) {
     return Colors.greenAccent[700];
   } else {
-    return Colors.black;
+    return t("niceEintragBackground"); // Colors.black
   }
 }
 

@@ -18,7 +18,7 @@ class vertretungsEintrag extends StatelessWidget {
             c), //## colorHandler(klasse) oder colorHandler2(klasse) oder rdmColor()
         elevation: 3,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        margin: EdgeInsets.fromLTRB(0, 15, 0, 0),
+        margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
         child: Container(
             padding: EdgeInsets.fromLTRB(12, 10, 12, 13),
             child: Column(
@@ -29,7 +29,7 @@ class vertretungsEintrag extends StatelessWidget {
                         child: Text(
                       vertretung["klasse"][c],
                       style: GoogleFonts.montserrat(
-                          color: Colors.white,
+                          color: t("niceEintragFont"), //## FARBE FÜR KLASSE
                           fontSize: 22,
                           fontWeight: FontWeight.w800),
                     )),
@@ -42,7 +42,8 @@ class vertretungsEintrag extends StatelessWidget {
                               child: Text(
                             lehrerHandler(vertretung["lehrer"][c]),
                             style: GoogleFonts.montserrat(
-                                color: Colors.white,
+                                color:
+                                    t("niceEintragFont"), //## FARBE FÜR LEHRER
                                 fontSize: 14,
                                 fontWeight: FontWeight.w800),
                           )),
@@ -51,7 +52,8 @@ class vertretungsEintrag extends StatelessWidget {
                               child: Text(
                                 vertretung["fach"][c],
                                 style: GoogleFonts.montserrat(
-                                    color: Colors.white,
+                                    color: t(
+                                        "niceEintragFont"), //## FARBE FÜR FACH
                                     fontSize: 12,
                                     fontWeight: FontWeight.w400),
                               )),
@@ -73,7 +75,8 @@ class vertretungsEintrag extends StatelessWidget {
                                 child: Text(
                               blockHandler(vertretung["block"][c]),
                               style: GoogleFonts.montserrat(
-                                  color: Colors.white,
+                                  color:
+                                      t("niceEintragFont"), //## FARBE FÜR BLOCK
                                   fontSize: 14,
                                   fontWeight: FontWeight.w800),
                             )),
@@ -82,7 +85,8 @@ class vertretungsEintrag extends StatelessWidget {
                                 child: Text(
                                   raumHandler(vertretung["raum"][c]),
                                   style: GoogleFonts.montserrat(
-                                      color: Colors.white,
+                                      color: t(
+                                          "niceEintragFont"), //## FARBE FÜR RAUM
                                       fontSize: 12,
                                       fontWeight: FontWeight.w400),
                                 )),
@@ -106,7 +110,7 @@ class vertretungsEintrag extends StatelessWidget {
                   child: Text(
                     vertretung["bemerkung"][c],
                     style: GoogleFonts.montserrat(
-                        color: Colors.white,
+                        color: t("niceEintragFont"), //## FARBE FÜR BEMERKUNG
                         fontSize: 14,
                         fontWeight: FontWeight.w300,
                         fontStyle: FontStyle.italic),
