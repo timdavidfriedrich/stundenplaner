@@ -13,7 +13,7 @@ colorHandler(c) {
 
 colorKlassenFokus(c) {
   if (c == ichBinHandler()) {
-    return Colors.greenAccent[700];
+    return t("niceEintragHighlight");
   } else {
     return t("niceEintragBackground"); // Colors.black
   }

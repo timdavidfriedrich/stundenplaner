@@ -68,7 +68,7 @@ class _MainState extends State<Main> with SingleTickerProviderStateMixin {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   //## Die Icons in der AppBar (oben rechts)
-                  betaChecker("appBarIcon", currentIndex),
+                  betaChecker(context, "appBarIcon", currentIndex),
                   IconButton(
                     //## Settings-Button
                     icon: Icon(Icons.settings_outlined,
@@ -103,8 +103,8 @@ class _MainState extends State<Main> with SingleTickerProviderStateMixin {
           ),
         ],
       ),
+      //floatingActionButtonLocation: tabFabLocation[currentIndex],
       floatingActionButton: tabFab[currentIndex],
-      floatingActionButtonLocation: tabFabLocation[currentIndex],
       bottomNavigationBar: BottomNavyBar(
         //## BottomBar-Settings
         //containerHeight: 60,

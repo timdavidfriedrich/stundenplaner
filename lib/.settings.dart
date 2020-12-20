@@ -10,7 +10,7 @@ import 'handleTabs.dart';
 
 //OVERALL
 bool beta = true;
-bool dark = true;
+bool dark = false;
 
 var ichBin = "schüler"; // Ich bin: schüler, lehrer, elternteil
 
@@ -26,7 +26,7 @@ var meinName = "Frau Strohschein";
 bool vertretungHighlight = true;
 
 // Handler
-betaChecker(String object, zusatz) {
+betaChecker(context, String object, zusatz) {
   if (object == "appBarIcon") {
     if (beta == true) {
       return IconButton(
@@ -34,7 +34,7 @@ betaChecker(String object, zusatz) {
         icon: Icon(Icons.error_outline_sharp,
             color: tabAppBarIcon[zusatz], size: 25),
         onPressed: () {
-          slide(zusatz, Offset(1, 0), Report());
+          slide(context, Offset(1, 0), Report());
         },
       );
     } else {

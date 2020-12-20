@@ -12,43 +12,43 @@ class Report extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-            color: Colors.white,
+            //color: Colors.white,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text("Feedback", style: niceBigTitle()),
-                Text("Ich bin ein Text", style: nice()),
-                Row(
-                  //mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Spacer(flex: 3),
-                    FlatButton(
-                      height: 42,
-                      minWidth: 20,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(100)),
-                      color: Colors.grey[200],
-                      child: Icon(Icons.arrow_back, color: Colors.grey[400]),
-                      onPressed: () {
-                        Navigator.of(context).pop(); //popAndPushNamed();
-                      },
-                    ),
-                    Spacer(flex: 1),
-                    FlatButton(
-                      height: 42,
-                      minWidth: 200,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(100)),
-                      color: Colors.greenAccent[400],
-                      child: Text("Feedback senden", style: nice2()),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                    Spacer(flex: 3)
-                  ],
-                )
-              ],
-            )));
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        Text("Fehler melden", style: niceBigTitle()),
+        Text("Ich bin ein Text", style: nice()),
+        Row(
+          //mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Spacer(flex: 3),
+            FlatButton(
+              height: 42,
+              minWidth: 20,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(100)),
+              color: Colors.grey[200],
+              child: Icon(Icons.arrow_back, color: Colors.grey[400]),
+              onPressed: () {
+                Navigator.of(context).pop(); //popAndPushNamed();
+              },
+            ),
+            Spacer(flex: 1),
+            FlatButton(
+              height: 42,
+              minWidth: 200,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(100)),
+              color: Colors.greenAccent[400],
+              child: Text("Bericht senden", style: nice2()),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            Spacer(flex: 3)
+          ],
+        )
+      ],
+    )));
   }
 }

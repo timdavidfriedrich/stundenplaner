@@ -24,7 +24,7 @@ class _SettingsState extends State<Settings> {
         child: Scaffold(
             body: Container(
                 padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
-                color: Colors.white,
+                //color: Colors.white,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [

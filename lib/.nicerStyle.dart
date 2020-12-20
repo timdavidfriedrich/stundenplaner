@@ -14,11 +14,12 @@ themeHandler() {
 Map theme = {
 //name: [helles Thema, dunkles Thema]
   "nice": [Colors.black, Colors.white],
-  "nice2": [Colors.white, Colors.black],
+  "nice2": [Colors.white, Colors.white],
   "niceAppBarTitle": [Colors.black, Colors.white],
   "niceBigTitle": [Colors.black, Colors.white],
   "niceSubtitle": [Colors.black, Colors.white],
 
+  "niceEintragHighlight": [Colors.greenAccent[700], Colors.greenAccent[700]],
   "niceEintragBackground": [Colors.black, Colors.grey[850]],
   "niceEintragFont": [Colors.white, Colors.white],
 
@@ -27,6 +28,8 @@ Map theme = {
   "page": [Colors.white, Colors.black],
   "bottomBar": [Colors.white, Colors.black],
   "icons": [Colors.black, Colors.white],
+  "fabStundenplan": [Colors.black, Colors.redAccent],
+  "fabVertretungsplan": [Colors.white, Colors.greenAccent[700]],
 };
 
 t(String j) {

@@ -4,7 +4,6 @@ import 'package:flutter/painting.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '.nicerStyle.dart';
-import '.random.dart';
 import '.vertretung.dart';
 import 'handleEintrag.dart';
 
@@ -14,8 +13,7 @@ class vertretungsEintrag extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-        color: colorHandler(
-            c), //## colorHandler(klasse) oder colorHandler2(klasse) oder rdmColor()
+        color: colorHandler(c),
         elevation: 3,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         margin: EdgeInsets.fromLTRB(0, 0, 0, 15),

@@ -12,15 +12,14 @@ wochenHandler() {
   if (abWoche == true) {
     return ListTile(
       //## Datums-Leiste
-      //contentPadding: EdgeInsets.all(0),x
-      tileColor: Colors.black87,
-      leading: Icon(Icons.arrow_left, color: Colors.white),
+      //tileColor: Colors.black87,
+      leading: Icon(Icons.arrow_left, color: t("icons")),
       title: Text(
         "A-Woche",
         style: niceSubtitle(),
         textAlign: TextAlign.center,
       ),
-      trailing: Icon(Icons.arrow_right, color: Colors.white),
+      trailing: Icon(Icons.arrow_right, color: t("icons")),
     );
   } else {
     return Container(height: 0, width: 0);
@@ -39,7 +38,7 @@ tabStundenplanAppBarIcon() {
 tabStundenplanBody() {
   return Scaffold(
     body: Container(
-      color: t("body"),
+      //color: t("body"),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -123,7 +122,7 @@ tabStundenplanBody() {
 tabStundenplanFab() {
   return FloatingActionButton(
       focusColor: Colors.redAccent[400],
-      backgroundColor: Colors.black,
+      backgroundColor: t("fabStundenplan"),
       splashColor: Colors.redAccent,
       child: Icon(Icons.add, color: Colors.white),
       onPressed: () {
