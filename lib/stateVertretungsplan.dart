@@ -49,7 +49,16 @@ stateVertretungsplanFab() {
         //padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(40),
-            color: Color.fromRGBO(199, 244, 210, 0.99)),
+            //color: Color.fromRGBO(199, 244, 210, 0.99),
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey[300].withOpacity(0.5),
+                offset: Offset.zero,
+                blurRadius: 10,
+                spreadRadius: 1,
+              )
+            ]),
         child: ListTile(
           //## Datums-Leiste
           //contentPadding: EdgeInsets.all(0),

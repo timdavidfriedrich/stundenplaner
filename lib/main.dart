@@ -7,13 +7,13 @@ import 'nicerStyle.dart'; //## Importiert eigenes Style-File
 import 'state_Regulator.dart'; //## Importiert den State/Tab-Regulator
 import 'report.dart';
 import 'settings.dart';
+import 'transitions.dart';
 
 import 'package:bottom_navy_bar/bottom_navy_bar.dart'; //## BottomBar
 
 void main() => runApp(MaterialApp(
       //## Startet App, Setzt StartWidget
       home: AppHome(),
-      //home: DefaultBottomBarController(child: Vertretungsplan()),
     ));
 
 class AppHome extends StatelessWidget {
@@ -21,7 +21,6 @@ class AppHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      //debugShowCheckedModeBanner: false,
       home: NavBar(), //## NavBar
     );
   }
@@ -72,8 +71,7 @@ class _NavBarState extends State<NavBar> with SingleTickerProviderStateMixin {
                     icon: Icon(Icons.error_outline_sharp,
                         color: Colors.black, size: 25),
                     onPressed: () {
-                      Navigator.of(context).push(//## Weiterleitung auf Seite
-                          MaterialPageRoute(builder: (context) => Report()));
+                      slide(context, Offset(1, 0), Report());
                     },
                   ),
                   //SizedBox(width: 15,),
@@ -82,33 +80,7 @@ class _NavBarState extends State<NavBar> with SingleTickerProviderStateMixin {
                     icon: Icon(Icons.settings_outlined,
                         color: Colors.black, size: 25),
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          PageRouteBuilder(
-                            transitionDuration: Duration(milliseconds: 1000),
-                            transitionsBuilder:
-                                (context, animation, animationTime, child) {
-                              var curve = Curves.easeOutExpo;
-                              //var curveTween = CurveTween(curve: curve);
-                              var begin = Offset(0, -1);
-                              var end = Offset.zero;
-                              var tween = Tween(begin: begin, end: end)
-                                  .chain(CurveTween(curve: curve));
-                              var offsetAnimation = animation.drive(tween);
-                              return SlideTransition(
-                                position: offsetAnimation,
-                                child: child,
-                              );
-                            },
-                            pageBuilder: (context, animation, animationTime) {
-                              return Settings();
-                            },
-                          ));
-                      /*
-                        Navigator.of(context).push(MaterialPageRoute(
-                            //## Weiterleitung auf Seite
-                            builder: (context) => Settings()));
-                            */
+                      slide(context, Offset(1, 0), Settings());
                     },
                   ),
                 ],
