@@ -22,7 +22,11 @@ class AppHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: new ThemeData(scaffoldBackgroundColor: t("body")),
+      locale: Locale('de', 'DE'),
+      theme: new ThemeData(
+        scaffoldBackgroundColor: t("body"),
+        primaryColor: t("body"),
+      ),
       home: Main(), //## NavBar
     );
   }
@@ -34,7 +38,7 @@ class Main extends StatefulWidget {
 }
 
 class _MainState extends State<Main> with SingleTickerProviderStateMixin {
-  TabController _stateController;
+  TabController _tabController;
   int currentIndex = 1; //## Legt den Start-Index fest (Start-Tab)
   var dragStopper = 0; //## Dient als Limit bei Swipe
 
@@ -43,14 +47,20 @@ class _MainState extends State<Main> with SingleTickerProviderStateMixin {
     // TODO: implement initState
     super.initState();
 
-    _stateController =
+    _tabController =
         TabController(length: tabBody.length, vsync: this, initialIndex: 1);
-    _stateController.animation.addListener(() {
+    _tabController.animation.addListener(() {
       setState(() {
-        currentIndex = (_stateController.animation.value).round();
+        currentIndex = (_tabController.animation.value).round();
       });
-      print("Aktueller Index: " + _stateController.index.toString());
+      print("Aktueller Index: " + _tabController.index.toString());
     });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 
   @override
@@ -84,7 +94,7 @@ class _MainState extends State<Main> with SingleTickerProviderStateMixin {
         elevation: 0, //## Lässt den Schwebeeffekt/Schatten verschwinden
       ),
       body: TabBarView(
-        controller: _stateController,
+        controller: _tabController,
         children: [
           Center(
             child:
@@ -103,8 +113,6 @@ class _MainState extends State<Main> with SingleTickerProviderStateMixin {
           ),
         ],
       ),
-      //floatingActionButtonLocation: tabFabLocation[currentIndex],
-      floatingActionButton: tabFab[currentIndex],
       bottomNavigationBar: BottomNavyBar(
         //## BottomBar-Settings
         //containerHeight: 60,
@@ -116,7 +124,7 @@ class _MainState extends State<Main> with SingleTickerProviderStateMixin {
         selectedIndex:
             currentIndex, //## Erkennt den aktuellen Index (int, s.o.)
         onItemSelected: (index) {
-          _stateController.animateTo((index));
+          _tabController.animateTo((index));
           //## Ändert den aktuellen Index bei Knopfdruck
         },
         items: <BottomNavyBarItem>[

@@ -29,7 +29,10 @@ Map theme = {
   "bottomBar": [Colors.white, Colors.black],
   "icons": [Colors.black, Colors.white],
   "fabStundenplan": [Colors.black, Colors.redAccent],
-  "fabVertretungsplan": [Colors.white, Colors.greenAccent[700]],
+  "fabVertretungsplan": [
+    Colors.greenAccent[700],
+    Colors.greenAccent[700]
+  ], // Colors.greenAccent[700]
 };
 
 t(String j) {
@@ -62,9 +65,9 @@ niceSubtitle() {
 var niceBar = GoogleFonts.montserrat(fontSize: 12, fontWeight: FontWeight.w500);
 
 var niceTableHead = GoogleFonts.montserrat(
-    fontSize: 18, fontWeight: FontWeight.w800, color: Colors.black);
+    fontSize: 18, fontWeight: FontWeight.w800, color: t("nice"));
 var niceTableSide = GoogleFonts.montserrat(
-    fontSize: 14, fontWeight: FontWeight.w400, color: Colors.black);
+    fontSize: 14, fontWeight: FontWeight.w400, color: t("nice"));
 
 niceSwitch(Color i) {
   return GoogleFonts.montserrat(

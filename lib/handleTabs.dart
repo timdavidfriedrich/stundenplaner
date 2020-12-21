@@ -15,19 +15,7 @@ List tabAppBarIcon = [
 ];
 
 List tabBody = [
-  tabStundenplanBody(),
-  tabTagesplanBody(),
-  tabVertretungsplanBody(),
-];
-
-List tabFab = [
-  tabStundenplanFab(),
-  tabTagesplanFab(),
-  tabVertretungsplanFab(),
-];
-
-List tabFabLocation = [
-  tabStundenplanFabLocation(),
-  tabTagesplanFabLocation(),
-  tabVertretungsplanFabLocation(),
+  TabStundenplanBody(),
+  TabTagesplanBody(),
+  TabVertretungsplanBody(),
 ];

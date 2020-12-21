@@ -16,20 +16,20 @@ tabTagesplanAppBarIcon() {
   return Colors.blueAccent;
 }
 
-tabTagesplanBody() {
-  return Scaffold(
-      body: Container(
-    //color: t("body"),
-    child: Center(
-      child: Text("Mein Tag", style: nice()),
-    ),
-  ));
+class TabTagesplanBody extends StatefulWidget {
+  @override
+  _TabTagesplanBodyState createState() => _TabTagesplanBodyState();
 }
 
-tabTagesplanFab() {
-  return null;
-}
-
-tabTagesplanFabLocation() {
-  return null;
+class _TabTagesplanBodyState extends State<TabTagesplanBody> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: Container(
+      //color: t("body"),
+      child: Center(
+        child: Text("Mein Tag", style: nice()),
+      ),
+    ));
+  }
 }

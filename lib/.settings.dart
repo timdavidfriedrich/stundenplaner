@@ -10,7 +10,9 @@ import 'handleTabs.dart';
 
 //OVERALL
 bool beta = true;
-bool dark = false;
+bool dark = true;
+
+DateTime datum;
 
 var ichBin = "schüler"; // Ich bin: schüler, lehrer, elternteil
 
@@ -21,7 +23,7 @@ bool abWoche = true;
 var platzhalter = "lol";
 
 // VERTRETUNGSPLAN
-var meineKlasse = "7b";
+var meineKlasse = "8d";
 var meinName = "Frau Strohschein";
 bool vertretungHighlight = true;
 
@@ -42,6 +44,14 @@ betaChecker(context, String object, zusatz) {
         width: 1,
       );
     }
+  }
+}
+
+datumHandler() {
+  if (datum == null) {
+    return DateTime.now();
+  } else {
+    return datum;
   }
 }
 
