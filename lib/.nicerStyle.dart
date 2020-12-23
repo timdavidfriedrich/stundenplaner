@@ -4,11 +4,10 @@ import 'package:flutter/material.dart';
 import '.settings.dart';
 
 themeHandler() {
-  if (dark == false) {
-    return 0;
-  } else {
+  if (dark == true)
     return 1;
-  }
+  else
+    return 0;
 }
 
 Map theme = {
@@ -60,6 +59,16 @@ niceBigTitle() {
 niceSubtitle() {
   return GoogleFonts.montserrat(
       fontSize: 12, fontWeight: FontWeight.w400, color: t("niceSubtitle"));
+}
+
+niceSubtitle2() {
+  return GoogleFonts.montserrat(
+      fontSize: 12, fontWeight: FontWeight.w400, color: t("nice2"));
+}
+
+niceSubtitle2Bold() {
+  return GoogleFonts.montserrat(
+      fontSize: 12, fontWeight: FontWeight.w800, color: t("nice2"));
 }
 
 var niceBar = GoogleFonts.montserrat(fontSize: 12, fontWeight: FontWeight.w500);

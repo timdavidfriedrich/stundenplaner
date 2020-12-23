@@ -4,7 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
-import 'dart:math';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 import '.settings.dart';
 
@@ -32,14 +35,27 @@ class _TabVertretungsplanBodyState extends State<TabVertretungsplanBody>
 
   DateTime _dateTime;
 
+  datumPrint() {
+    var datumFormat = DateFormat.yMd('de').format(datumHandler());
+    var wochentag = DateFormat.EEEE('de').format(datumHandler());
+    //return datumFormat.toString();
+    return RichText(
+        text: TextSpan(style: niceSubtitle2(), children: <TextSpan>[
+      TextSpan(text: wochentag.toString(), style: niceSubtitle2Bold()),
+      TextSpan(text: ", "),
+      TextSpan(text: datumFormat.toString()),
+    ]));
+  }
+
   @override
   void initState() {
     _animationController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 1000),
     );
-    Timer(Duration(milliseconds: 300), () => _animationController.forward());
+    Timer(Duration(milliseconds: 200), () => _animationController.forward());
     super.initState();
+    initializeDateFormatting();
   }
 
   @override
@@ -96,8 +112,8 @@ class _TabVertretungsplanBodyState extends State<TabVertretungsplanBody>
                     .chain(CurveTween(curve: Curves.elasticOut))
                     .animate(_animationController),
                 child: ButtonTheme(
-                  minWidth: 200,
-                  height: 56,
+                  minWidth: 160,
+                  height: 50,
                   child: RaisedButton(
                     elevation: 10,
                     shape: RoundedRectangleBorder(
@@ -106,6 +122,7 @@ class _TabVertretungsplanBodyState extends State<TabVertretungsplanBody>
                     onPressed: () {
                       showDatePicker(
                         context: context,
+                        locale: const Locale("de", "DE"),
                         builder: (BuildContext context, Widget child) {
                           return Theme(
                             data: ThemeData.dark().copyWith(
@@ -119,6 +136,10 @@ class _TabVertretungsplanBodyState extends State<TabVertretungsplanBody>
                                 secondaryVariant: t("niceEintragHighlight"),
                               ),
                               dialogBackgroundColor: t("body"),
+                              textSelectionColor: t("nice"),
+                              textSelectionHandleColor:
+                                  t("niceEintragHighlight"),
+                              //fixTextFieldOutlineLabel: true,
                             ),
                             child: child,
                           );
@@ -126,16 +147,15 @@ class _TabVertretungsplanBodyState extends State<TabVertretungsplanBody>
                         cancelText: "HEUTE ",
                         confirmText: " DATUM WÄHLEN",
                         initialDate: datum == null ? DateTime.now() : datum,
-                        firstDate: DateTime(2012),
-                        lastDate: DateTime.now().add(new Duration(days: 60)),
+                        firstDate: DateTime(2016, 09, 05),
+                        lastDate: DateTime.now().add(new Duration(days: 30)),
                       ).then((date) {
                         setState(() {
                           datum = date;
                         });
                       });
                     },
-                    child:
-                        Text(datumHandler().toString(), style: niceSubtitle()),
+                    child: datumPrint(),
                   ),
                 ),
               ),

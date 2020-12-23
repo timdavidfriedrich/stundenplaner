@@ -52,7 +52,7 @@ class TabStundenplanBodyState extends State<TabStundenplanBody>
       vsync: this,
       duration: Duration(milliseconds: 1000),
     );
-    Timer(Duration(milliseconds: 300), () => _animationController.forward());
+    Timer(Duration(milliseconds: 200), () => _animationController.forward());
     super.initState();
   }
 

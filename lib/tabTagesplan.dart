@@ -6,6 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'dart:async';
 
 import '.nicerStyle.dart';
+import '.settings.dart';
 
 tabTagesplanAppBarTitle() {
   return Text("Mein heutiger Tag", style: niceAppBarTitle());
@@ -28,7 +29,20 @@ class _TabTagesplanBodyState extends State<TabTagesplanBody> {
         body: Container(
       //color: t("body"),
       child: Center(
-        child: Text("Mein Tag", style: nice()),
+        child: FlatButton(
+          height: 45,
+          minWidth: 100,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+          child: Text(
+            "drucken",
+            style: niceSwitch(Colors.white),
+          ),
+          color: Colors.black,
+          onPressed: () {
+            print("hi");
+          },
+        ),
       ),
     ));
   }

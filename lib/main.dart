@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart'; //## iOS-Design-Language
 import 'package:flutter/material.dart'; //## Farben, Icons, etc. (Design)
 import 'package:flutter/painting.dart'; //## Schatten, Farben, etc. (spezifischer)
 import 'package:flutter/rendering.dart'; //## Render-Zeug
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import '.nicerStyle.dart'; //## Importiert eigenes Style-File
 import 'handleTabs.dart'; //## Importiert den State/Tab-Regulator
@@ -22,7 +23,8 @@ class AppHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      locale: Locale('de', 'DE'),
+      localizationsDelegates: [GlobalMaterialLocalizations.delegate],
+      supportedLocales: [const Locale('en'), const Locale('de')],
       theme: new ThemeData(
         scaffoldBackgroundColor: t("body"),
         primaryColor: t("body"),

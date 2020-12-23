@@ -10,7 +10,8 @@ import 'handleTabs.dart';
 
 //OVERALL
 bool beta = true;
-bool dark = true;
+//ool dark = false;
+bool dark;
 
 DateTime datum;
 

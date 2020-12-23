@@ -1,4 +1,4 @@
-Map stundenplan = {
+Map<String, dynamic> stundenplan = {
   "Montag": ["", "", "", "", "", "", "", "", "", ""],
   "Dienstag": ["", "", "", "", "", "", "", "", "", ""],
   "Mittwoch": ["", "", "", "", "", "", "", "", "", ""],
