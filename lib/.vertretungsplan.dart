@@ -12,7 +12,7 @@ Map vertretung = {
   "raum": [],
   "bemerkung": [],
 };
-
+/*
 List<Map<String, dynamic>> rawVertretung;
 
 String urlDatum = DateFormat('yyyyMMdd').format(datumHandler());
@@ -60,3 +60,4 @@ List<T> ente<T>(List<T> liste, int p) {
   return List.generate(
       (liste.length / 6).floor(), (i) => liste[((i + 1) * 6 - 1) - (5 - p)]);
 }
+*/

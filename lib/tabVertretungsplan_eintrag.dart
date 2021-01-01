@@ -22,7 +22,6 @@ class _VertretungsEintragState extends State<VertretungsEintrag> {
   @override
   void initState() {
     // TODO: implement initState
-    vertretungsplanData(urlDatum);
     super.initState();
   }
 
