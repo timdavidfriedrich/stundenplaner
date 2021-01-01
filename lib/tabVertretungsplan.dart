@@ -34,7 +34,8 @@ class _TabVertretungsplanBodyState extends State<TabVertretungsplanBody>
   AnimationController _animationController;
 
   datumPrint() {
-    String datumFormat = DateFormat.yMd('de').format(datumHandler());
+    String datumFormat =
+        DateFormat('dd.MM.yyyy', 'de_DE').format(datumHandler());
     String wochentag = DateFormat.EEEE('de').format(datumHandler());
     //return datumFormat.toString();
     return RichText(
