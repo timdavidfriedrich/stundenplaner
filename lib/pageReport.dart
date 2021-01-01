@@ -1,10 +1,20 @@
-import 'package:flutter/cupertino.dart'; //## iOS-Design-Language
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart'; //## Farben, Icons, etc. (Design)
-import 'package:flutter/painting.dart'; //## Schatten, Farben, etc. (spezifischer)
-import 'package:flutter/rendering.dart'; //## Render-Zeug
+import 'package:flutter/cupertino.dart';
 
-import '.nicerStyle.dart'; //## Importiert eigenes Style-File
+/// iOS-Design-Language
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+
+/// Farben, Icons, etc. (Design)
+import 'package:flutter/painting.dart';
+
+/// Schatten, Farben, etc. (spezifischer)
+import 'package:flutter/rendering.dart';
+
+/// Render-Zeug
+
+import '.nicerStyle.dart';
+
+/// Importiert eigenes Style-File
 import 'main.dart';
 
 class Report extends StatelessWidget {
@@ -16,8 +26,14 @@ class Report extends StatelessWidget {
             child: Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        Text("Fehler melden", style: niceBigTitle()),
-        Text("Ich bin ein Text", style: nice()),
+        Text("Feedback", style: niceBigTitle()),
+        Container(
+          padding: EdgeInsets.fromLTRB(50, 0, 50, 0),
+          child: TextField(
+            decoration: InputDecoration(
+                border: OutlineInputBorder(), labelText: 'Nachricht'),
+          ),
+        ),
         Row(
           //mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [

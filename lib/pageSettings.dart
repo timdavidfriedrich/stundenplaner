@@ -1,11 +1,21 @@
-import 'package:flutter/cupertino.dart'; //## iOS-Design-Language
+import 'package:flutter/cupertino.dart';
+
+/// iOS-Design-Language
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart'; //## Farben, Icons, etc. (Design)
-import 'package:flutter/painting.dart'; //## Schatten, Farben, etc. (spezifischer)
-import 'package:flutter/rendering.dart'; //## Render-Zeug
+import 'package:flutter/material.dart';
+
+/// Farben, Icons, etc. (Design)
+import 'package:flutter/painting.dart';
+
+/// Schatten, Farben, etc. (spezifischer)
+import 'package:flutter/rendering.dart';
+
+/// Render-Zeug
 import '.settings.dart';
 
-import '.nicerStyle.dart'; //## Importiert eigenes Style-File
+import '.nicerStyle.dart';
+
+/// Importiert eigenes Style-File
 import 'main.dart';
 
 import 'handleEintrag.dart';

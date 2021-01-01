@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '.settings.dart';
 import '.nicerStyle.dart';
-import '.vertretung.dart';
+import '.vertretungsplan.dart';
 
 colorHandler(c) {
   if (vertretungHighlight == true) {

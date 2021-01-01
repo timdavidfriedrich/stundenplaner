@@ -1,7 +1,15 @@
-import 'package:flutter/cupertino.dart'; //## iOS-Design-Language
-import 'package:flutter/material.dart'; //## Farben, Icons, etc. (Design)
-import 'package:flutter/painting.dart'; //## Schatten, Farben, etc. (spezifischer)
-import 'package:flutter/rendering.dart'; //## Render-Zeug
+import 'package:flutter/cupertino.dart';
+
+/// iOS-Design-Language
+import 'package:flutter/material.dart';
+
+/// Farben, Icons, etc. (Design)
+import 'package:flutter/painting.dart';
+
+/// Schatten, Farben, etc. (spezifischer)
+import 'package:flutter/rendering.dart';
+
+/// Render-Zeug
 
 slide(context, Offset offset, var ziel) {
   return Navigator.push(

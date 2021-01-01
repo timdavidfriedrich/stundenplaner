@@ -1,25 +1,39 @@
-import 'package:flutter/cupertino.dart'; //## iOS-Design-Language
-import 'package:flutter/material.dart'; //## Farben, Icons, etc. (Design)
-import 'package:flutter/painting.dart'; //## Schatten, Farben, etc. (spezifischer)
-import 'package:flutter/rendering.dart'; //## Render-Zeug
+import 'package:flutter/cupertino.dart';
+
+/// iOS-Design-Language
+import 'package:flutter/material.dart';
+
+/// Farben, Icons, etc. (Design)
+import 'package:flutter/painting.dart';
+
+/// Schatten, Farben, etc. (spezifischer)
+import 'package:flutter/rendering.dart';
+
+/// Render-Zeug
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-import '.nicerStyle.dart'; //## Importiert eigenes Style-File
-import 'handleTabs.dart'; //## Importiert den State/Tab-Regulator
+import '.nicerStyle.dart';
+
+/// Importiert eigenes Style-File
+import 'handleTabs.dart';
+
+/// Importiert den State/Tab-Regulator
 import 'pageReport.dart';
 import 'pageSettings.dart';
 import '.transitions.dart';
 import '.settings.dart';
 
-import 'package:bottom_navy_bar/bottom_navy_bar.dart'; //## BottomBar
+import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+
+/// BottomBar
 
 void main() => runApp(MaterialApp(
-      //## Startet App, Setzt StartWidget
+      /// Startet App, Setzt StartWidget
       home: AppHome(),
     ));
 
 class AppHome extends StatelessWidget {
-  //## StartWidget, Home = NavBar
+  /// StartWidget, Home = NavBar
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -29,7 +43,9 @@ class AppHome extends StatelessWidget {
         scaffoldBackgroundColor: t("body"),
         primaryColor: t("body"),
       ),
-      home: Main(), //## NavBar
+      home: Main(),
+
+      /// NavBar
     );
   }
 }
@@ -41,8 +57,12 @@ class Main extends StatefulWidget {
 
 class _MainState extends State<Main> with SingleTickerProviderStateMixin {
   TabController _tabController;
-  int currentIndex = 1; //## Legt den Start-Index fest (Start-Tab)
-  var dragStopper = 0; //## Dient als Limit bei Swipe
+  int currentIndex = 1;
+
+  /// Legt den Start-Index fest (Start-Tab)
+  var dragStopper = 0;
+
+  /// Dient als Limit bei Swipe
 
   @override
   void initState() {
@@ -70,7 +90,8 @@ class _MainState extends State<Main> with SingleTickerProviderStateMixin {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 60,
-        //## AppBar-Settings
+
+        /// AppBar-Settings
         //leading: Icon(Icons.menu),
         title: tabAppBarTitle[currentIndex],
         actions: <Widget>[
@@ -79,10 +100,10 @@ class _MainState extends State<Main> with SingleTickerProviderStateMixin {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  //## Die Icons in der AppBar (oben rechts)
+                  /// Die Icons in der AppBar (oben rechts)
                   betaChecker(context, "appBarIcon", currentIndex),
                   IconButton(
-                    //## Settings-Button
+                    /// Settings-Button
                     icon: Icon(Icons.settings_outlined,
                         color: t("icons"), size: 25),
                     onPressed: () {
@@ -93,7 +114,9 @@ class _MainState extends State<Main> with SingleTickerProviderStateMixin {
               ))
         ],
         backgroundColor: t("appBar"),
-        elevation: 0, //## Lässt den Schwebeeffekt/Schatten verschwinden
+        elevation: 0,
+
+        /// Lässt den Schwebeeffekt/Schatten verschwinden
       ),
       body: TabBarView(
         controller: _tabController,
@@ -116,21 +139,25 @@ class _MainState extends State<Main> with SingleTickerProviderStateMixin {
         ],
       ),
       bottomNavigationBar: BottomNavyBar(
-        //## BottomBar-Settings
+        /// BottomBar-Settings
         //containerHeight: 60,
         backgroundColor: t("bottomBar"),
         showElevation: false,
         animationDuration: Duration(milliseconds: 420),
         curve: Curves.easeInOut,
-        mainAxisAlignment: MainAxisAlignment.spaceAround, //## Rand um die Items
-        selectedIndex:
-            currentIndex, //## Erkennt den aktuellen Index (int, s.o.)
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+
+        /// Rand um die Items
+        selectedIndex: currentIndex,
+
+        /// Erkennt den aktuellen Index (int, s.o.)
         onItemSelected: (index) {
           _tabController.animateTo((index));
-          //## Ändert den aktuellen Index bei Knopfdruck
+
+          /// Ändert den aktuellen Index bei Knopfdruck
         },
         items: <BottomNavyBarItem>[
-          //## Der Inhalt der BottomBar (Items)
+          /// Der Inhalt der BottomBar (Items)
           BottomNavyBarItem(
               icon: Icon(Icons.date_range_sharp),
               title: Text(

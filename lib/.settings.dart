@@ -1,7 +1,15 @@
-import 'package:flutter/cupertino.dart'; //## iOS-Design-Language
-import 'package:flutter/material.dart'; //## Farben, Icons, etc. (Design)
-import 'package:flutter/painting.dart'; //## Schatten, Farben, etc. (spezifischer)
-import 'package:flutter/rendering.dart'; //## Render-Zeug
+import 'package:flutter/cupertino.dart';
+
+/// iOS-Design-Language
+import 'package:flutter/material.dart';
+
+/// Farben, Icons, etc. (Design)
+import 'package:flutter/painting.dart';
+
+/// Schatten, Farben, etc. (spezifischer)
+import 'package:flutter/rendering.dart';
+
+/// Render-Zeug
 
 import 'main.dart';
 import 'pageReport.dart';
@@ -10,8 +18,8 @@ import 'handleTabs.dart';
 
 //OVERALL
 bool beta = true;
-//ool dark = false;
-bool dark;
+bool dark = false;
+//bool dark;
 
 DateTime datum;
 
@@ -33,7 +41,7 @@ betaChecker(context, String object, zusatz) {
   if (object == "appBarIcon") {
     if (beta == true) {
       return IconButton(
-        //## Report-Button
+        /// Report-Button
         icon: Icon(Icons.error_outline_sharp,
             color: tabAppBarIcon[zusatz], size: 25),
         onPressed: () {

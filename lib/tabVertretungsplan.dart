@@ -8,16 +8,16 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:web_scraper/web_scraper.dart';
 
 import '.settings.dart';
 
 import '.nicerStyle.dart';
-import '.vertretung.dart';
+import '.vertretungsplan.dart';
 import 'tabVertretungsplan_eintrag.dart';
 
 tabVertretungsplanAppBarTitle() {
   return Text("Vertretungsplan", style: niceAppBarTitle());
-  //return Text("Vertretungsplan", style: niceTitle(Colors.black));
 }
 
 tabVertretungsplanAppBarIcon() {
@@ -33,22 +33,21 @@ class _TabVertretungsplanBodyState extends State<TabVertretungsplanBody>
     with SingleTickerProviderStateMixin {
   AnimationController _animationController;
 
-  DateTime _dateTime;
-
   datumPrint() {
-    var datumFormat = DateFormat.yMd('de').format(datumHandler());
-    var wochentag = DateFormat.EEEE('de').format(datumHandler());
+    String datumFormat = DateFormat.yMd('de').format(datumHandler());
+    String wochentag = DateFormat.EEEE('de').format(datumHandler());
     //return datumFormat.toString();
     return RichText(
         text: TextSpan(style: niceSubtitle2(), children: <TextSpan>[
-      TextSpan(text: wochentag.toString(), style: niceSubtitle2Bold()),
+      TextSpan(text: wochentag, style: niceSubtitle2Bold()),
       TextSpan(text: ", "),
-      TextSpan(text: datumFormat.toString()),
+      TextSpan(text: datumFormat),
     ]));
   }
 
   @override
   void initState() {
+    print('URL-Datum: ' + urlDatum);
     _animationController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 1000),
@@ -56,6 +55,12 @@ class _TabVertretungsplanBodyState extends State<TabVertretungsplanBody>
     Timer(Duration(milliseconds: 200), () => _animationController.forward());
     super.initState();
     initializeDateFormatting();
+    vertretungsplanData(urlDatum);
+
+    setState(() {
+      urlDatum = DateFormat('yyyyMMdd').format(datumHandler());
+      vertretungsplanData(urlDatum);
+    });
   }
 
   @override
@@ -73,23 +78,26 @@ class _TabVertretungsplanBodyState extends State<TabVertretungsplanBody>
           alignment: AlignmentDirectional.topStart,
           children: [
             Container(
-                //color: t("body"), //## Hintergrundfarbe
+                //color: t("body"), /// Hintergrundfarbe
                 child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                Text('    // URL-DATUM: ' + urlDatum,
+                    style: TextStyle(color: Colors.red[900])),
                 Expanded(
-                  //## Erstellt für eine dynamische Häufigkeit die Eintröge
-                  child: ListView.builder(
-                    padding: EdgeInsets.fromLTRB(
-                        15, 0, 15, 0), //## Ränder um Gesamtliste
-                    itemCount: vertretung["klasse"]
-                        .length, //## Misst Länge für Einträge
-                    itemBuilder: (context, i) {
-                      //## Geht jede Zeile durch und schreibt den Eintrag
-                      return vertretungsEintrag(i.toInt());
-                    },
-                  ),
-                ),
+                    child: ListView.builder(
+                  physics: BouncingScrollPhysics(),
+                  padding: EdgeInsets.fromLTRB(15, 0, 15, 100),
+
+                  /// Ränder um Gesamtliste
+                  itemCount: vertretung["klasse"].length,
+
+                  /// Misst Länge für Einträge
+                  itemBuilder: (context, i) {
+                    /// Geht jede Zeile durch und schreibt den Eintrag
+                    return VertretungsEintrag(i.toInt());
+                  },
+                )),
               ],
             )),
             /*
@@ -152,6 +160,12 @@ class _TabVertretungsplanBodyState extends State<TabVertretungsplanBody>
                       ).then((date) {
                         setState(() {
                           datum = date;
+                          urlDatum =
+                              DateFormat('yyyyMMdd').format(datumHandler());
+                          vertretungsplanData(urlDatum);
+
+                          ///urlDatum =
+                          ///    DateFormat('yyyyMMdd').format(datumHandler());
                         });
                       });
                     },

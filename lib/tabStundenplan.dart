@@ -13,7 +13,7 @@ import '.settings.dart';
 wochenHandler() {
   if (abWoche == true) {
     return ListTile(
-      //## Datums-Leiste
+      /// Datums-Leiste
       //tileColor: Colors.black87,
       leading: Icon(Icons.arrow_left, color: t("icons")),
       title: Text(
