@@ -4,30 +4,33 @@ import 'package:flutter/material.dart';
 import '.settings.dart';
 
 themeHandler() {
-  if (dark == true)
-    return 1;
-  else
-    return 0;
+  if (dark == true) return 1;
+  return 0;
 }
 
 Map theme = {
 //name: [helles Thema, dunkles Thema]
   "nice": [Colors.black, Colors.white],
-  "nice2": [Colors.white, Colors.white],
+  "wNice": [Colors.white, Colors.white],
+  "bNice": [Colors.black, Colors.black],
+  "niceError": [Colors.red, Colors.redAccent[400]],
   "niceAppBarTitle": [Colors.black, Colors.white],
   "niceBigTitle": [Colors.black, Colors.white],
   "niceSubtitle": [Colors.black, Colors.white],
 
-  "niceEintragHighlight": [Colors.greenAccent[700], Colors.greenAccent[700]],
-  "niceEintragBackground": [Colors.black, Colors.grey[850]],
-  "niceEintragFont": [Colors.white, Colors.white],
+  "eintragHighlight": [Colors.greenAccent[700], Colors.greenAccent[700]],
+  "eintragBackground": [Colors.black, Colors.grey[850]],
+  "eintragFont": [Colors.white, Colors.white],
+  "kalender": [Colors.black, Colors.white],
+  "back_button": [Colors.grey[200], Colors.grey[800]],
+  "on_back_button": [Colors.grey[400], Colors.white],
 
   "appBar": [Colors.white, Colors.black],
   "body": [Colors.white, Colors.black],
   "page": [Colors.white, Colors.black],
   "bottomBar": [Colors.white, Colors.black],
   "icons": [Colors.black, Colors.white],
-  "fabStundenplan": [Colors.black, Colors.redAccent],
+  "fabStundenplan": [Colors.redAccent, Colors.redAccent],
   "fabVertretungsplan": [
     Colors.greenAccent[700],
     Colors.greenAccent[700]
@@ -42,8 +45,16 @@ nice() {
   return GoogleFonts.montserrat(color: t("nice"));
 }
 
-nice2() {
-  return GoogleFonts.montserrat(color: t("nice2"));
+niceError() {
+  return GoogleFonts.montserrat(color: t("niceError"));
+}
+
+wNice() {
+  return GoogleFonts.montserrat(color: t("wNice"));
+}
+
+bNice() {
+  return GoogleFonts.montserrat(color: t("bNice"));
 }
 
 niceAppBarTitle() {
@@ -63,12 +74,12 @@ niceSubtitle() {
 
 niceSubtitle2() {
   return GoogleFonts.montserrat(
-      fontSize: 12, fontWeight: FontWeight.w400, color: t("nice2"));
+      fontSize: 12, fontWeight: FontWeight.w400, color: t("wNice"));
 }
 
 niceSubtitle2Bold() {
   return GoogleFonts.montserrat(
-      fontSize: 12, fontWeight: FontWeight.w800, color: t("nice2"));
+      fontSize: 12, fontWeight: FontWeight.w800, color: t("wNice"));
 }
 
 var niceBar = GoogleFonts.montserrat(fontSize: 12, fontWeight: FontWeight.w500);

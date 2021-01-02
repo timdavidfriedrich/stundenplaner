@@ -68,23 +68,22 @@ class TabStundenplanBodyState extends State<TabStundenplanBody>
     return Scaffold(
       body: Stack(children: [
         Container(
+          padding: EdgeInsets.fromLTRB(15, 0, 15, 15),
           //color: t("body"),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              wochenHandler(),
+              //wochenHandler(),
               Container(
-                padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                /*
+                decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(10)),
+                */
+                //padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                 child: Table(
                   children: [
                     TableRow(children: [
-                      TableCell(
-                          child: Container(
-                              width: 5,
-                              padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
-                              child: Center(
-                                child: Text("", style: niceTableHead),
-                              ))),
                       TableCell(
                           child: Container(
                               padding: EdgeInsets.fromLTRB(0, 10, 0, 5),
@@ -117,13 +116,6 @@ class TabStundenplanBodyState extends State<TabStundenplanBody>
                               ))),
                     ]),
                     TableRow(children: [
-                      TableCell(
-                          child: Container(
-                              width: 5,
-                              padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
-                              child: Center(
-                                child: Text("1", style: niceTableSide),
-                              ))),
                       TableCell(
                         child: Text(""),
                       ),
@@ -164,8 +156,14 @@ class TabStundenplanBodyState extends State<TabStundenplanBody>
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(100)),
                 color: t("fabStundenplan"),
-                onPressed: () {},
-                child: Icon(Icons.add, color: t("nice2")),
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return stundenplanAddOverlay();
+                      });
+                },
+                child: Icon(Icons.add, color: t("wNice")),
               ),
             ),
           ),

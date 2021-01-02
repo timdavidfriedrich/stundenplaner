@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '.settings.dart';
 import '.nicerStyle.dart';
-import '.vertretungsplan.dart';
+import 'tabVertretungsplan.dart';
 
 colorHandler(c) {
   if (vertretungHighlight == true) {
@@ -13,9 +13,9 @@ colorHandler(c) {
 
 colorKlassenFokus(c) {
   if (c == ichBinHandler()) {
-    return t("niceEintragHighlight");
+    return t("eintragHighlight");
   } else {
-    return t("niceEintragBackground"); // Colors.black
+    return t("eintragBackground"); // Colors.black
   }
 }
 

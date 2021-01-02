@@ -8,15 +8,7 @@ import 'package:flutter/rendering.dart';
 import '.nicerStyle.dart';
 
 stundenplanAddOverlay() {
-  return Stack(
-    children: [
-      BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-        child: Container(
-            child: Container(
-          color: Color.fromRGBO(0, 0, 0, 0.2),
-        )),
-      )
-    ],
+  return AlertDialog(
+    title: Text('hi'),
   );
 }

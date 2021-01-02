@@ -1,23 +1,13 @@
 import 'package:flutter/cupertino.dart';
-
-/// iOS-Design-Language
 import 'package:flutter/material.dart';
-
-/// Farben, Icons, etc. (Design)
 import 'package:flutter/painting.dart';
-
-/// Schatten, Farben, etc. (spezifischer)
 import 'package:flutter/rendering.dart';
-
-/// Render-Zeug
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import '.nicerStyle.dart';
 
-/// Importiert eigenes Style-File
 import 'handleTabs.dart';
 
-/// Importiert den State/Tab-Regulator
 import 'pageReport.dart';
 import 'pageSettings.dart';
 import '.transitions.dart';
@@ -37,8 +27,13 @@ class AppHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      localizationsDelegates: [GlobalMaterialLocalizations.delegate],
-      supportedLocales: [const Locale('en'), const Locale('de')],
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      locale: Locale('de'),
+      supportedLocales: [const Locale('de')],
       theme: new ThemeData(
         scaffoldBackgroundColor: t("body"),
         primaryColor: t("body"),
@@ -57,18 +52,17 @@ class Main extends StatefulWidget {
 
 class _MainState extends State<Main> with SingleTickerProviderStateMixin {
   TabController _tabController;
-  int currentIndex = 1;
 
   /// Legt den Start-Index fest (Start-Tab)
-  var dragStopper = 0;
+  int currentIndex = 1;
 
-  /// Dient als Limit bei Swipe
+  /// Dient als Limit bei Gesture-Detector
+  var dragStopper = 0;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
     _tabController =
         TabController(length: tabBody.length, vsync: this, initialIndex: 1);
     _tabController.animation.addListener(() {
@@ -88,11 +82,9 @@ class _MainState extends State<Main> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      /// AppBar-Settings
       appBar: AppBar(
         toolbarHeight: 60,
-
-        /// AppBar-Settings
-        //leading: Icon(Icons.menu),
         title: tabAppBarTitle[currentIndex],
         actions: <Widget>[
           Padding(
@@ -114,47 +106,40 @@ class _MainState extends State<Main> with SingleTickerProviderStateMixin {
               ))
         ],
         backgroundColor: t("appBar"),
-        elevation: 0,
 
         /// Lässt den Schwebeeffekt/Schatten verschwinden
+        elevation: 0,
       ),
       body: TabBarView(
         controller: _tabController,
         children: [
           Center(
-            child:
-                //Text(currentIndex.toString())
-                tabBody[0],
+            child: tabBody[0],
           ),
           Center(
-            child:
-                //Text(currentIndex.toString())
-                tabBody[1],
+            child: tabBody[1],
           ),
           Center(
-            child:
-                //Text(currentIndex.toString())
-                tabBody[2],
+            child: tabBody[2],
           ),
         ],
       ),
       bottomNavigationBar: BottomNavyBar(
         /// BottomBar-Settings
-        //containerHeight: 60,
         backgroundColor: t("bottomBar"),
         showElevation: false,
         animationDuration: Duration(milliseconds: 420),
         curve: Curves.easeInOut,
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
 
         /// Rand um die Items
-        selectedIndex: currentIndex,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
 
         /// Erkennt den aktuellen Index (int, s.o.)
+        selectedIndex: currentIndex,
+
+        /// Ändert den aktuellen Index bei Knopfdruck
         onItemSelected: (index) {
           _tabController.animateTo((index));
-
-          /// Ändert den aktuellen Index bei Knopfdruck
         },
         items: <BottomNavyBarItem>[
           /// Der Inhalt der BottomBar (Items)

@@ -29,13 +29,14 @@ class _TabTagesplanBodyState extends State<TabTagesplanBody> {
         body: Container(
       //color: t("body"),
       child: Center(
+          /*
         child: FlatButton(
           height: 45,
           minWidth: 100,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
           child: Text(
-            "drucken",
+            "test",
             style: niceSwitch(Colors.white),
           ),
           color: Colors.black,
@@ -43,7 +44,8 @@ class _TabTagesplanBodyState extends State<TabTagesplanBody> {
             print("hi");
           },
         ),
-      ),
+        */
+          ),
     ));
   }
 }

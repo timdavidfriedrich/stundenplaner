@@ -63,8 +63,8 @@ class _SettingsState extends State<Settings> {
                           minWidth: 200,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(100)),
-                          color: Colors.greenAccent[400],
-                          child: Text("Speichern", style: nice2()),
+                          color: Colors.blueAccent,
+                          child: Text("Speichern", style: wNice()),
                           onPressed: () {
                             vertretungHighlight = !vertretungHighlight;
                           },

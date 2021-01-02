@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:data_connection_checker/data_connection_checker.dart';
 
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -13,8 +15,16 @@ import 'package:web_scraper/web_scraper.dart';
 import '.settings.dart';
 
 import '.nicerStyle.dart';
-import '.vertretungsplan.dart';
 import 'tabVertretungsplan_eintrag.dart';
+
+Map vertretung = {
+  "lehrer": [],
+  "block": [],
+  "fach": [],
+  "klasse": [],
+  "raum": [],
+  "bemerkung": [],
+};
 
 tabVertretungsplanAppBarTitle() {
   return Text("Vertretungsplan", style: niceAppBarTitle());
@@ -33,6 +43,13 @@ class _TabVertretungsplanBodyState extends State<TabVertretungsplanBody>
     with SingleTickerProviderStateMixin {
   AnimationController _animationController;
 
+  bool onlineStatus;
+
+  List<Map<String, dynamic>> rawVertretung;
+
+  String urlDatum = DateFormat('yyyyMMdd').format(datumHandler());
+  String rawUrl = 'http://www.gymnasium-templin.de';
+
   datumPrint() {
     String datumFormat =
         DateFormat('dd.MM.yyyy', 'de_DE').format(datumHandler());
@@ -45,14 +62,6 @@ class _TabVertretungsplanBodyState extends State<TabVertretungsplanBody>
       TextSpan(text: datumFormat),
     ]));
   }
-
-  List<Map<String, dynamic>> rawVertretung;
-
-  String urlDatum = DateFormat('yyyyMMdd').format(datumHandler());
-//String urlDatum = '';
-  String rawUrl = 'http://www.gymnasium-templin.de';
-//String urlExtension = '/typo3/vertretung/index13mob.php?d=20180820';
-//String urlExtension = '/typo3/vertretung/index13mob.php?d=' + urlDatum;
 
   void vertretungsplanData(dateInput) async {
     //urlDatum = DateFormat('yyyyMMdd').format(datumHandler());
@@ -96,25 +105,48 @@ class _TabVertretungsplanBodyState extends State<TabVertretungsplanBody>
         (liste.length / 6).floor(), (i) => liste[((i + 1) * 6 - 1) - (5 - p)]);
   }
 
-  leererEintrag() {
-    if (vertretung['klasse'].isEmpty) {
+  onlineChecker() async {
+    bool online = await DataConnectionChecker().hasConnection;
+    if (online == true) {
+      setState(() {
+        onlineStatus = true;
+      });
+    } else {
+      setState(() {
+        onlineStatus = false;
+      });
+    }
+  }
+
+  eintragHandler() {
+    if (onlineStatus == false) {
       return Center(
-        child: Text("Keine Einträge vorhanden.", style: nice()),
+        child: Icon(
+          Icons.wifi_off_sharp,
+          color: t("nice"),
+          size: 56,
+        ),
       );
     } else {
-      return ListView.builder(
-        physics: BouncingScrollPhysics(),
-        padding: EdgeInsets.fromLTRB(15, 0, 15, 100),
+      if (vertretung['klasse'].isEmpty) {
+        return Center(
+          child: Text("Keine Einträge vorhanden.", style: nice()),
+        );
+      } else {
+        return ListView.builder(
+          physics: BouncingScrollPhysics(),
+          padding: EdgeInsets.fromLTRB(15, 0, 15, 100),
 
-        /// Ränder um Gesamtliste
-        itemCount: vertretung["klasse"].length,
+          /// Ränder um Gesamtliste
+          itemCount: vertretung["klasse"].length,
 
-        /// Misst Länge für Einträge
-        itemBuilder: (context, i) {
-          /// Geht jede Zeile durch und schreibt den Eintrag
-          return VertretungsEintrag(i.toInt());
-        },
-      );
+          /// Misst Länge für Einträge
+          itemBuilder: (context, i) {
+            /// Geht jede Zeile durch und schreibt den Eintrag
+            return VertretungsEintrag(i.toInt());
+          },
+        );
+      }
     }
   }
 
@@ -129,7 +161,7 @@ class _TabVertretungsplanBodyState extends State<TabVertretungsplanBody>
     super.initState();
     initializeDateFormatting();
     vertretungsplanData(urlDatum);
-
+    onlineChecker();
     setState(() {
       urlDatum = DateFormat('yyyyMMdd').format(datumHandler());
       vertretungsplanData(urlDatum);
@@ -159,7 +191,7 @@ class _TabVertretungsplanBodyState extends State<TabVertretungsplanBody>
                 Text('    // URL-DATUM: ' + urlDatum,
                     style: TextStyle(color: Colors.red[900])),
                     */
-                Expanded(child: leererEintrag()),
+                Expanded(child: eintragHandler()),
               ],
             )),
             Positioned(
@@ -185,24 +217,26 @@ class _TabVertretungsplanBodyState extends State<TabVertretungsplanBody>
                         context: context,
                         locale: const Locale("de", "DE"),
                         builder: (BuildContext context, Widget child) {
-                          return Theme(
-                            data: ThemeData.dark().copyWith(
-                              colorScheme: ColorScheme.dark(
-                                primary: t("niceEintragHighlight"),
-                                onPrimary: Colors.white,
-                                surface: t("body"),
-                                onSurface: t("icons"),
-                                onBackground: t("icons"),
-                                secondary: t("niceEintragHighlight"),
-                                secondaryVariant: t("niceEintragHighlight"),
+                          return Container(
+                            color: t("nice").withOpacity(0.06),
+                            child: Theme(
+                              data: ThemeData.dark().copyWith(
+                                colorScheme: ColorScheme.dark(
+                                  primary: t("eintragHighlight"),
+                                  onPrimary: Colors.white,
+                                  surface: t("body"),
+                                  onSurface: t("icons"),
+                                  onBackground: t("icons"),
+                                  secondary: t("eintragHighlight"),
+                                  secondaryVariant: t("eintragHighlight"),
+                                ),
+                                dialogBackgroundColor: t("body"),
+                                textSelectionColor: t("nice"),
+                                textSelectionHandleColor: t("eintragHighlight"),
+                                //fixTextFieldOutlineLabel: true,
                               ),
-                              dialogBackgroundColor: t("body"),
-                              textSelectionColor: t("nice"),
-                              textSelectionHandleColor:
-                                  t("niceEintragHighlight"),
-                              //fixTextFieldOutlineLabel: true,
+                              child: child,
                             ),
-                            child: child,
                           );
                         },
                         cancelText: "HEUTE ",
@@ -216,6 +250,7 @@ class _TabVertretungsplanBodyState extends State<TabVertretungsplanBody>
                           urlDatum =
                               DateFormat('yyyyMMdd').format(datumHandler());
                         });
+                        onlineChecker();
                         vertretungsplanData(urlDatum);
                       });
                     },

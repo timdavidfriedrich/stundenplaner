@@ -4,7 +4,7 @@ import 'package:flutter/painting.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '.nicerStyle.dart';
-import '.vertretungsplan.dart';
+import 'tabVertretungsplan.dart';
 import 'handleEintrag.dart';
 
 class VertretungsEintrag extends StatefulWidget {
@@ -42,7 +42,7 @@ class _VertretungsEintragState extends State<VertretungsEintrag> {
                         child: Text(
                       vertretung["klasse"][widget.c],
                       style: GoogleFonts.montserrat(
-                          color: t("niceEintragFont"),
+                          color: t("eintragFont"),
 
                           /// FARBE FÜR KLASSE
                           fontSize: 22,
@@ -57,7 +57,7 @@ class _VertretungsEintragState extends State<VertretungsEintrag> {
                               child: Text(
                             lehrerHandler(vertretung["lehrer"][widget.c]),
                             style: GoogleFonts.montserrat(
-                                color: t("niceEintragFont"),
+                                color: t("eintragFont"),
 
                                 /// FARBE FÜR LEHRER
                                 fontSize: 14,
@@ -68,7 +68,7 @@ class _VertretungsEintragState extends State<VertretungsEintrag> {
                               child: Text(
                                 vertretung["fach"][widget.c],
                                 style: GoogleFonts.montserrat(
-                                    color: t("niceEintragFont"),
+                                    color: t("eintragFont"),
 
                                     /// FARBE FÜR FACH
                                     fontSize: 12,
@@ -92,7 +92,7 @@ class _VertretungsEintragState extends State<VertretungsEintrag> {
                                 child: Text(
                               blockHandler(vertretung["block"][widget.c]),
                               style: GoogleFonts.montserrat(
-                                  color: t("niceEintragFont"),
+                                  color: t("eintragFont"),
 
                                   /// FARBE FÜR BLOCK
                                   fontSize: 14,
@@ -103,7 +103,7 @@ class _VertretungsEintragState extends State<VertretungsEintrag> {
                                 child: Text(
                                   raumHandler(vertretung["raum"][widget.c]),
                                   style: GoogleFonts.montserrat(
-                                      color: t("niceEintragFont"),
+                                      color: t("eintragFont"),
 
                                       /// FARBE FÜR RAUM
                                       fontSize: 12,
@@ -129,7 +129,7 @@ class _VertretungsEintragState extends State<VertretungsEintrag> {
                   child: Text(
                     vertretung["bemerkung"][widget.c],
                     style: GoogleFonts.montserrat(
-                        color: t("niceEintragFont"),
+                        color: t("eintragFont"),
 
                         /// FARBE FÜR BEMERKUNG
                         fontSize: 14,
