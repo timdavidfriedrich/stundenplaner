@@ -43,6 +43,9 @@ dependencies:
   cupertino_icons: ^1.0.0
 
 
+assets:
+  - google_fonts/
+
 
 flutter_icons:
   #image_path_android: "assets/icon_android.png"
