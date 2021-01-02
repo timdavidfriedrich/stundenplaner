@@ -124,47 +124,50 @@ class _MainState extends State<Main> with SingleTickerProviderStateMixin {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavyBar(
-        /// BottomBar-Settings
-        backgroundColor: t("bottomBar"),
-        showElevation: false,
-        animationDuration: Duration(milliseconds: 420),
-        curve: Curves.easeInOut,
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 1, 0, 3),
+        child: BottomNavyBar(
+          /// BottomBar-Settings
+          backgroundColor: t("bottomBar"),
+          showElevation: false,
+          animationDuration: Duration(milliseconds: 420),
+          curve: Curves.easeInOut,
 
-        /// Rand um die Items
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+          /// Rand um die Items
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
 
-        /// Erkennt den aktuellen Index (int, s.o.)
-        selectedIndex: currentIndex,
+          /// Erkennt den aktuellen Index (int, s.o.)
+          selectedIndex: currentIndex,
 
-        /// Ändert den aktuellen Index bei Knopfdruck
-        onItemSelected: (index) {
-          _tabController.animateTo((index));
-        },
-        items: <BottomNavyBarItem>[
-          /// Der Inhalt der BottomBar (Items)
-          BottomNavyBarItem(
-              icon: Icon(Icons.date_range_sharp),
-              title: Text(
-                "Stundenplan",
-                style: niceBar,
-              ),
-              activeColor: Colors.redAccent,
-              inactiveColor: t("icons"),
-              textAlign: TextAlign.center),
-          BottomNavyBarItem(
-              icon: Icon(Icons.home_outlined),
-              title: Text("Mein Tag", style: niceBar),
-              activeColor: Colors.blueAccent,
-              inactiveColor: t("icons"),
-              textAlign: TextAlign.center),
-          BottomNavyBarItem(
-              icon: Icon(Icons.list_alt_sharp),
-              title: Text("Vertretung", style: niceBar),
-              activeColor: Colors.greenAccent[700],
-              inactiveColor: t("icons"),
-              textAlign: TextAlign.center),
-        ],
+          /// Ändert den aktuellen Index bei Knopfdruck
+          onItemSelected: (index) {
+            _tabController.animateTo((index));
+          },
+          items: <BottomNavyBarItem>[
+            /// Der Inhalt der BottomBar (Items)
+            BottomNavyBarItem(
+                icon: Icon(Icons.date_range_sharp),
+                title: Text(
+                  "Stundenplan",
+                  style: niceBar,
+                ),
+                activeColor: Colors.redAccent,
+                inactiveColor: t("icons"),
+                textAlign: TextAlign.center),
+            BottomNavyBarItem(
+                icon: Icon(Icons.home_outlined),
+                title: Text("Mein Tag", style: niceBar),
+                activeColor: Colors.blueAccent,
+                inactiveColor: t("icons"),
+                textAlign: TextAlign.center),
+            BottomNavyBarItem(
+                icon: Icon(Icons.list_alt_sharp),
+                title: Text("Vertretung", style: niceBar),
+                activeColor: Colors.greenAccent[700],
+                inactiveColor: t("icons"),
+                textAlign: TextAlign.center),
+          ],
+        ),
       ),
     );
   }
