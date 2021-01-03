@@ -16,15 +16,6 @@ class VertretungsEintrag extends StatefulWidget {
 }
 
 class _VertretungsEintragState extends State<VertretungsEintrag> {
-  /// vertretungsplanData();
-  /// filterVertretung();
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -43,8 +34,6 @@ class _VertretungsEintragState extends State<VertretungsEintrag> {
                       vertretung["klasse"][widget.c],
                       style: GoogleFonts.montserrat(
                           color: t("eintragFont"),
-
-                          /// FARBE FÜR KLASSE
                           fontSize: 22,
                           fontWeight: FontWeight.w800),
                     )),
@@ -58,8 +47,6 @@ class _VertretungsEintragState extends State<VertretungsEintrag> {
                             lehrerHandler(vertretung["lehrer"][widget.c]),
                             style: GoogleFonts.montserrat(
                                 color: t("eintragFont"),
-
-                                /// FARBE FÜR LEHRER
                                 fontSize: 14,
                                 fontWeight: FontWeight.w800),
                           )),
@@ -69,8 +56,6 @@ class _VertretungsEintragState extends State<VertretungsEintrag> {
                                 vertretung["fach"][widget.c],
                                 style: GoogleFonts.montserrat(
                                     color: t("eintragFont"),
-
-                                    /// FARBE FÜR FACH
                                     fontSize: 12,
                                     fontWeight: FontWeight.w400),
                               )),
@@ -93,8 +78,6 @@ class _VertretungsEintragState extends State<VertretungsEintrag> {
                               blockHandler(vertretung["block"][widget.c]),
                               style: GoogleFonts.montserrat(
                                   color: t("eintragFont"),
-
-                                  /// FARBE FÜR BLOCK
                                   fontSize: 14,
                                   fontWeight: FontWeight.w800),
                             )),
@@ -104,8 +87,6 @@ class _VertretungsEintragState extends State<VertretungsEintrag> {
                                   raumHandler(vertretung["raum"][widget.c]),
                                   style: GoogleFonts.montserrat(
                                       color: t("eintragFont"),
-
-                                      /// FARBE FÜR RAUM
                                       fontSize: 12,
                                       fontWeight: FontWeight.w400),
                                 )),
@@ -113,16 +94,6 @@ class _VertretungsEintragState extends State<VertretungsEintrag> {
                     ),
                   ],
                 ),
-                /*
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(alignment: Alignment.topLeft, child: Text(vertretung["fach"][c], 
-                        style: GoogleFonts.montserrat(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),)),
-                    Container(alignment: Alignment.topLeft, child: Text(raum(vertretung["raum"][c]), 
-                        style: GoogleFonts.montserrat(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),)),
-                    ],),
-                    */
                 Container(child: Text(" ")),
                 Container(
                   alignment: Alignment.topLeft,
@@ -130,8 +101,6 @@ class _VertretungsEintragState extends State<VertretungsEintrag> {
                     vertretung["bemerkung"][widget.c],
                     style: GoogleFonts.montserrat(
                         color: t("eintragFont"),
-
-                        /// FARBE FÜR BEMERKUNG
                         fontSize: 14,
                         fontWeight: FontWeight.w300,
                         fontStyle: FontStyle.italic),

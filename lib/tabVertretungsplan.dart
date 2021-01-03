@@ -73,19 +73,10 @@ class _TabVertretungsplanBodyState extends State<TabVertretungsplanBody>
         .loadWebPage('/typo3/vertretung/index13mob.php?d=' + dateInput)) {
       rawVertretung = webScraper.getElement(
           'div.clearfix > table.vertretung > tbody > tr > td', ['title']);
-      print('VP ROHFORMAT: ' + rawVertretung.toString());
-      // filterVertretung()
-      // rawVertretung.toString()
-    } else {
-      print("VP LÄDT...");
     }
-
     for (int i = 0; i < rawVertretung.length; i++) {
       filteredVertretung.add(rawVertretung[i]['title']);
     }
-    print('--- VP DATUM: ' + dateInput);
-    print('VP GEFILTERT: ' + filteredVertretung.toString());
-
     setState(() {
       vertretung['lehrer'] = ente(filteredVertretung, 0);
       vertretung['block'] = ente(filteredVertretung, 1);
@@ -94,8 +85,6 @@ class _TabVertretungsplanBodyState extends State<TabVertretungsplanBody>
       vertretung['raum'] = ente(filteredVertretung, 4);
       vertretung['bemerkung'] = ente(filteredVertretung, 5);
     });
-
-    print('VP SORTIERT / Klasse: ' + ente(filteredVertretung, 3).toString());
   }
 
   /// p: 0 = Lehrer, 1 = Block, 2 = Fach, 3 = Klasse, 4 = Raum, 5 = Bemerkung
@@ -107,15 +96,7 @@ class _TabVertretungsplanBodyState extends State<TabVertretungsplanBody>
 
   onlineChecker() async {
     bool online = await DataConnectionChecker().hasConnection;
-    if (online == true) {
-      setState(() {
-        onlineStatus = true;
-      });
-    } else {
-      setState(() {
-        onlineStatus = false;
-      });
-    }
+    setState(() => online ? onlineStatus = true : onlineStatus = false);
   }
 
   eintragHandler() {
@@ -239,7 +220,7 @@ class _TabVertretungsplanBodyState extends State<TabVertretungsplanBody>
                             ),
                           );
                         },
-                        cancelText: "HEUTE ",
+                        cancelText: "AKTUELL ",
                         confirmText: " DATUM WÄHLEN",
                         initialDate: datum == null ? DateTime.now() : datum,
                         firstDate: DateTime(2016, 09, 05),

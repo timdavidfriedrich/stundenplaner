@@ -25,6 +25,8 @@ Map theme = {
   "back_button": [Colors.grey[200], Colors.grey[800]],
   "on_back_button": [Colors.grey[400], Colors.white],
 
+  "tableHead": [Colors.redAccent, Colors.redAccent],
+
   "appBar": [Colors.white, Colors.black],
   "body": [Colors.white, Colors.black],
   "page": [Colors.white, Colors.black],
@@ -82,12 +84,15 @@ niceSubtitle2Bold() {
       fontSize: 12, fontWeight: FontWeight.w800, color: t("wNice"));
 }
 
+tableHead() {
+  return GoogleFonts.montserrat(
+      fontSize: 18, fontWeight: FontWeight.w800, color: t("tableHead"));
+}
+
 var niceBar = GoogleFonts.montserrat(fontSize: 12, fontWeight: FontWeight.w500);
 
 var niceTableHead = GoogleFonts.montserrat(
     fontSize: 18, fontWeight: FontWeight.w800, color: t("nice"));
-var niceTableSide = GoogleFonts.montserrat(
-    fontSize: 14, fontWeight: FontWeight.w400, color: t("nice"));
 
 niceSwitch(Color i) {
   return GoogleFonts.montserrat(

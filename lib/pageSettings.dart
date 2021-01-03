@@ -1,24 +1,15 @@
 import 'package:flutter/cupertino.dart';
-
-/// iOS-Design-Language
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
-/// Farben, Icons, etc. (Design)
 import 'package:flutter/painting.dart';
-
-/// Schatten, Farben, etc. (spezifischer)
 import 'package:flutter/rendering.dart';
 
-/// Render-Zeug
-import '.settings.dart';
+import 'package:data_connection_checker/data_connection_checker.dart';
 
 import '.nicerStyle.dart';
 
 /// Importiert eigenes Style-File
 import 'main.dart';
-
-import 'handleEintrag.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -26,53 +17,47 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  int _value = 1;
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-        onWillPop: () {},
-        child: Scaffold(
-            body: Container(
-                padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
-                //color: Colors.white,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text("Einstellungen", style: niceBigTitle()),
-                    Text("Ich bin ein Text", style: nice()),
-                    // hier könnte ein DropdownButton hingesetzt werden
-                    Row(
-                      //mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Spacer(flex: 3),
-                        FlatButton(
-                          height: 42,
-                          minWidth: 20,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(100)),
-                          color: Colors.grey[200],
-                          child:
-                              Icon(Icons.arrow_back, color: Colors.grey[400]),
-                          onPressed: () {
-                            Navigator.of(context).pop(); //popAndPushNamed();
-                          },
-                        ),
-                        Spacer(flex: 1),
-                        FlatButton(
-                          height: 42,
-                          minWidth: 200,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(100)),
-                          color: Colors.blueAccent,
-                          child: Text("Speichern", style: wNice()),
-                          onPressed: () {
-                            vertretungHighlight = !vertretungHighlight;
-                          },
-                        ),
-                        Spacer(flex: 3),
-                      ],
-                    )
-                  ],
-                ))));
+    return Scaffold(
+      appBar: AppBar(
+        leading: SizedBox(),
+        elevation: 0,
+        toolbarHeight: 200,
+        bottom: AppBar(
+          title: Text("Einstellungen", style: niceBigTitle()),
+          centerTitle: true,
+          leading: SizedBox(),
+          elevation: 0,
+          toolbarHeight: 100,
+        ),
+      ),
+      body: Container(
+        //color: Colors.red,
+        padding: EdgeInsets.fromLTRB(25, 5, 25, 25),
+        child: Center(),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 25, 0, 25),
+        child: Row(
+          //mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Spacer(flex: 3),
+            FlatButton(
+              height: 42,
+              minWidth: 200,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(100)),
+              color: Colors.blueAccent,
+              child: Text("Speichern", style: wNice()),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            Spacer(flex: 3)
+          ],
+        ),
+      ),
+    );
   }
 }

@@ -9,13 +9,11 @@ import '.nicerStyle.dart';
 import 'handleTabs.dart';
 
 import 'pageReport.dart';
-import 'pageSettings.dart';
-import '.transitions.dart';
-import '.settings.dart';
+import 'pageSettings.dart'; //#### Wie wär's mit KABOOM bei Front?
+import '.transitions.dart'; //#### Edit-Page für Stundenplan
+import '.settings.dart'; //####### Logik für Zusammenspiel Tab 0 + 1
 
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
-
-/// BottomBar
 
 void main() => runApp(MaterialApp(
       /// Startet App, Setzt StartWidget
@@ -111,6 +109,7 @@ class _MainState extends State<Main> with SingleTickerProviderStateMixin {
         elevation: 0,
       ),
       body: TabBarView(
+        physics: BouncingScrollPhysics(),
         controller: _tabController,
         children: [
           Center(

@@ -4,15 +4,7 @@ import '.nicerStyle.dart';
 import 'tabVertretungsplan.dart';
 
 colorHandler(c) {
-  if (vertretungHighlight == true) {
-    return colorKlassenFokus(vertretung["klasse"][c]);
-  } else {
-    return colorsOhneFokus(vertretung["klasse"][c]);
-  }
-}
-
-colorKlassenFokus(c) {
-  if (c == ichBinHandler()) {
+  if (vertretung["klasse"][c] == ichBinHandler()) {
     return t("eintragHighlight");
   } else {
     return t("eintragBackground"); // Colors.black
@@ -26,26 +18,6 @@ List k10 = ["10", "10a", "10b", "10c", "10d", "10e"];
 List k11 = ["11", "11a", "11b", "11c", "11d", "11e"];
 List k12 = ["12", "12a", "12b", "12c", "12d", "12e"];
 List k13 = ["13", "13a", "13b", "13c", "13d", "13e"];
-
-colorsOhneFokus(i) {
-  if (k7.contains(i)) {
-    return Colors.greenAccent[700];
-  } else if (k8.contains(i)) {
-    return Colors.yellow[600];
-  } else if (k9.contains(i)) {
-    return Colors.orange[700];
-  } else if (k10.contains(i)) {
-    return Colors.red[700];
-  } else if (k11.contains(i)) {
-    return Colors.purple;
-  } else if (k12.contains(i)) {
-    return Colors.blue[700];
-  } else if (k13.contains(i)) {
-    return Colors.brown[700];
-  } else {
-    return Colors.black;
-  }
-}
 
 String lehrerHandler(String i) {
   if (i == "") {

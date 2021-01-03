@@ -22,15 +22,7 @@ class _ReportState extends State<Report> {
 
   onlineChecker() async {
     bool online = await DataConnectionChecker().hasConnection;
-    if (online == true) {
-      setState(() {
-        onlineStatus = true;
-      });
-    } else {
-      setState(() {
-        onlineStatus = false;
-      });
-    }
+    setState(() => online ? onlineStatus = true : onlineStatus = false);
   }
 
   popper() {
@@ -40,7 +32,7 @@ class _ReportState extends State<Report> {
   }
 
   alertHandler() {
-    if (onlineStatus == false) {
+    if (nachricht == null) {
       return showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -50,44 +42,67 @@ class _ReportState extends State<Report> {
                   borderRadius: BorderRadius.circular(10)),
               contentTextStyle: bNice(),
               //titleTextStyle: bNice(),
-              title: Text('Senden fehlgeschlagen'),
-              content: Text(
-                  'Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.'),
+              //title: Text('Senden fehlgeschlagen'),
+              content: Text('Das Textfeld darf nicht leer sein.'),
               actions: <Widget>[
                 FlatButton(
                   child: Text('ZURÜCK'),
                   onPressed: () {
-                    return Navigator.of(context).pop();
-                    //popper();
+                    Navigator.of(context).pop();
                   },
                 )
               ],
             );
           });
     } else {
-      return showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            //return alertHandler();
-            return AlertDialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
-              content: Text(
-                  'Vielen Dank für das Feedback.\nIhre Nachricht wird weitergeleitet.'),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text('OKAY'),
-                  onPressed: () {
-                    setState(() {
-                      close = true;
-                    });
-                    popper();
-                    return Navigator.of(context).pop();
-                  },
-                )
-              ],
-            );
-          });
+      if (onlineStatus == false) {
+        return showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              //return alertHandler();
+              return AlertDialog(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                contentTextStyle: bNice(),
+                //titleTextStyle: bNice(),
+                title: Text('Senden fehlgeschlagen'),
+                content: Text(
+                    'Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.'),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text('ZURÜCK'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  )
+                ],
+              );
+            });
+      } else {
+        return showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              //return alertHandler();
+              return AlertDialog(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                content: Text(
+                    'Vielen Dank für das Feedback.\nIhre Nachricht wird weitergeleitet.'),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text('OKAY'),
+                    onPressed: () {
+                      setState(() {
+                        close = true;
+                      });
+                      popper();
+                      Navigator.of(context).pop();
+                    },
+                  )
+                ],
+              );
+            });
+      }
     }
   }
 
