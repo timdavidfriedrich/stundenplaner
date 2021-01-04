@@ -29,7 +29,7 @@ bool abWoche = false;
 var platzhalter = "lol";
 
 /// VERTRETUNGSPLAN
-var meineKlasse = "12";
+var meineKlasse = "8d";
 var meinName = "Frau Strohschein";
 bool vertretungHighlight = true;
 

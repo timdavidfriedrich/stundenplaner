@@ -18,8 +18,38 @@ class _StundenplanEditAlertState extends State<StundenplanEditAlert> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      // Title
       titleTextStyle: niceAppBarTitle(),
       title: Text('Mittwoch, 5. Std.', style: TextStyle(fontSize: 18)),
+
+      /// Content
+      content: Container(
+        child: TextField(
+          style: nice(),
+          minLines: 1,
+          maxLines: 1,
+          //onChanged: (){},
+          decoration: InputDecoration(
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(color: Colors.redAccent, width: 2),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(color: Colors.redAccent, width: 2),
+            ),
+            alignLabelWithHint: true,
+            labelText: ' Fach',
+            labelStyle: nice(),
+            hintText: 'z.B. Mathe',
+            hintStyle: niceHint(),
+            prefixText: '  ',
+            suffixText: '  ',
+          ),
+        ),
+      ),
+
+      /// Buttons
       actionsPadding: EdgeInsets.fromLTRB(20, 5, 20, 5),
       actions: [
         Spacer(flex: 3),

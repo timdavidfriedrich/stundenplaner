@@ -165,7 +165,7 @@ class _ReportState extends State<Report> {
                 labelText: ' Nachricht',
                 labelStyle: nice(),
                 hintText: 'Lob, Kritik, Fehler gefunden, ...',
-                hintStyle: nice(),
+                hintStyle: niceHint(),
                 prefixText: '  ',
                 suffixText: '  ',
               ),

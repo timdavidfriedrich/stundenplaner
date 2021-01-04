@@ -17,6 +17,7 @@ Map theme = {
   "niceAppBarTitle": [Colors.black, Colors.white],
   "niceBigTitle": [Colors.black, Colors.white],
   "niceSubtitle": [Colors.black, Colors.white],
+  "niceHint": [Colors.grey, Colors.grey],
 
   "eintragHighlight": [Colors.greenAccent[700], Colors.greenAccent[700]],
   "eintragBackground": [Colors.black, Colors.grey[850]],
@@ -49,6 +50,10 @@ nice() {
 
 niceError() {
   return GoogleFonts.montserrat(color: t("niceError"));
+}
+
+niceHint() {
+  return GoogleFonts.montserrat(color: t("niceHint"));
 }
 
 wNice() {
