@@ -65,7 +65,9 @@ class _ReportState extends State<Report> {
                     borderRadius: BorderRadius.circular(10)),
                 contentTextStyle: bNice(),
                 //titleTextStyle: bNice(),
-                title: Text('Senden fehlgeschlagen'),
+                titleTextStyle: niceAppBarTitle(),
+                title: Text('Senden fehlgeschlagen',
+                    style: TextStyle(fontSize: 18)),
                 content: Text(
                     'Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.'),
                 actions: <Widget>[
