@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "145432769685",
+    "project_id": "gymnasium-templin",
+    "storage_bucket": "gymnasium-templin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:145432769685:android:456d50a10d60a43363579c",
+        "android_client_info": {
+          "package_name": "de.timdavidfriedrich.gymnasiumtemplin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "145432769685-3bbk9urqgn9lf8b5j4o15c5ffhvr5umd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHyhbbLV-kvDkKlKdPksNLHz4dTvls8dQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "145432769685-3bbk9urqgn9lf8b5j4o15c5ffhvr5umd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
