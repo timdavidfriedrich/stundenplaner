@@ -31,7 +31,7 @@ dependencies:
   # -------------------------#
 
   cloud_firestore: ^0.14.4
-  firebase_auth: ^0.18.4+1
+  firebase_storage: ^5.2.0
 
   cupertino_icons: ^1.0.0
   flutter_launcher_icons: ^0.8.1
