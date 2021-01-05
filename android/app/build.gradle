@@ -44,7 +44,6 @@ android {
         targetSdkVersion 29
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-        implementation platform('com.google.firebase:firebase-bom:26.2.0')
     }
 
     buildTypes {
@@ -62,4 +61,5 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation platform('com.google.firebase:firebase-bom:26.2.0')
 }
