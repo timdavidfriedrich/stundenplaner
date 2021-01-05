@@ -10,7 +10,6 @@ import '.settings.dart';
 
 tabTagesplanAppBarTitle() {
   return Text("Mein heutiger Tag", style: niceAppBarTitle());
-  //return Text("Mein heutiger Tag", style: niceTitle(Colors.black));
 }
 
 tabTagesplanAppBarIcon() {

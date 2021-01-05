@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -15,10 +16,14 @@ import '.settings.dart'; //####### Logik für Zusammenspiel Tab 0 + 1
 
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 
-void main() => runApp(MaterialApp(
-      /// Startet App, Setzt StartWidget
-      home: AppHome(),
-    ));
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MaterialApp(
+    /// Startet App, Setzt StartWidget
+    home: AppHome(),
+  ));
+}
 
 class AppHome extends StatelessWidget {
   /// StartWidget, Home = NavBar

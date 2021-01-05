@@ -15,6 +15,7 @@ import 'handleTabs.dart';
 bool beta = true;
 bool dark = false;
 //bool dark;
+bool dev = false;
 
 DateTime datum;
 

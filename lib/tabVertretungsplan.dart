@@ -164,17 +164,18 @@ class _TabVertretungsplanBodyState extends State<TabVertretungsplanBody>
           alignment: AlignmentDirectional.topStart,
           children: [
             Container(
-                //color: t("body"), /// Hintergrundfarbe
-                child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                /*
+              //color: t("body"), /// Hintergrundfarbe
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  /*
                 Text('    // URL-DATUM: ' + urlDatum,
                     style: TextStyle(color: Colors.red[900])),
                     */
-                Expanded(child: eintragHandler()),
-              ],
-            )),
+                  Expanded(child: eintragHandler()),
+                ],
+              ),
+            ),
             Positioned(
               right: 10,
               bottom: 20,
