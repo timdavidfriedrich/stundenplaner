@@ -30,6 +30,9 @@ dependencies:
   # ---  IMPORT PACKAGES  ---#
   # -------------------------#
 
+  cloud_firestore: ^0.14.4
+  firebase_auth: ^0.18.4+1
+
   cupertino_icons: ^1.0.0
   flutter_launcher_icons: ^0.8.1
   google_fonts: ^1.1.1 
