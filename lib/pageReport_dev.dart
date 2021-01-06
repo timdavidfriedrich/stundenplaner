@@ -45,6 +45,25 @@ class _ReportDevState extends State<ReportDev> {
     print("FB GET: (DocList) " + docList.toString());
     print("FB GET: (datumList) " + datumList.toString());
     print("FB GET: (nachrichtenList) " + datumList.toString());
+    setState(() {
+      docList = docList.reversed.toList();
+      datumList = datumList.reversed.toList();
+      nachrichtenList = nachrichtenList.reversed.toList();
+    });
+  }
+
+  void reload() {
+    setState(() => docList.clear());
+    getReports();
+  }
+
+  void remove(i) {
+    reports.doc(docList[i]).delete();
+    setState(() {
+      docList.removeAt(i);
+      datumList.removeAt(i);
+      nachrichtenList.removeAt(i);
+    });
   }
 
   @override
@@ -65,7 +84,7 @@ class _ReportDevState extends State<ReportDev> {
             ),
             body: Container(
               child: (docList.isEmpty)
-                  ? null
+                  ? Text(docList.toString(), style: TextStyle(color: t("body")))
                   : ListView.builder(
                       physics: BouncingScrollPhysics(),
                       padding: EdgeInsets.fromLTRB(15, 0, 15, 100),
@@ -73,8 +92,9 @@ class _ReportDevState extends State<ReportDev> {
                       itemBuilder: (context, i) {
                         /// Geht jede Zeile durch und schreibt den Eintrag
                         return Nachricht(
-                          datumList.reversed.toList()[i],
-                          nachrichtenList.reversed.toList()[i],
+                          datumList[i],
+                          nachrichtenList[i],
+                          () => remove(i),
                         );
                       },
                     ),
@@ -102,10 +122,9 @@ class _ReportDevState extends State<ReportDev> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(100)),
                     color: t("nice"),
-                    child: Text("Neu laden", style: wNice()),
+                    child: Text("Neu laden", style: nice2()),
                     onPressed: () {
-                      setState(() => docList.clear());
-                      getReports();
+                      reload();
                     },
                   ),
                   Spacer(flex: 3)
@@ -120,57 +139,91 @@ class _ReportDevState extends State<ReportDev> {
 class Nachricht extends StatefulWidget {
   final Timestamp xDatum;
   final String xNachricht;
+  final Function remove;
 
-  const Nachricht(this.xDatum, this.xNachricht);
+  const Nachricht(this.xDatum, this.xNachricht, this.remove);
 
   @override
   _NachrichtState createState() => _NachrichtState();
 }
 
 class _NachrichtState extends State<Nachricht> {
-  //
+  bool highlighted = false;
+
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: t("eintragBackground"),
+      color: highlighted ? Colors.redAccent[700] : t("eintragBackground"),
       elevation: 3,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
-      child: Container(
-        padding: EdgeInsets.fromLTRB(15, 15, 15, 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  DateFormat('dd.MM.yyyy')
-                      .format(widget.xDatum.toDate())
-                      .toString(),
-                  style: GoogleFonts.montserrat(
-                      color: t("eintragFont"),
-                      fontSize: 18,
-                      fontWeight: FontWeight.w800),
-                ),
-                Text(
-                  DateFormat('hh:mm')
-                          .format(widget.xDatum.toDate())
-                          .toString() +
-                      " Uhr",
-                  style: GoogleFonts.montserrat(
-                      color: t("eintragFont"),
-                      fontSize: 18,
-                      fontWeight: FontWeight.w800),
-                ),
-              ],
-            ),
-            Text(""),
-            Text(
-              widget.xNachricht,
-              style: wNice(),
-            ),
-          ],
+      child: InkWell(
+        customBorder:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        onLongPress: () async {
+          setState(() => highlighted = true);
+          await showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  title: Text("Nachricht löschen?",
+                      style: TextStyle(fontSize: 18, color: Colors.black)),
+                  titleTextStyle: niceAppBarTitle(),
+                  actions: [
+                    FlatButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        return widget.remove();
+                      },
+                      child: Text(
+                        "BESTÄTIGEN",
+                        style: TextStyle(color: Colors.redAccent),
+                      ),
+                    ),
+                  ],
+                );
+              }).then((val) {
+            setState(() => highlighted = false);
+          });
+        },
+        child: Container(
+          padding: EdgeInsets.fromLTRB(15, 15, 15, 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    DateFormat('dd.MM.yyyy')
+                        .format(widget.xDatum.toDate())
+                        .toString(),
+                    style: GoogleFonts.montserrat(
+                        color: t("eintragFont"),
+                        fontSize: 18,
+                        fontWeight: FontWeight.w800),
+                  ),
+                  Text(
+                    DateFormat('HH:mm', 'de')
+                            .format(widget.xDatum.toDate())
+                            .toString() +
+                        " Uhr",
+                    style: GoogleFonts.montserrat(
+                        color: t("eintragFont"),
+                        fontSize: 18,
+                        fontWeight: FontWeight.w800),
+                  ),
+                ],
+              ),
+              Text(""),
+              Text(
+                widget.xNachricht,
+                style: wNice(),
+              ),
+            ],
+          ),
         ),
       ),
     );

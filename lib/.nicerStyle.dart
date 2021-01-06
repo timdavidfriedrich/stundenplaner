@@ -11,6 +11,7 @@ themeHandler() {
 Map theme = {
 //name: [helles Thema, dunkles Thema]
   "nice": [Colors.black, Colors.white],
+  "nice2": [Colors.white, Colors.black],
   "wNice": [Colors.white, Colors.white],
   "bNice": [Colors.black, Colors.black],
   "niceError": [Colors.red, Colors.redAccent[400]],
@@ -46,6 +47,10 @@ t(String j) {
 
 nice() {
   return GoogleFonts.montserrat(color: t("nice"));
+}
+
+nice2() {
+  return GoogleFonts.montserrat(color: t("nice2"));
 }
 
 niceError() {

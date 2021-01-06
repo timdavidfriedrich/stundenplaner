@@ -13,7 +13,7 @@ import 'handleTabs.dart';
 
 /// OVERALL
 bool beta = true;
-bool dark = false;
+bool dark = true;
 //bool dark;
 bool dev = false;
 
@@ -25,6 +25,7 @@ var ichBin = "schüler";
 
 /// STUNDENPLAN
 bool abWoche = false;
+bool blockOnly = false;
 
 /// TAGESPLAN
 var platzhalter = "lol";
@@ -36,13 +37,16 @@ bool vertretungHighlight = true;
 
 /// Handler
 
-betaChecker(context, String object, zusatz) {
+betaChecker(context, String object, i) {
   if (object == "appBarIcon") {
     if (beta == true) {
       return IconButton(
         /// Report-Button
-        icon: Icon(Icons.error_outline_sharp,
-            color: tabAppBarIcon[zusatz], size: 25),
+        icon: Icon(
+          Icons.error_outline_sharp,
+          color: tabAppBarIcon[i],
+          size: 25,
+        ),
         onPressed: () {
           slide(context, Offset(1, 0), Report());
         },

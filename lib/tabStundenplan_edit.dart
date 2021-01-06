@@ -4,6 +4,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 
 import '.nicerStyle.dart';
+import '.settings.dart';
 import 'tabStundenplan.dart';
 import 'tabStundenplan_edit_alert.dart';
 
@@ -16,10 +17,8 @@ class StundenplanEditState extends State<StundenplanEdit> {
   //
   List<String> tage = ["MO", "DI", "MI", "DO", "FR"];
   List<TableCell> head = [];
-  List<Widget> zelle = [];
-  List<TableRow> reihe = [];
-
-  bool blockOnly = false;
+  List<Widget> zellen = [];
+  List<TableRow> reihen = [];
 
   int anzahlSpalten = 5;
   int anzahlZeilen;
@@ -39,11 +38,11 @@ class StundenplanEditState extends State<StundenplanEdit> {
               child: Center(child: Text(tage[i], style: tableHead())))));
 
     /// Head als erste Reihe hinzufügen
-    reihe.add(TableRow(children: head));
+    reihen.add(TableRow(children: head));
 
     /// Tabellen-Inhalt:
     for (int i = 0; i < anzahlSpalten; i++) {
-      zelle.add(TableCell(
+      zellen.add(TableCell(
           child: Container(
         padding: EdgeInsets.all(4),
         child: Container(
@@ -53,7 +52,7 @@ class StundenplanEditState extends State<StundenplanEdit> {
                 border: Border.all(color: t("nice"), width: 1.5)),
             child: FlatButton(
               splashColor: t("nice"),
-              child: Text("+"),
+              child: Text("+", style: nice()),
               onPressed: () {
                 showDialog(
                   context: context,
@@ -68,11 +67,17 @@ class StundenplanEditState extends State<StundenplanEdit> {
 
     /// Reihen werden erstellt:
     for (int i = 0; i < anzahlZeilen; i++) {
-      reihe.add(TableRow(children: zelle));
+      reihen.add(TableRow(children: zellen));
     }
 
     /// Gesamte Reihen als Einheit ausgebenen:
-    return reihe;
+    return reihen;
+  }
+
+  @override
+  void initState() {
+    tableCreator();
+    super.initState();
   }
 
   @override
@@ -84,7 +89,7 @@ class StundenplanEditState extends State<StundenplanEdit> {
         children: <Widget>[
           Container(
             child: Table(
-              children: tableCreator(),
+              children: reihen,
             ),
           )
         ],

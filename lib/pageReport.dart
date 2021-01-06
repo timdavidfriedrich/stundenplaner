@@ -67,7 +67,7 @@ class _ReportState extends State<Report> {
 
   Future addReport() async {
     String zeit = DateFormat('yyyy.MM.dd').format(DateTime.now()).toString() +
-        DateFormat(' - hh:mm:ss').format(DateTime.now()).toString();
+        DateFormat(' - HH:mm:ss').format(DateTime.now()).toString();
     return reports.doc(zeit).set({
       "datum": Timestamp.now(),
       "nachricht": nachricht,

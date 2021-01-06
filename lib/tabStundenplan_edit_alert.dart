@@ -23,36 +23,11 @@ class _StundenplanEditAlertState extends State<StundenplanEditAlert> {
       title: Text('Mittwoch, 5. Std.', style: TextStyle(fontSize: 18)),
 
       /// Content
-      content: Container(
-        child: TextField(
-          style: nice(),
-          minLines: 1,
-          maxLines: 1,
-          //onChanged: (){},
-          decoration: InputDecoration(
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(color: Colors.redAccent, width: 2),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(color: Colors.redAccent, width: 2),
-            ),
-            alignLabelWithHint: true,
-            labelText: ' Fach',
-            labelStyle: nice(),
-            hintText: 'z.B. Mathe',
-            hintStyle: niceHint(),
-            prefixText: '  ',
-            suffixText: '  ',
-          ),
-        ),
-      ),
+      content: PopupMenuButton(),
 
       /// Buttons
       actionsPadding: EdgeInsets.fromLTRB(20, 5, 20, 5),
       actions: [
-        Spacer(flex: 3),
         FlatButton(
           //height: 42,
           minWidth: 50,
@@ -64,7 +39,6 @@ class _StundenplanEditAlertState extends State<StundenplanEditAlert> {
             Navigator.of(context).pop(); //popAndPushNamed();
           },
         ),
-        Spacer(flex: 1),
         FlatButton(
           //height: 42,
           minWidth: 150,
@@ -76,7 +50,6 @@ class _StundenplanEditAlertState extends State<StundenplanEditAlert> {
             Navigator.of(context).pop();
           },
         ),
-        Spacer(flex: 3)
       ],
     );
   }
