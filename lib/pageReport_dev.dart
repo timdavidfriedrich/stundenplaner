@@ -65,7 +65,7 @@ class _ReportDevState extends State<ReportDev> {
             ),
             body: Container(
               child: (docList.isEmpty)
-                  ? null
+                  ? Center(child: Text(docList.toString()))
                   : ListView.builder(
                       physics: BouncingScrollPhysics(),
                       padding: EdgeInsets.fromLTRB(15, 0, 15, 100),
@@ -131,46 +131,51 @@ class _NachrichtState extends State<Nachricht> {
   //
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: t("eintragBackground"),
-      elevation: 3,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
-      child: Container(
-        padding: EdgeInsets.fromLTRB(15, 15, 15, 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  DateFormat('dd.MM.yyyy')
-                      .format(widget.xDatum.toDate())
-                      .toString(),
-                  style: GoogleFonts.montserrat(
-                      color: t("eintragFont"),
-                      fontSize: 18,
-                      fontWeight: FontWeight.w800),
-                ),
-                Text(
-                  DateFormat('hh:mm')
-                          .format(widget.xDatum.toDate())
-                          .toString() +
-                      " Uhr",
-                  style: GoogleFonts.montserrat(
-                      color: t("eintragFont"),
-                      fontSize: 18,
-                      fontWeight: FontWeight.w800),
-                ),
-              ],
-            ),
-            Text(""),
-            Text(
-              widget.xNachricht,
-              style: wNice(),
-            ),
-          ],
+    return InkWell(
+      onLongPress: () {
+        print("EYEYEY");
+      },
+      child: Card(
+        color: t("eintragBackground"),
+        elevation: 3,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
+        child: Container(
+          padding: EdgeInsets.fromLTRB(15, 15, 15, 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    DateFormat('dd.MM.yyyy')
+                        .format(widget.xDatum.toDate())
+                        .toString(),
+                    style: GoogleFonts.montserrat(
+                        color: t("eintragFont"),
+                        fontSize: 18,
+                        fontWeight: FontWeight.w800),
+                  ),
+                  Text(
+                    DateFormat('hh:mm')
+                            .format(widget.xDatum.toDate())
+                            .toString() +
+                        " Uhr",
+                    style: GoogleFonts.montserrat(
+                        color: t("eintragFont"),
+                        fontSize: 18,
+                        fontWeight: FontWeight.w800),
+                  ),
+                ],
+              ),
+              Text(""),
+              Text(
+                widget.xNachricht,
+                style: wNice(),
+              ),
+            ],
+          ),
         ),
       ),
     );
