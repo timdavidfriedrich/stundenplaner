@@ -15,8 +15,8 @@ class StundenplanShowState extends State<StundenplanShow> {
   //
   List<String> tage = ["MO", "DI", "MI", "DO", "FR"];
   List<TableCell> head = [];
-  List<Widget> zelle = [];
-  List<TableRow> reihe = [];
+  List<Widget> zellen = [];
+  List<TableRow> reihen = [];
 
   int anzahlSpalten = 5;
   int anzahlZeilen = 8;
@@ -30,11 +30,11 @@ class StundenplanShowState extends State<StundenplanShow> {
               child: Center(child: Text(tage[i], style: niceTableHead)))));
 
     /// Head als erste Reihe hinzufügen
-    reihe.add(TableRow(children: head));
+    reihen.add(TableRow(children: head));
 
     /// Tabellen-Inhalt:
     for (int i = 0; i < anzahlSpalten; i++) {
-      zelle.add(TableCell(
+      zellen.add(TableCell(
           child: Container(
         padding: EdgeInsets.all(2),
 
@@ -45,11 +45,17 @@ class StundenplanShowState extends State<StundenplanShow> {
 
     /// Reihen werden erstellt:
     for (int i = 0; i < anzahlZeilen; i++) {
-      reihe.add(TableRow(children: zelle));
+      reihen.add(TableRow(children: zellen));
     }
 
     /// Gesamte Reihen als Einheit ausgebenen:
-    return reihe;
+    return reihen;
+  }
+
+  @override
+  void initState() {
+    tableCreator();
+    super.initState();
   }
 
   @override
@@ -61,7 +67,7 @@ class StundenplanShowState extends State<StundenplanShow> {
         children: <Widget>[
           Container(
             child: Table(
-              children: tableCreator(),
+              children: reihen,
             ),
           )
         ],
