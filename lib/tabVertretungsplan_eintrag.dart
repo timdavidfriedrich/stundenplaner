@@ -19,7 +19,7 @@ class _VertretungsEintragState extends State<VertretungsEintrag> {
   @override
   Widget build(BuildContext context) {
     return Card(
-        color: colorHandler(widget.c),
+        color: colorBackHandler(widget.c),
         elevation: 3,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         margin: EdgeInsets.fromLTRB(0, 0, 0, 15),

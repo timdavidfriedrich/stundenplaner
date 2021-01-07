@@ -3,8 +3,9 @@ import '.settings.dart';
 import '.nicerStyle.dart';
 import 'tabVertretungsplan.dart';
 
-colorHandler(c) {
-  if (vertretung["klasse"][c] == ichBinHandler()) {
+colorBackHandler(c) {
+  if (vertretung["klasse"][c] == ichBinHandler() ||
+      vertretung["lehrer"][c] == ichBinHandler()) {
     return t("eintragHighlight");
   } else {
     return t("eintragBackground"); // Colors.black

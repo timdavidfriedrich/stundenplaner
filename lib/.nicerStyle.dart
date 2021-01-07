@@ -22,6 +22,9 @@ Map theme = {
 
   "eintragHighlight": [Colors.greenAccent[700], Colors.greenAccent[700]],
   "eintragBackground": [Colors.black, Colors.grey[850]],
+  //"eintragHighlight": [Colors.black, Colors.grey[600]],
+  //"eintragBackground": [Colors.grey[400], Colors.grey[900]],
+
   "eintragFont": [Colors.white, Colors.white],
   "kalender": [Colors.black, Colors.white],
   "back_button": [Colors.grey[200], Colors.grey[800]],

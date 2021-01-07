@@ -13,7 +13,7 @@ import 'handleTabs.dart';
 
 /// OVERALL
 bool beta = true;
-bool dark = true;
+bool dark = false;
 //bool dark;
 bool dev = false;
 
@@ -31,7 +31,7 @@ bool blockOnly = false;
 var platzhalter = "lol";
 
 /// VERTRETUNGSPLAN
-var meineKlasse = "8d";
+var meineKlasse = "12";
 var meinName = "Frau Strohschein";
 bool vertretungHighlight = true;
 

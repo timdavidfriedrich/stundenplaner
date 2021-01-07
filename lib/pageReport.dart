@@ -265,7 +265,8 @@ class _ReportState extends State<Report> {
                         setState(() => dev = true);
                       } else {
                         onlineChecker();
-                        if (onlineStatus != false) addReport();
+                        if (onlineStatus != false && nachricht != null)
+                          addReport();
                         return alertHandler();
                       }
                     },
