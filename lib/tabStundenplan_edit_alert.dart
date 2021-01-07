@@ -7,6 +7,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 
 import '.nicerStyle.dart';
+import '.settings.dart';
 import 'tabStundenplan.dart';
 
 class StundenplanEditAlert extends StatefulWidget {
@@ -48,20 +49,49 @@ class _StundenplanEditAlertState extends State<StundenplanEditAlert> {
         items: [
           DropdownMenuItem(
             value: 0,
-            child: Text("Mathe"),
+            child: Row(
+              children: [
+                Icon(Icons.fiber_manual_record, color: Colors.red),
+                SizedBox(
+                  width: 10,
+                ),
+                Text("Mathe")
+              ],
+            ),
           ),
           DropdownMenuItem(
             value: 1,
-            child: Text("Biologie"),
+            child: Row(
+              children: [
+                Icon(Icons.fiber_manual_record, color: Colors.green),
+                SizedBox(
+                  width: 10,
+                ),
+                Text("Biologie")
+              ],
+            ),
           ),
           DropdownMenuItem(
             value: 2,
-            child: Text("Deutsch"),
+            child: Row(
+              children: [
+                Icon(Icons.fiber_manual_record, color: Colors.blue),
+                SizedBox(
+                  width: 10,
+                ),
+                Text("Deutsch")
+              ],
+            ),
           ),
           DropdownMenuItem(
             value: 3,
-            child: Text("+ Fach hinzufügen",
-                style: TextStyle(fontWeight: FontWeight.w600)),
+            child: Row(children: [
+              Icon(Icons.add_sharp, color: Colors.redAccent),
+              SizedBox(
+                width: 10,
+              ),
+              Text("Fach hinzufügen")
+            ]),
           ),
         ],
         onChanged: (int i) {
@@ -71,44 +101,38 @@ class _StundenplanEditAlertState extends State<StundenplanEditAlert> {
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
                       title: Text("Neues Fach", style: TextStyle(fontSize: 18)),
                       titleTextStyle: niceAppBarTitle(),
                       content: Column(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
                           Container(
-                            child: TextField(
-                              style: nice(),
-                              minLines: 1,
-                              maxLines: 1,
-                              maxLengthEnforced: false,
-                              //onChanged: null,
-                              decoration: InputDecoration(
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                      color: Colors.redAccent, width: 2),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                      color: Colors.redAccent, width: 2),
-                                ),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                      color: Colors.redAccent[400], width: 2),
-                                ),
-                                alignLabelWithHint: true,
-                                labelText: ' Bezeichnung',
-                                labelStyle: nice(),
-                                hintText: 'z.B. Mathe, Deutsch, ...',
-                                hintStyle: niceHint(),
-                                prefixText: '  ',
-                                suffixText: '  ',
-                              ),
-                            ),
-                          ),
-                          Container(child: Text("hi")),
+                              child: NiceTextField(
+                                  "Bezeichnung",
+                                  "z.B. Mathe, Deutsch, ...",
+                                  Colors.redAccent,
+                                  Icon(Icons.school_sharp,
+                                      color: Colors.black))),
+                          // FARBE
+                          SizedBox(height: 10),
+                          Container(
+                              child: NiceTextField(
+                                  "Raum",
+                                  "z.B. 1.37, 2.15, ...",
+                                  Colors.redAccent,
+                                  Icon(Icons.room_sharp, color: Colors.black))),
+                          SizedBox(height: 10),
+                          Container(
+                              child: ichBin == "lehrer"
+                                  ? null
+                                  : NiceTextField(
+                                      "Lehrer",
+                                      "z.B. Herr Geschwend, Frau Strohschein...",
+                                      Colors.redAccent,
+                                      Icon(Icons.person_sharp,
+                                          color: Colors.black))),
                         ],
                       ),
                       actionsPadding: EdgeInsets.fromLTRB(20, 5, 20, 5),
@@ -177,4 +201,50 @@ class _StundenplanEditAlertState extends State<StundenplanEditAlert> {
   }
 }
 
-enum MenuOptions { Mathe, Deutsch }
+class NiceTextField extends StatefulWidget {
+  final String label;
+  final String hint;
+  final Color color;
+  final Icon icon;
+
+  const NiceTextField(this.label, this.hint, this.color, this.icon);
+
+  @override
+  NiceTextFieldState createState() => NiceTextFieldState();
+}
+
+class NiceTextFieldState extends State<NiceTextField> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: TextField(
+        style: nice(),
+        minLines: 1,
+        maxLines: 1,
+        //onChanged: null,
+        decoration: InputDecoration(
+          prefixIcon: widget.icon,
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: widget.color, width: 2),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: widget.color, width: 2),
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: Colors.redAccent[400], width: 2),
+          ),
+          alignLabelWithHint: true,
+          labelText: ' ' + widget.label,
+          labelStyle: nice(),
+          hintText: widget.hint,
+          hintStyle: niceHint(),
+          prefixText: '  ',
+          suffixText: '  ',
+        ),
+      ),
+    );
+  }
+}

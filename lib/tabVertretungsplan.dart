@@ -178,7 +178,7 @@ class _TabVertretungsplanBodyState extends State<TabVertretungsplanBody>
             ),
             Positioned(
               right: 10,
-              bottom: 20,
+              bottom: 25,
               child: SlideTransition(
                 position: Tween<Offset>(
                   begin: Offset(0, 3),
