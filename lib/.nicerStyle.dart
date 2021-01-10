@@ -2,9 +2,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 
 import '.settings.dart';
+import '.sharedprefs.dart';
 
 themeHandler() {
-  if (dark == true) return 1;
+  if (dark) return 1;
   return 0;
 }
 
@@ -27,13 +28,20 @@ Map theme = {
 
   "eintragFont": [Colors.white, Colors.white],
   "kalender": [Colors.black, Colors.white],
-  "back_button": [Colors.grey[200], Colors.grey[800]],
+  "back_button": [Colors.grey[200], Colors.grey[900]],
+  "back_button2": [Colors.grey[200], Colors.grey[700]],
   "on_back_button": [Colors.grey[400], Colors.white],
+
+  "switch_off": [Colors.grey, Colors.grey[200]],
 
   "tableHead": [Colors.redAccent, Colors.redAccent],
 
+  "stundenplan_outline": [Colors.grey[800], Colors.grey[400]],
+
   "appBar": [Colors.white, Colors.black],
   "body": [Colors.white, Colors.black],
+  "body2": [Colors.white, Colors.grey[850]],
+  "body3": [Colors.white, Colors.grey[800]],
   "page": [Colors.white, Colors.black],
   "bottomBar": [Colors.white, Colors.black],
   "icons": [Colors.black, Colors.white],

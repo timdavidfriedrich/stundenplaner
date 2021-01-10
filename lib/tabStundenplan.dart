@@ -15,8 +15,7 @@ import 'tabStundenplan_show.dart';
 import 'tabStundenplan_edit.dart';
 
 tabStundenplanAppBarTitle() {
-  return Text("Stundenplan", style: niceAppBarTitle());
-  //return Text("Stundenplan", style: niceTitle(Colors.black));
+  return "Stundenplan";
 }
 
 tabStundenplanAppBarIcon() {
@@ -38,13 +37,14 @@ class TabStundenplanBodyState extends State<TabStundenplanBody>
 
   @override
   void initState() {
+    super.initState();
+    getPrefs();
     controller = AnimateIconController();
     _animationController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 1000),
     );
     Timer(Duration(milliseconds: 200), () => _animationController.forward());
-    super.initState();
   }
 
   @override
@@ -112,12 +112,12 @@ class TabStundenplanBodyState extends State<TabStundenplanBody>
                       elevation: 10,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(100)),
-                      color: t("bNice"),
+                      color: t("nice"),
                       onPressed: () {
                         //
                       },
                       child: RichText(
-                          text: TextSpan(style: wNice(), children: <TextSpan>[
+                          text: TextSpan(style: nice2(), children: <TextSpan>[
                         TextSpan(
                             text: 'Aktuell:  ',
                             style: TextStyle(fontWeight: FontWeight.w100)),

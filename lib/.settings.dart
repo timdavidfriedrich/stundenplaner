@@ -10,6 +10,17 @@ import 'main.dart';
 import 'pageReport.dart';
 import '.transitions.dart';
 import 'handleTabs.dart';
+import '.sharedprefs.dart';
+
+final prefs = SharedPrefs();
+
+getPrefs() async {
+  bool _darkMode = await prefs.getBool("darkMode");
+  bool _abWoche = await prefs.getBool("abWoche");
+  bool _blockOnly = await prefs.getBool("blockOnly");
+  dark = _darkMode;
+  abWoche = _abWoche;
+}
 
 /// OVERALL
 bool beta = true;

@@ -13,12 +13,14 @@ import 'pageReport.dart';
 import 'pageSettings.dart'; //#### Wie wär's mit KABOOM bei Front?
 import '.transitions.dart'; //#### Edit-Page für Stundenplan
 import '.settings.dart'; //####### Logik für Zusammenspiel Tab 0 + 1
+import '.sharedprefs.dart';
 
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await getPrefs();
   runApp(MaterialApp(
     /// Startet App, Setzt StartWidget
     home: AppHome(),
@@ -88,7 +90,7 @@ class _MainState extends State<Main> with SingleTickerProviderStateMixin {
       /// AppBar-Settings
       appBar: AppBar(
         toolbarHeight: 60,
-        title: tabAppBarTitle[currentIndex],
+        title: Text(tabAppBarTitle[currentIndex], style: niceAppBarTitle()),
         actions: <Widget>[
           Padding(
               padding: EdgeInsets.fromLTRB(0, 0, 15, 0),

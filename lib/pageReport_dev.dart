@@ -166,10 +166,12 @@ class _NachrichtState extends State<Nachricht> {
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
+                  backgroundColor: t("body2"),
+                  contentTextStyle: nice(),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
                   title: Text("Nachricht löschen?",
-                      style: TextStyle(fontSize: 18, color: Colors.black)),
+                      style: TextStyle(fontSize: 18)),
                   titleTextStyle: niceAppBarTitle(),
                   actions: [
                     FlatButton(

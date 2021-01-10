@@ -42,27 +42,32 @@ class StundenplanEditState extends State<StundenplanEdit> {
 
     /// Tabellen-Inhalt:
     for (int i = 0; i < anzahlSpalten; i++) {
-      zellen.add(TableCell(
+      zellen.add(
+        TableCell(
           child: Container(
-        padding: EdgeInsets.all(4),
-        child: Container(
-            height: blockOnly ? 108 : 50,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                border: Border.all(color: t("nice"), width: 1.5)),
-            child: FlatButton(
-              splashColor: t("nice"),
-              child: Text("+", style: nice()),
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return StundenplanEditAlert();
-                  },
-                );
-              },
-            )),
-      )));
+            padding: EdgeInsets.all(4),
+            child: Container(
+              height: blockOnly ? 108 : 50,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  border:
+                      Border.all(color: t("stundenplan_outline"), width: 1.5)),
+              child: FlatButton(
+                splashColor: t("nice"),
+                child: Text("+", style: nice()),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return StundenplanEditAlert();
+                    },
+                  );
+                },
+              ),
+            ),
+          ),
+        ),
+      );
     }
 
     /// Reihen werden erstellt:

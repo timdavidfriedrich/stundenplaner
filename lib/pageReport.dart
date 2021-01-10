@@ -97,7 +97,8 @@ class _ReportState extends State<Report> {
             return AlertDialog(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
-              contentTextStyle: bNice(),
+              contentTextStyle: nice(),
+              backgroundColor: t("body2"),
               //titleTextStyle: bNice(),
               titleTextStyle: niceAppBarTitle(),
               title:
@@ -122,9 +123,10 @@ class _ReportState extends State<Report> {
             builder: (BuildContext context) {
               //return alertHandler();
               return AlertDialog(
+                backgroundColor: t("body2"),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
-                contentTextStyle: bNice(),
+                contentTextStyle: nice(),
                 //titleTextStyle: bNice(),
                 //title: Text('Senden fehlgeschlagen'),
                 content: Text('Das Textfeld darf nicht leer sein.'),
@@ -145,6 +147,8 @@ class _ReportState extends State<Report> {
             builder: (BuildContext context) {
               //return alertHandler();
               return AlertDialog(
+                backgroundColor: t("body2"),
+                contentTextStyle: nice(),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
                 content: Text(
@@ -192,49 +196,50 @@ class _ReportState extends State<Report> {
               ),
             ),
             body: Container(
-                //color: Colors.white,
-                child: ListView(
-              physics: BouncingScrollPhysics(),
-              //mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                  //color: Colors.red,
-                  padding: EdgeInsets.fromLTRB(25, 5, 25, 25),
-                  child: TextField(
-                    style: nice(),
-                    minLines: 10,
-                    maxLines: 100,
-                    maxLength: 420,
-                    maxLengthEnforced: false,
-                    onChanged: nachrichtRefresh,
-                    decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide:
-                            BorderSide(color: Colors.blueAccent, width: 2),
+              //color: Colors.white,
+              child: ListView(
+                physics: BouncingScrollPhysics(),
+                //mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    //color: Colors.red,
+                    padding: EdgeInsets.fromLTRB(25, 5, 25, 25),
+                    child: TextField(
+                      style: nice(),
+                      minLines: 10,
+                      maxLines: 100,
+                      maxLength: 420,
+                      maxLengthEnforced: false,
+                      onChanged: nachrichtRefresh,
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide:
+                              BorderSide(color: Colors.blueAccent, width: 2),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide:
+                              BorderSide(color: Colors.blueAccent, width: 2),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(
+                              color: Colors.redAccent[400], width: 2),
+                        ),
+                        alignLabelWithHint: true,
+                        labelText: ' Nachricht',
+                        labelStyle: nice(),
+                        hintText: 'Lob, Kritik, Fehler gefunden, ...',
+                        hintStyle: niceHint(),
+                        prefixText: '  ',
+                        suffixText: '  ',
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide:
-                            BorderSide(color: Colors.blueAccent, width: 2),
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide:
-                            BorderSide(color: Colors.redAccent[400], width: 2),
-                      ),
-                      alignLabelWithHint: true,
-                      labelText: ' Nachricht',
-                      labelStyle: nice(),
-                      hintText: 'Lob, Kritik, Fehler gefunden, ...',
-                      hintStyle: niceHint(),
-                      prefixText: '  ',
-                      suffixText: '  ',
                     ),
                   ),
-                ),
-              ],
-            )),
+                ],
+              ),
+            ),
             bottomNavigationBar: Padding(
               padding: const EdgeInsets.fromLTRB(0, 25, 0, 25),
               child: Row(

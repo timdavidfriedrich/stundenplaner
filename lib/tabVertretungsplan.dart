@@ -27,7 +27,7 @@ Map vertretung = {
 };
 
 tabVertretungsplanAppBarTitle() {
-  return Text("Vertretungsplan", style: niceAppBarTitle());
+  return "Vertretungsplan";
 }
 
 tabVertretungsplanAppBarIcon() {
@@ -133,13 +133,16 @@ class _TabVertretungsplanBodyState extends State<TabVertretungsplanBody>
 
   @override
   void initState() {
+    super.initState();
+    getPrefs();
+
     print('URL-Datum: ' + urlDatum);
     _animationController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 1000),
     );
     Timer(Duration(milliseconds: 200), () => _animationController.forward());
-    super.initState();
+
     initializeDateFormatting();
     vertretungsplanData(urlDatum);
     onlineChecker();

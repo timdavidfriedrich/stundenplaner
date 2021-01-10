@@ -54,8 +54,8 @@ class StundenplanShowState extends State<StundenplanShow> {
 
   @override
   void initState() {
-    tableCreator();
     super.initState();
+    tableCreator();
   }
 
   @override
