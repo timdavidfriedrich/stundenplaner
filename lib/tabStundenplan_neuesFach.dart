@@ -6,9 +6,13 @@ import 'package:flutter/rendering.dart';
 
 import 'package:expandable/expandable.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import '.nicerStyle.dart';
 import '.settings.dart';
 import '.database.dart';
+import '.stundenplan.dart';
 
 /// Importiert eigenes Style-File
 import 'main.dart';
@@ -66,10 +70,8 @@ class _NeuesFachState extends State<NeuesFach> {
 
   bool sliderRGB = true;
 
-  String user = "testUser";
-
   String _bezeichung = "";
-  Color _farbe = Colors.redAccent;
+  Color _farbe = Color(0xfff44336);
   String _raum = "";
   String _lehrer = "";
 
@@ -81,6 +83,7 @@ class _NeuesFachState extends State<NeuesFach> {
   @override
   void initState() {
     super.initState();
+    firebaseConnect();
     add2Colors();
   }
 
@@ -238,7 +241,7 @@ class _NeuesFachState extends State<NeuesFach> {
           color: Colors.redAccent,
           child: Text("Hinzufügen", style: wNice()),
           onPressed: () async {
-            await Database(user)
+            await Database(user.uid)
                 .setFach(_bezeichung, _farbe.toString(), _raum, _lehrer);
             Navigator.of(context).pop();
           },

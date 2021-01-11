@@ -6,9 +6,14 @@ import 'package:flutter/rendering.dart';
 import 'dart:async';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import '.nicerStyle.dart';
 import '.settings.dart';
+import '.stundenplan.dart';
 import '.sharedprefs.dart';
+import '.database.dart';
 
 tabTagesplanAppBarTitle() {
   return "Mein heutiger Tag";
@@ -43,7 +48,41 @@ class _TabTagesplanBodyState extends State<TabTagesplanBody> {
       body: Container(
         //color: t("body"),
         child: ausblenden
-            ? null
+            ? Center(
+                child: FutureBuilder(
+
+                    // Wait until [connectToFirebase] returns stream
+                    future: firebaseConnect(),
+                    builder:
+                        (BuildContext context, AsyncSnapshot<void> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator());
+                      } else {
+                        // When stream exists, use Streambilder to wait for data
+                        return StreamBuilder<DocumentSnapshot>(
+                          stream: database.getStundenplan(),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<DocumentSnapshot> snapshot) {
+                            if (!snapshot.hasData) {
+                              return Center(child: CircularProgressIndicator());
+                            } else {
+                              // resolve stream... Stream<DocumentSnapshot> -> DocumentSnapshot -> Map<String, bool>
+                              Map<String, dynamic> items = snapshot.data.data();
+
+                              return ListView.builder(
+                                itemCount: items["fachList"].length,
+                                itemBuilder: (context, i) {
+                                  return ListTile(
+                                      title: Text(items["fachList"]["Deutsch"]
+                                          .toString()));
+                                },
+                              );
+                            }
+                          },
+                        );
+                      }
+                    }),
+              )
             : Padding(
                 padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
                 child: Center(

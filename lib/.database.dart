@@ -1,4 +1,5 @@
 import "package:cloud_firestore/cloud_firestore.dart";
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Database {
@@ -8,7 +9,7 @@ class Database {
   final CollectionReference stundenplan =
       FirebaseFirestore.instance.collection("stundenplan");
 
-  Stream getDoc() {
+  Stream getStundenplan() {
     return stundenplan.doc(userID).snapshots();
   }
 

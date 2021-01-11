@@ -12,6 +12,7 @@ import 'handleTabs.dart';
 import 'pageReport.dart';
 import 'pageSettings.dart'; //#### Wie wär's mit KABOOM bei Front?
 import '.transitions.dart'; //#### Edit-Page für Stundenplan
+import '.stundenplan.dart';
 import '.settings.dart'; //####### Logik für Zusammenspiel Tab 0 + 1
 import '.sharedprefs.dart';
 
@@ -21,6 +22,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await getPrefs();
+  await firebaseConnect();
   runApp(MaterialApp(
     /// Startet App, Setzt StartWidget
     home: AppHome(),

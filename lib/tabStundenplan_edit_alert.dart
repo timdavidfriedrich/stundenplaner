@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'dart:html';
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -12,6 +12,7 @@ import '.nicerStyle.dart';
 import '.settings.dart';
 import '.transitions.dart';
 import '.database.dart';
+import '.stundenplan.dart';
 
 import 'tabStundenplan_neuesFach.dart';
 import 'tabStundenplan.dart';
@@ -23,13 +24,6 @@ class StundenplanEditAlert extends StatefulWidget {
 
 class _StundenplanEditAlertState extends State<StundenplanEditAlert> {
   //
-  String user = "testUser";
-
-  Future<void> getFach() {
-    Stream userStream = Database(user).getDoc();
-    userStream.listen((documentSnapshot) =>
-        print("STREAM: " + documentSnapshot.data.toString()));
-  }
 
   List fach = ["Deutsch", "Mathe", "Biologie"];
   int index = 99;
@@ -37,6 +31,13 @@ class _StundenplanEditAlertState extends State<StundenplanEditAlert> {
 
   showFach() {
     setState(() => index = neuerIndex);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    firebaseConnect();
   }
 
   @override
@@ -68,18 +69,6 @@ class _StundenplanEditAlertState extends State<StundenplanEditAlert> {
         value: index == 99 ? null : index,
         items: [
           DropdownMenuItem(
-            value: 0,
-            child: Row(
-              children: [
-                Icon(Icons.bookmark_outline_sharp, color: Colors.red),
-                SizedBox(
-                  width: 10,
-                ),
-                Text("Mathe")
-              ],
-            ),
-          ),
-          DropdownMenuItem(
             value: 1,
             child: Row(
               children: [
@@ -88,34 +77,6 @@ class _StundenplanEditAlertState extends State<StundenplanEditAlert> {
                   width: 10,
                 ),
                 Text("Biologie")
-              ],
-            ),
-          ),
-          DropdownMenuItem(
-            value: 2,
-            child: Row(
-              children: [
-                Icon(Icons.bookmark_outline_sharp, color: Colors.blue),
-                SizedBox(
-                  width: 10,
-                ),
-                /*
-                FutureBuilder(
-                    future: getFach(),
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: Text("Lädt..."));
-                      } else {
-                        return StreamBuilder<DocumentSnapshot>(
-                          stream: Database(user).getDoc(),
-                          builder: (BuildContext context,
-                              AsyncSnapshot<DocumentSnapshot> snapshot) {
-                            return Text(snapshot.toString());
-                          },
-                        );
-                      }
-                    }),
-                    */
               ],
             ),
           ),
