@@ -35,7 +35,7 @@ class _ReportState extends State<Report> {
   bool onlineStatus;
   bool close = false;
 
-  String nachricht;
+  String nachricht = "";
 
   devHandler() {
     List devPass = [

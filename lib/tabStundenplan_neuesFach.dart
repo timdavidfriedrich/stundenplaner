@@ -8,6 +8,7 @@ import 'package:expandable/expandable.dart';
 
 import '.nicerStyle.dart';
 import '.settings.dart';
+import '.database.dart';
 
 /// Importiert eigenes Style-File
 import 'main.dart';
@@ -65,6 +66,18 @@ class _NeuesFachState extends State<NeuesFach> {
 
   bool sliderRGB = true;
 
+  String user = "testUser";
+
+  String _bezeichung = "";
+  Color _farbe = Colors.redAccent;
+  String _raum = "";
+  String _lehrer = "";
+
+  bezeichungRefresh(String x) => setState(() => _bezeichung = x);
+  farbeRefresh(Color x) => setState(() => _farbe = x);
+  raumRefresh(String x) => setState(() => _raum = x);
+  lehrerRefresh(String x) => setState(() => _lehrer = x);
+
   @override
   void initState() {
     super.initState();
@@ -89,6 +102,7 @@ class _NeuesFachState extends State<NeuesFach> {
             contentPadding: EdgeInsets.fromLTRB(25, 0, 0, 0),
             leading: Icon(Icons.school_outlined, color: t("nice")),
             title: TextField(
+              onChanged: bezeichungRefresh,
               cursorColor: Colors.redAccent,
               style: nice(),
               decoration: InputDecoration.collapsed(
@@ -123,6 +137,7 @@ class _NeuesFachState extends State<NeuesFach> {
                           inactiveColor: Colors.black,
                           onChanged: (double value) {
                             setState(() => sliderValue = value);
+                            farbeRefresh(colors[value.toInt()]);
                           },
                         ),
                       ),
@@ -161,6 +176,7 @@ class _NeuesFachState extends State<NeuesFach> {
                             //inactiveColor: Colors.black,
                             onChanged: (double value) {
                               setState(() => sliderValue = value);
+                              farbeRefresh(colors[value.toInt()]);
                             },
                           ),
                         ),
@@ -172,6 +188,7 @@ class _NeuesFachState extends State<NeuesFach> {
             contentPadding: EdgeInsets.fromLTRB(25, 0, 0, 0),
             leading: Icon(Icons.location_on_outlined, color: t("nice")),
             title: TextField(
+              onChanged: raumRefresh,
               cursorColor: Colors.redAccent,
               style: nice(),
               decoration: InputDecoration.collapsed(
@@ -185,6 +202,7 @@ class _NeuesFachState extends State<NeuesFach> {
                   contentPadding: EdgeInsets.fromLTRB(25, 0, 0, 0),
                   leading: Icon(Icons.person_outline_sharp, color: t("nice")),
                   title: TextField(
+                    onChanged: lehrerRefresh,
                     cursorColor: Colors.redAccent,
                     style: nice(),
                     decoration: InputDecoration.collapsed(
@@ -219,7 +237,9 @@ class _NeuesFachState extends State<NeuesFach> {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
           color: Colors.redAccent,
           child: Text("Hinzufügen", style: wNice()),
-          onPressed: () {
+          onPressed: () async {
+            await Database(user)
+                .setFach(_bezeichung, _farbe.toString(), _raum, _lehrer);
             Navigator.of(context).pop();
           },
         ),
