@@ -68,15 +68,21 @@ class _TabTagesplanBodyState extends State<TabTagesplanBody> {
                             } else {
                               // resolve stream... Stream<DocumentSnapshot> -> DocumentSnapshot -> Map<String, bool>
                               Map<String, dynamic> items = snapshot.data.data();
-
-                              return ListView.builder(
-                                itemCount: items["fachList"].length,
-                                itemBuilder: (context, i) {
-                                  return ListTile(
-                                      title: Text(items["fachList"]["Deutsch"]
-                                          .toString()));
-                                },
-                              );
+                              if (items.isEmpty) {
+                                return Center(
+                                    child: Text("Keine Fächer gefunden."));
+                              } else {
+                                return ListView.builder(
+                                  itemCount: items["fachList"].length,
+                                  itemBuilder: (context, i) {
+                                    return ListTile(
+                                        title: Text(items["fachList"]
+                                            .values
+                                            .elementAt(i)
+                                            .toString()));
+                                  },
+                                );
+                              }
                             }
                           },
                         );

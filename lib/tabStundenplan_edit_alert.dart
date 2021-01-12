@@ -33,6 +33,54 @@ class _StundenplanEditAlertState extends State<StundenplanEditAlert> {
     setState(() => index = neuerIndex);
   }
 
+  var dropdownItemList = [];
+
+  void dropdownItems() {
+    for (int i = 0; i < 4; i++) {
+      dropdownItemList.add(
+        DropdownMenuItem(
+          value: i,
+          child: Row(
+            children: [
+              Icon(Icons.add_sharp, color: Colors.redAccent),
+              SizedBox(width: 10),
+              Text('items["fachList"].values.elementAt(i).toString()')
+            ],
+          ),
+        ),
+      );
+    }
+    dropdownItemList.add(
+      DropdownMenuItem(
+        value: 'items["fachList"].values.length + 1',
+        child: Row(
+          children: [
+            Icon(Icons.add_sharp, color: Colors.redAccent),
+            SizedBox(width: 10),
+            Text("Fach hinzufügen")
+          ],
+        ),
+      ),
+    );
+  }
+
+  var bezeichnungList = [];
+  var farbeList = [];
+  var raumList = [];
+  var lehrerList = [];
+
+  void sortItems(items) {
+    for (int i = 0; i < items["fachList"].length; i++) {
+      /*
+      setState(() {
+        bezeichnungList.add(items["fachList"].values.elementAt(i).toString());
+      });
+      */
+      bezeichnungList.add(items["fachList"].values.elementAt(i).toString());
+      print("TEST ALLA: " + bezeichnungList.toString());
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -50,58 +98,75 @@ class _StundenplanEditAlertState extends State<StundenplanEditAlert> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
 
       /// Content
-      content: DropdownButton(
-        isExpanded: true,
-        style: nice(),
-        dropdownColor: t("body3"),
-        underline: Container(
-          margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(color: Colors.redAccent, width: 2),
-            ),
-          ),
-        ),
-        icon: Icon(Icons.arrow_drop_down_sharp),
-        iconDisabledColor: Colors.redAccent,
-        iconEnabledColor: t("nice"),
-        hint: Text("Fach wählen...", style: TextStyle(color: t("nice"))),
-        value: index == 99 ? null : index,
-        items: [
-          DropdownMenuItem(
-            value: 1,
-            child: Row(
-              children: [
-                Icon(Icons.bookmark_outline_sharp, color: Colors.green),
-                SizedBox(
-                  width: 10,
-                ),
-                Text("Biologie")
-              ],
-            ),
-          ),
-          DropdownMenuItem(
-            value: 3,
-            child: Row(children: [
-              Icon(Icons.add_sharp, color: Colors.redAccent),
-              SizedBox(
-                width: 10,
-              ),
-              Text("Fach hinzufügen")
-            ]),
-          ),
-        ],
-        onChanged: (int i) {
-          setState(() => index = i);
-          index == 3
-              ? showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return NeuesFach();
-                  })
-              : null;
-        },
-      ),
+      content: FutureBuilder(
+          future: firebaseConnect(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            } else {
+              return StreamBuilder(
+                stream: database.getStundenplan(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(child: CircularProgressIndicator());
+                  } else {
+                    Map<String, dynamic> items = snapshot.data.data();
+                    sortItems(items);
+                    dropdownItems();
+
+                    return DropdownButton(
+                      isExpanded: true,
+                      style: nice(),
+                      dropdownColor: t("body3"),
+                      underline: Container(
+                        margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom:
+                                BorderSide(color: Colors.redAccent, width: 2),
+                          ),
+                        ),
+                      ),
+                      icon: Icon(Icons.arrow_drop_down_sharp),
+                      iconDisabledColor: Colors.redAccent,
+                      iconEnabledColor: t("nice"),
+                      hint: Text("Fach wählen...",
+                          style: TextStyle(color: t("nice"))),
+                      value: index == 99 ? null : index,
+                      items: (items == null)
+                          ? DropdownMenuItem(
+                              value: 0,
+                              child: Row(
+                                children: [
+                                  Icon(Icons.search_off_outlined,
+                                      color: t("icons")),
+                                  SizedBox(width: 10),
+                                  Text("Oweia, nichts gefunden!")
+                                ],
+                              ),
+                            )
+                          : bezeichnungList.map((value) {
+                              return DropdownMenuItem(
+                                value: value,
+                                child: Text(value.toString()),
+                              );
+                            }),
+                      onChanged: (int i) {
+                        setState(() => index = i);
+                        index == 3
+                            ? showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return NeuesFach();
+                                })
+                            : null;
+                      },
+                    );
+                  }
+                },
+              );
+            }
+          }),
 
       /// Buttons
       actionsPadding: EdgeInsets.fromLTRB(20, 5, 20, 5),
