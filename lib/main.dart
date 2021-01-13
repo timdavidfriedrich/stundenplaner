@@ -9,11 +9,11 @@ import '.nicerStyle.dart';
 
 import 'handleTabs.dart';
 
-import 'pageReport.dart';
-import 'pageSettings.dart'; //#### Wie wär's mit KABOOM bei Front?
-import '.transitions.dart'; //#### Edit-Page für Stundenplan
+import 'pageReport.dart'; //#### Wie wär's mit KABOOM bei Front?
+import 'pageSettings.dart';
+import '.transitions.dart';
 import '.stundenplan.dart';
-import '.settings.dart'; //####### Logik für Zusammenspiel Tab 0 + 1
+import '.settings.dart';
 import '.sharedprefs.dart';
 
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';

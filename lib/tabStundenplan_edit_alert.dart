@@ -25,69 +25,32 @@ class StundenplanEditAlert extends StatefulWidget {
 class _StundenplanEditAlertState extends State<StundenplanEditAlert> {
   //
 
-  List fach = ["Deutsch", "Mathe", "Biologie"];
-  int index = 99;
-  int neuerIndex = 99;
+  Item selectedIndex;
 
-  showFach() {
-    setState(() => index = neuerIndex);
-  }
+  List<Item> fachItems = <Item>[
+    const Item('Fach hinzufügen', Colors.redAccent),
+  ];
 
-  var dropdownItemList = [];
-
-  void dropdownItems() {
-    for (int i = 0; i < 4; i++) {
-      dropdownItemList.add(
-        DropdownMenuItem(
-          value: i,
-          child: Row(
-            children: [
-              Icon(Icons.add_sharp, color: Colors.redAccent),
-              SizedBox(width: 10),
-              Text('items["fachList"].values.elementAt(i).toString()')
-            ],
-          ),
-        ),
-      );
-    }
-    dropdownItemList.add(
-      DropdownMenuItem(
-        value: 'items["fachList"].values.length + 1',
-        child: Row(
-          children: [
-            Icon(Icons.add_sharp, color: Colors.redAccent),
-            SizedBox(width: 10),
-            Text("Fach hinzufügen")
-          ],
-        ),
-      ),
-    );
-  }
-
-  List bezeichnungList = ["Fach hinzufügen"];
-  List farbeList = [];
-  List raumList = [];
-  List lehrerList = [];
-
-  Future getItems() async {
+  getItems() async {
     DocumentSnapshot snap =
         await Database(user.uid).stundenplan.doc(user.uid).get();
+
     setState(() {
-      bezeichnungList.add(snap.data()["fachList"].toString());
+      for (int i = 0; i < snap.data()["fachList"].length; i++) {
+        String _bezeichnung =
+            snap.data()["fachList"].values.elementAt(i).toString();
+        print(_bezeichnung);
+        fachItems.add(Item(_bezeichnung, Colors.red));
+      }
     });
-    print("BEZEICHNUNG: " + bezeichnungList.toString());
   }
 
-  void sortItems(items) {
-    for (int i = 0; i < items["fachList"].length; i++) {
-      /*
-      setState(() {
-        bezeichnungList.add(items["fachList"].values.elementAt(i).toString());
-      });
-      */
-      bezeichnungList.add(items["fachList"].values.elementAt(i).toString());
-      print("TEST ALLA: " + bezeichnungList.toString());
-    }
+  itemReset() {
+    setState(() {
+      fachItems = <Item>[
+        const Item('Fach hinzufügen', Colors.redAccent),
+      ];
+    });
   }
 
   @override
@@ -124,31 +87,56 @@ class _StundenplanEditAlertState extends State<StundenplanEditAlert> {
         iconDisabledColor: Colors.redAccent,
         iconEnabledColor: t("nice"),
         hint: Text("Fach wählen...", style: TextStyle(color: t("nice"))),
-        value: index == 99 ? null : index,
-        items: bezeichnungList.map((value) {
-          return DropdownMenuItem(
-            value: value,
-            child: Row(
-              children: [
-                Icon(Icons.bookmark_outline_sharp, color: Colors.green),
-                SizedBox(width: 10),
-                Text(value.toString())
-              ],
-            ),
-          );
-        }).toList(),
-        /*
-        onChanged: (int i) {
-          setState(() => index = i);
-          index == 3
-              ? showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return NeuesFach();
-                  })
-              : null;
+        value: selectedIndex,
+        onChanged: (value) async {
+          setState(() async {
+            value.bezeichnung.toString() != "Fach hinzufügen"
+                ? selectedIndex = value
+                : selectedIndex = await showDialog(
+                    context: context,
+                    builder: (context) {
+                      return NeuesFach();
+                    });
+          });
+          itemReset();
+          getItems();
         },
-        */
+        items: (fachItems.length == 1)
+            ? [
+                DropdownMenuItem(
+                  value: 0,
+                  child: Row(
+                    children: [
+                      Icon(Icons.add_sharp, color: Colors.redAccent),
+                      SizedBox(width: 10),
+                      Text("Fach hinzufügen")
+                    ],
+                  ),
+                ),
+              ]
+            : fachItems.map((Item fachItem) {
+                return DropdownMenuItem<Item>(
+                  value: fachItem,
+                  child: Row(
+                    children: <Widget>[
+                      fachItem.bezeichnung == "Fach hinzufügen"
+                          ? Icon(
+                              Icons.add_sharp,
+                              color: fachItem.farbe,
+                            )
+                          : Icon(
+                              Icons.bookmark_outline_sharp,
+                              color: fachItem.farbe,
+                            ),
+                      SizedBox(width: 10),
+                      Text(
+                        fachItem.bezeichnung,
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ],
+                  ),
+                );
+              }).toList(),
       ),
 
       /// Buttons
@@ -182,4 +170,10 @@ class _StundenplanEditAlertState extends State<StundenplanEditAlert> {
       ],
     );
   }
+}
+
+class Item {
+  final String bezeichnung;
+  final Color farbe;
+  const Item(this.bezeichnung, this.farbe);
 }

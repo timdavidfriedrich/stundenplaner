@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
 import '.database.dart';
 
@@ -12,6 +13,8 @@ Map<String, dynamic> stundenplan = {
 };
 
 var fachListe = {};
+String newBezeichnung;
+Color newFarbe;
 
 Database database;
 User user;
@@ -25,7 +28,7 @@ Future<void> firebaseConnect() async {
 
   Stream userStream = database.getStundenplan();
   userStream.listen((snap) => fachListe = snap.data()["fachList"]);
-  print("Hihi: " + fachListe.toString());
+  print("firebaseConnect / fachListe: " + fachListe.toString());
 }
 
 Future getUser() async {

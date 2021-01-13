@@ -13,6 +13,7 @@ import '.nicerStyle.dart';
 import '.settings.dart';
 import '.database.dart';
 import '.stundenplan.dart';
+import 'tabStundenplan_edit_alert.dart';
 
 /// Importiert eigenes Style-File
 import 'main.dart';
@@ -243,7 +244,9 @@ class _NeuesFachState extends State<NeuesFach> {
           onPressed: () async {
             await Database(user.uid)
                 .setFach(_bezeichung, _farbe.toString(), _raum, _lehrer);
-            Navigator.of(context).pop();
+            newBezeichnung = _bezeichung;
+            newFarbe = _farbe;
+            Navigator.of(context).pop(Item(_bezeichung, _farbe));
           },
         ),
       ],
