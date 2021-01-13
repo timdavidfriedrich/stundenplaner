@@ -27,3 +27,9 @@ Future<void> firebaseConnect() async {
   userStream.listen((snap) => fachListe = snap.data()["fachList"]);
   print("Hihi: " + fachListe.toString());
 }
+
+Future getUser() async {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  UserCredential result = await auth.signInAnonymously();
+  user = result.user;
+}

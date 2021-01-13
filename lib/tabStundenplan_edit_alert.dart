@@ -64,10 +64,19 @@ class _StundenplanEditAlertState extends State<StundenplanEditAlert> {
     );
   }
 
-  var bezeichnungList = [];
-  var farbeList = [];
-  var raumList = [];
-  var lehrerList = [];
+  List bezeichnungList = ["Fach hinzufügen"];
+  List farbeList = [];
+  List raumList = [];
+  List lehrerList = [];
+
+  Future getItems() async {
+    DocumentSnapshot snap =
+        await Database(user.uid).stundenplan.doc(user.uid).get();
+    setState(() {
+      bezeichnungList.add(snap.data()["fachList"].toString());
+    });
+    print("BEZEICHNUNG: " + bezeichnungList.toString());
+  }
 
   void sortItems(items) {
     for (int i = 0; i < items["fachList"].length; i++) {
@@ -85,7 +94,8 @@ class _StundenplanEditAlertState extends State<StundenplanEditAlert> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    firebaseConnect();
+    getItems();
+    //firebaseConnect();
   }
 
   @override
@@ -98,75 +108,48 @@ class _StundenplanEditAlertState extends State<StundenplanEditAlert> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
 
       /// Content
-      content: FutureBuilder(
-          future: firebaseConnect(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            } else {
-              return StreamBuilder(
-                stream: database.getStundenplan(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return Center(child: CircularProgressIndicator());
-                  } else {
-                    Map<String, dynamic> items = snapshot.data.data();
-                    sortItems(items);
-                    dropdownItems();
-
-                    return DropdownButton(
-                      isExpanded: true,
-                      style: nice(),
-                      dropdownColor: t("body3"),
-                      underline: Container(
-                        margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom:
-                                BorderSide(color: Colors.redAccent, width: 2),
-                          ),
-                        ),
-                      ),
-                      icon: Icon(Icons.arrow_drop_down_sharp),
-                      iconDisabledColor: Colors.redAccent,
-                      iconEnabledColor: t("nice"),
-                      hint: Text("Fach wählen...",
-                          style: TextStyle(color: t("nice"))),
-                      value: index == 99 ? null : index,
-                      items: (items == null)
-                          ? DropdownMenuItem(
-                              value: 0,
-                              child: Row(
-                                children: [
-                                  Icon(Icons.search_off_outlined,
-                                      color: t("icons")),
-                                  SizedBox(width: 10),
-                                  Text("Oweia, nichts gefunden!")
-                                ],
-                              ),
-                            )
-                          : bezeichnungList.map((value) {
-                              return DropdownMenuItem(
-                                value: value,
-                                child: Text(value.toString()),
-                              );
-                            }),
-                      onChanged: (int i) {
-                        setState(() => index = i);
-                        index == 3
-                            ? showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return NeuesFach();
-                                })
-                            : null;
-                      },
-                    );
-                  }
-                },
-              );
-            }
-          }),
+      content: DropdownButton(
+        isExpanded: true,
+        style: nice(),
+        dropdownColor: t("body3"),
+        underline: Container(
+          margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+          decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(color: Colors.redAccent, width: 2),
+            ),
+          ),
+        ),
+        icon: Icon(Icons.arrow_drop_down_sharp),
+        iconDisabledColor: Colors.redAccent,
+        iconEnabledColor: t("nice"),
+        hint: Text("Fach wählen...", style: TextStyle(color: t("nice"))),
+        value: index == 99 ? null : index,
+        items: bezeichnungList.map((value) {
+          return DropdownMenuItem(
+            value: value,
+            child: Row(
+              children: [
+                Icon(Icons.bookmark_outline_sharp, color: Colors.green),
+                SizedBox(width: 10),
+                Text(value.toString())
+              ],
+            ),
+          );
+        }).toList(),
+        /*
+        onChanged: (int i) {
+          setState(() => index = i);
+          index == 3
+              ? showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return NeuesFach();
+                  })
+              : null;
+        },
+        */
+      ),
 
       /// Buttons
       actionsPadding: EdgeInsets.fromLTRB(20, 5, 20, 5),
