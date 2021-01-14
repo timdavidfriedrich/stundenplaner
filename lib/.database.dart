@@ -27,6 +27,14 @@ class Database {
     }, SetOptions(merge: true));
   }
 
+  Future checkIfUserExists() async {
+    if ((await stundenplan.doc(userID).get()).exists) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   Future<Map> getFach(String bezeichung) async {
     var x;
     await stundenplan

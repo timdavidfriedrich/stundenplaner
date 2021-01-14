@@ -26,13 +26,13 @@ Future<void> firebaseConnect() async {
 
   database = Database(user.uid);
 
+  if (!(await database.checkIfUserExists())) {
+    database.setFach("Fach hinzufügen", Colors.redAccent.value, "", "");
+  }
+
+/*
   Stream userStream = database.getStundenplan();
   userStream.listen((snap) => fachListe = snap.data()["fachList"]);
   print("firebaseConnect / fachListe: " + fachListe.toString());
-}
-
-Future getUser() async {
-  final FirebaseAuth auth = FirebaseAuth.instance;
-  UserCredential result = await auth.signInAnonymously();
-  user = result.user;
+  */
 }

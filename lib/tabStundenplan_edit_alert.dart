@@ -25,44 +25,11 @@ class StundenplanEditAlert extends StatefulWidget {
 class _StundenplanEditAlertState extends State<StundenplanEditAlert> {
   //
 
-  Item selectedIndex;
-
-  List<Item> fachItems = <Item>[
-    const Item('Fach hinzufügen', Colors.redAccent),
-  ];
-
-  getItems() async {
-    DocumentSnapshot snap =
-        await Database(user.uid).stundenplan.doc(user.uid).get();
-
-    setState(() {
-      for (int i = 0; i < snap.data()["fachList"].length; i++) {
-        String _bezeichnung = snap
-            .data()["fachList"]
-            .values
-            .elementAt(i)["bezeichnung"]
-            .toString();
-        int _farbe = snap.data()["fachList"].values.elementAt(i)["farbe"];
-        print(_bezeichnung);
-        fachItems.add(Item(_bezeichnung, Color(_farbe)));
-      }
-    });
-  }
-
-  itemReset() {
-    setState(() {
-      fachItems = <Item>[
-        const Item('Fach hinzufügen', Colors.redAccent),
-      ];
-    });
-  }
+  String selectedFach = "Kein Fach ausgewählt.";
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    getItems();
-    //firebaseConnect();
   }
 
   @override
@@ -75,72 +42,97 @@ class _StundenplanEditAlertState extends State<StundenplanEditAlert> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
 
       /// Content
-      content: DropdownButton(
-        isExpanded: true,
-        style: nice(),
-        dropdownColor: t("body3"),
-        underline: Container(
-          margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(color: Colors.redAccent, width: 2),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          FlatButton(
+            onPressed: () {},
+            child: Stack(
+              children: [
+                Text(selectedFach, style: nice()),
+                FutureBuilder(
+                    future: firebaseConnect(),
+                    builder:
+                        (BuildContext context, AsyncSnapshot<void> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator());
+                      } else {
+                        return StreamBuilder<DocumentSnapshot>(
+                          stream: Database(user.uid).getStundenplan(),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<DocumentSnapshot> snapshot) {
+                            if (!snapshot.hasData) {
+                              return Center(child: CircularProgressIndicator());
+                            } else {
+                              Map<String, dynamic> items = snapshot.data.data();
+                              var fachItems = items["fachList"].values;
+
+                              var selectedIndex;
+
+                              /////////////////////////////////////////////////////////////////////////////////////////////
+                              ////////////////////////////////////// DROPDOWNBUTTON ///////////////////////////////////////
+                              /////////////////////////////////////////////////////////////////////////////////////////////
+                              return DropdownButtonHideUnderline(
+                                child: DropdownButton(
+                                  isExpanded: true,
+                                  style: nice(),
+                                  dropdownColor: t("body3"),
+                                  iconSize: 0,
+                                  value: selectedIndex,
+                                  onChanged: (item) {
+                                    setState(() {
+                                      selectedFach =
+                                          item["bezeichnung"].toString();
+                                    });
+                                    item["bezeichnung"].toString() !=
+                                            "Fach hinzufügen"
+                                        ? null
+                                        : showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return NeuesFach();
+                                            });
+                                  },
+                                  items: fachItems
+                                      .map<DropdownMenuItem<dynamic>>((item) {
+                                    return DropdownMenuItem<dynamic>(
+                                      value: item,
+                                      child: Row(
+                                        children: <Widget>[
+                                          item["bezeichnung"] ==
+                                                  "Fach hinzufügen"
+                                              ? Icon(
+                                                  Icons.add_sharp,
+                                                  color: Color(item["farbe"]),
+                                                )
+                                              : Icon(
+                                                  Icons.bookmark_outline_sharp,
+                                                  color: Colors.redAccent,
+                                                ),
+                                          SizedBox(width: 10),
+                                          Text(
+                                            item["bezeichnung"],
+                                            style: nice(),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              );
+                              /////////////////////////////////////////////////////////////////////////////////////////////
+                              ////////////////////////////////////// DROPDOWNBUTTON  ///////////////////////////////////////
+                              /////////////////////////////////////////////////////////////////////////////////////////////
+                            }
+                          },
+                        );
+                      }
+                    }),
+              ],
             ),
           ),
-        ),
-        icon: Icon(Icons.arrow_drop_down_sharp),
-        iconDisabledColor: Colors.redAccent,
-        iconEnabledColor: t("nice"),
-        hint: Text("Fach wählen...", style: TextStyle(color: t("nice"))),
-        value: selectedIndex,
-        onChanged: (value) async {
-          setState(() async {
-            value.bezeichnung.toString() != "Fach hinzufügen"
-                ? selectedIndex = value
-                : selectedIndex = await showDialog(
-                    context: context,
-                    builder: (context) {
-                      return NeuesFach();
-                    });
-          });
-          itemReset();
-          getItems();
-        },
-        items: (fachItems.length == 1)
-            ? [
-                DropdownMenuItem(
-                  value: 0,
-                  child: Row(
-                    children: [
-                      Icon(Icons.add_sharp, color: Colors.redAccent),
-                      SizedBox(width: 10),
-                      Text("Fach hinzufügen")
-                    ],
-                  ),
-                ),
-              ]
-            : fachItems.map((Item fachItem) {
-                return DropdownMenuItem<Item>(
-                  value: fachItem,
-                  child: Row(
-                    children: <Widget>[
-                      fachItem.bezeichnung == "Fach hinzufügen"
-                          ? Icon(
-                              Icons.add_sharp,
-                              color: fachItem.farbe,
-                            )
-                          : Icon(
-                              Icons.bookmark_outline_sharp,
-                              color: fachItem.farbe,
-                            ),
-                      SizedBox(width: 10),
-                      Text(
-                        fachItem.bezeichnung,
-                        style: TextStyle(color: Colors.black),
-                      ),
-                    ],
-                  ),
-                );
-              }).toList(),
+        ],
       ),
 
       /// Buttons
