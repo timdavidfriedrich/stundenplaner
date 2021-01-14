@@ -243,7 +243,7 @@ class _NeuesFachState extends State<NeuesFach> {
           child: Text("Hinzufügen", style: wNice()),
           onPressed: () async {
             await Database(user.uid)
-                .setFach(_bezeichung, _farbe.toString(), _raum, _lehrer);
+                .setFach(_bezeichung, _farbe.value, _raum, _lehrer);
             newBezeichnung = _bezeichung;
             newFarbe = _farbe;
             Navigator.of(context).pop(Item(_bezeichung, _farbe));

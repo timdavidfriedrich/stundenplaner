@@ -14,11 +14,11 @@ class Database {
   }
 
   Future setFach(
-      String bezeichnung, String farbe, String raum, String lehrer) async {
+      String bezeichnung, int farbe, String raum, String lehrer) async {
     return await stundenplan.doc(userID).set({
       "fachList": {
         bezeichnung: {
-          "bezeichung": bezeichnung,
+          "bezeichnung": bezeichnung,
           "farbe": farbe,
           "raum": raum,
           "lehrer": lehrer,

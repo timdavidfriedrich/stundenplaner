@@ -78,7 +78,7 @@ class _TabTagesplanBodyState extends State<TabTagesplanBody> {
                                     return ListTile(
                                         title: Text(items["fachList"]
                                             .values
-                                            .elementAt(i)
+                                            .elementAt(i)["bezeichnung"]
                                             .toString()));
                                   },
                                 );

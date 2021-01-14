@@ -37,10 +37,14 @@ class _StundenplanEditAlertState extends State<StundenplanEditAlert> {
 
     setState(() {
       for (int i = 0; i < snap.data()["fachList"].length; i++) {
-        String _bezeichnung =
-            snap.data()["fachList"].values.elementAt(i).toString();
+        String _bezeichnung = snap
+            .data()["fachList"]
+            .values
+            .elementAt(i)["bezeichnung"]
+            .toString();
+        int _farbe = snap.data()["fachList"].values.elementAt(i)["farbe"];
         print(_bezeichnung);
-        fachItems.add(Item(_bezeichnung, Colors.red));
+        fachItems.add(Item(_bezeichnung, Color(_farbe)));
       }
     });
   }
