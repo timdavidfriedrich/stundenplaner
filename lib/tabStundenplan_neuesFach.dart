@@ -46,24 +46,40 @@ class _NeuesFachState extends State<NeuesFach> {
 
   List<Color> colors = [];
 
+  Color anpassen(Color color, saturationValue, brightnessValue) {
+    final hsl = HSLColor.fromColor(color);
+    final hslSat = hsl.withSaturation(saturationValue);
+    final hslBright = hslSat.withLightness(brightnessValue);
+
+    return hslBright.toColor();
+  }
+
   add2Colors() {
+    double saturationValue = 0.8;
+    double brightnessValue = 0.6;
     for (int i = 0; i < 255; i++) {
-      colors.add(Color.fromRGBO(255, i, 0, 1.0));
+      Color color = Color.fromRGBO(255, i, 0, 1.0);
+      colors.add(anpassen(color, saturationValue, brightnessValue));
     }
     for (int i = 255; i > 0; i--) {
-      colors.add(Color.fromRGBO(i, 255, 0, 1.0));
+      Color color = Color.fromRGBO(i, 255, 0, 1.0);
+      colors.add(anpassen(color, saturationValue, brightnessValue));
     }
     for (int i = 0; i < 255; i++) {
-      colors.add(Color.fromRGBO(0, 255, i, 1.0));
+      Color color = Color.fromRGBO(0, 255, i, 1.0);
+      colors.add(anpassen(color, saturationValue, brightnessValue));
     }
     for (int i = 255; i > 0; i--) {
-      colors.add(Color.fromRGBO(0, i, 255, 1.0));
+      Color color = Color.fromRGBO(0, i, 255, 1.0);
+      colors.add(anpassen(color, saturationValue, brightnessValue));
     }
     for (int i = 0; i < 255; i++) {
-      colors.add(Color.fromRGBO(i, 0, 255, 1.0));
+      Color color = Color.fromRGBO(i, 0, 255, 1.0);
+      colors.add(anpassen(color, saturationValue, brightnessValue));
     }
     for (int i = 255; i > 0; i--) {
-      colors.add(Color.fromRGBO(255, 0, i, 1.0));
+      Color color = Color.fromRGBO(255, 0, i, 1.0);
+      colors.add(anpassen(color, saturationValue, brightnessValue));
     }
   }
 
@@ -246,7 +262,7 @@ class _NeuesFachState extends State<NeuesFach> {
                 .setFach(_bezeichung, _farbe.value, _raum, _lehrer);
             newBezeichnung = _bezeichung;
             newFarbe = _farbe;
-            Navigator.of(context).pop(Item(_bezeichung, _farbe));
+            Navigator.of(context).pop();
           },
         ),
       ],

@@ -73,53 +73,50 @@ class _StundenplanEditAlertState extends State<StundenplanEditAlert> {
                               /////////////////////////////////////////////////////////////////////////////////////////////
                               ////////////////////////////////////// DROPDOWNBUTTON ///////////////////////////////////////
                               /////////////////////////////////////////////////////////////////////////////////////////////
-                              return DropdownButtonHideUnderline(
-                                child: DropdownButton(
-                                  isExpanded: true,
-                                  style: nice(),
-                                  dropdownColor: t("body3"),
-                                  iconSize: 0,
-                                  value: selectedIndex,
-                                  onChanged: (item) {
-                                    setState(() {
-                                      selectedFach =
-                                          item["bezeichnung"].toString();
-                                    });
-                                    item["bezeichnung"].toString() !=
-                                            "Fach hinzufügen"
-                                        ? null
-                                        : showDialog(
-                                            context: context,
-                                            builder: (context) {
-                                              return NeuesFach();
-                                            });
-                                  },
-                                  items: fachItems
-                                      .map<DropdownMenuItem<dynamic>>((item) {
-                                    return DropdownMenuItem<dynamic>(
-                                      value: item,
-                                      child: Row(
-                                        children: <Widget>[
-                                          item["bezeichnung"] ==
-                                                  "Fach hinzufügen"
-                                              ? Icon(
-                                                  Icons.add_sharp,
-                                                  color: Color(item["farbe"]),
-                                                )
-                                              : Icon(
-                                                  Icons.bookmark_outline_sharp,
-                                                  color: Colors.redAccent,
-                                                ),
-                                          SizedBox(width: 10),
-                                          Text(
-                                            item["bezeichnung"],
-                                            style: nice(),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  }).toList(),
-                                ),
+                              return DropdownButton(
+                                isExpanded: true,
+                                style: nice(),
+                                dropdownColor: t("body3"),
+                                iconSize: 0,
+                                value: selectedIndex,
+                                onChanged: (item) {
+                                  setState(() {
+                                    selectedFach =
+                                        item["bezeichnung"].toString();
+                                  });
+                                  item["bezeichnung"].toString() !=
+                                          "Fach hinzufügen"
+                                      ? null
+                                      : showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return NeuesFach();
+                                          });
+                                },
+                                items: fachItems
+                                    .map<DropdownMenuItem<dynamic>>((item) {
+                                  return DropdownMenuItem<dynamic>(
+                                    value: item,
+                                    child: Row(
+                                      children: <Widget>[
+                                        item["bezeichnung"] == "Fach hinzufügen"
+                                            ? Icon(
+                                                Icons.add_sharp,
+                                                color: Colors.redAccent,
+                                              )
+                                            : Icon(
+                                                Icons.bookmark_outline_sharp,
+                                                color: Color(item["farbe"]),
+                                              ),
+                                        SizedBox(width: 10),
+                                        Text(
+                                          item["bezeichnung"],
+                                          style: nice(),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }).toList(),
                               );
                               /////////////////////////////////////////////////////////////////////////////////////////////
                               ////////////////////////////////////// DROPDOWNBUTTON  ///////////////////////////////////////
@@ -166,10 +163,4 @@ class _StundenplanEditAlertState extends State<StundenplanEditAlert> {
       ],
     );
   }
-}
-
-class Item {
-  final String bezeichnung;
-  final Color farbe;
-  const Item(this.bezeichnung, this.farbe);
 }
