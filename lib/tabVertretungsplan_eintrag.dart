@@ -98,7 +98,7 @@ class _VertretungsEintragState extends State<VertretungsEintrag> {
                 Container(
                   alignment: Alignment.topLeft,
                   child: Text(
-                    vertretung["bemerkung"][widget.c],
+                    bemerkungHandler(widget.c),
                     style: GoogleFonts.montserrat(
                         color: t("eintragFont"),
                         fontSize: 14,

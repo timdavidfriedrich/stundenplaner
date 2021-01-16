@@ -13,19 +13,42 @@ import '.settings.dart';
 import '.transitions.dart';
 import '.database.dart';
 import '.stundenplan.dart';
+import '.sharedprefs.dart';
 
 import 'tabStundenplan_neuesFach.dart';
 import 'tabStundenplan.dart';
 
 class StundenplanEditAlert extends StatefulWidget {
   @override
+  Function updateFach;
   _StundenplanEditAlertState createState() => _StundenplanEditAlertState();
 }
 
 class _StundenplanEditAlertState extends State<StundenplanEditAlert> {
   //
 
-  String selectedFach = "Kein Fach ausgewählt.";
+  String selectedFach = "Fach wählen";
+  Color selectedFarbe = t("disabled_button");
+
+  neuesFachDialog() async {
+    Map<String, dynamic> callback = await showDialog<Map<String, dynamic>>(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return NeuesFach();
+        });
+    if (callback["bezeichnung"] != "x") {
+      setState(() {
+        selectedFach = callback["bezeichnung"];
+        selectedFarbe = Color(callback["farbe"]);
+      });
+    } else {
+      setState(() {
+        selectedFach = "Fach wählen";
+        selectedFarbe = t("disabled_button");
+      });
+    }
+  }
 
   @override
   void initState() {
@@ -38,129 +61,164 @@ class _StundenplanEditAlertState extends State<StundenplanEditAlert> {
       // Title
       backgroundColor: t("body2"),
       titleTextStyle: niceAppBarTitle(),
-      title: Text('Mittwoch, 5. Std.', style: TextStyle(fontSize: 18)),
+      title: FutureBuilder(
+          future: firebaseConnect(),
+          builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                  child: CircularProgressIndicator(
+                      valueColor:
+                          AlwaysStoppedAnimation<Color>(selectedFarbe)));
+            } else {
+              return StreamBuilder<DocumentSnapshot>(
+                stream: Database(user.uid).getStundenplan(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<DocumentSnapshot> snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(
+                        child: CircularProgressIndicator(
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(selectedFarbe)));
+                  } else {
+                    Map<String, dynamic> items = snapshot.data.data();
+                    var fachItems = items["fachList"].values;
+
+                    var selectedIndex;
+
+                    /////////////////////////////////////////////////////////////////////////////////////////////
+                    ////////////////////////////////////// DROPDOWNBUTTON ///////////////////////////////////////
+                    /////////////////////////////////////////////////////////////////////////////////////////////
+                    return FlatButton(
+                      padding: EdgeInsets.zero,
+                      color: selectedFarbe,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      onPressed: () {},
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton(
+                          isExpanded: true,
+                          style: nice(),
+                          dropdownColor: t("body3"),
+                          iconSize: 0,
+                          value: selectedIndex,
+                          hint: Padding(
+                            padding: const EdgeInsets.only(left: 30),
+                            child: Text(selectedFach, style: wNice()),
+                          ),
+                          onChanged: (item) {
+                            setState(() {
+                              selectedFach = item["bezeichnung"].toString();
+                              selectedFarbe = Color(item["farbe"]);
+                            });
+                            item["bezeichnung"].toString() != "Fach hinzufügen"
+                                ? null
+                                : neuesFachDialog();
+                          },
+                          items:
+                              fachItems.map<DropdownMenuItem<dynamic>>((item) {
+                            return DropdownMenuItem<dynamic>(
+                              value: item,
+                              child: Row(
+                                children: <Widget>[
+                                  item["bezeichnung"] == "Fach hinzufügen"
+                                      ? Icon(
+                                          Icons.add_sharp,
+                                          color: t("nice"),
+                                        )
+                                      : Icon(
+                                          Icons.bookmark_outline_sharp,
+                                          color: Color(item["farbe"]),
+                                        ),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    item["bezeichnung"],
+                                  ),
+                                ],
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    );
+                    /////////////////////////////////////////////////////////////////////////////////////////////
+                    ////////////////////////////////////// DROPDOWNBUTTON  //////////////////////////////////////
+                    /////////////////////////////////////////////////////////////////////////////////////////////
+                  }
+                },
+              );
+            }
+          }),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
 
       /// Content
+      contentPadding: EdgeInsets.fromLTRB(25, 10, 25, 20),
       content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          FlatButton(
-            onPressed: () {},
-            child: Stack(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 15),
+            Text("Wann?", style: stundenplanHint()),
+            Wrap(
+              spacing: 10,
               children: [
-                Text(selectedFach, style: nice()),
-                FutureBuilder(
-                    future: firebaseConnect(),
-                    builder:
-                        (BuildContext context, AsyncSnapshot<void> snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
-                      } else {
-                        return StreamBuilder<DocumentSnapshot>(
-                          stream: Database(user.uid).getStundenplan(),
-                          builder: (BuildContext context,
-                              AsyncSnapshot<DocumentSnapshot> snapshot) {
-                            if (!snapshot.hasData) {
-                              return Center(child: CircularProgressIndicator());
-                            } else {
-                              Map<String, dynamic> items = snapshot.data.data();
-                              var fachItems = items["fachList"].values;
-
-                              var selectedIndex;
-
-                              /////////////////////////////////////////////////////////////////////////////////////////////
-                              ////////////////////////////////////// DROPDOWNBUTTON ///////////////////////////////////////
-                              /////////////////////////////////////////////////////////////////////////////////////////////
-                              return DropdownButton(
-                                isExpanded: true,
-                                style: nice(),
-                                dropdownColor: t("body3"),
-                                iconSize: 0,
-                                value: selectedIndex,
-                                onChanged: (item) {
-                                  setState(() {
-                                    selectedFach =
-                                        item["bezeichnung"].toString();
-                                  });
-                                  item["bezeichnung"].toString() !=
-                                          "Fach hinzufügen"
-                                      ? null
-                                      : showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return NeuesFach();
-                                          });
-                                },
-                                items: fachItems
-                                    .map<DropdownMenuItem<dynamic>>((item) {
-                                  return DropdownMenuItem<dynamic>(
-                                    value: item,
-                                    child: Row(
-                                      children: <Widget>[
-                                        item["bezeichnung"] == "Fach hinzufügen"
-                                            ? Icon(
-                                                Icons.add_sharp,
-                                                color: Colors.redAccent,
-                                              )
-                                            : Icon(
-                                                Icons.bookmark_outline_sharp,
-                                                color: Color(item["farbe"]),
-                                              ),
-                                        SizedBox(width: 10),
-                                        Text(
-                                          item["bezeichnung"],
-                                          style: nice(),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                }).toList(),
-                              );
-                              /////////////////////////////////////////////////////////////////////////////////////////////
-                              ////////////////////////////////////// DROPDOWNBUTTON  ///////////////////////////////////////
-                              /////////////////////////////////////////////////////////////////////////////////////////////
-                            }
-                          },
-                        );
-                      }
-                    }),
+                Chip(
+                  label: Text('Mo, 5. Std.', style: nice()),
+                  backgroundColor: t("clip"),
+                  deleteIconColor: t("clipIcon"),
+                  onDeleted: () {},
+                ),
+                Chip(
+                  label: Text('Do, 1. Std.', style: nice()),
+                  backgroundColor: t("clip"),
+                  deleteIconColor: t("clipIcon"),
+                  onDeleted: () {},
+                ),
+                Chip(
+                  label: Text('Fr, 8. Std.', style: nice()),
+                  backgroundColor: t("clip"),
+                  deleteIconColor: t("clipIcon"),
+                  onDeleted: () {},
+                ),
+                FlatButton(
+                  minWidth: 10,
+                  padding: EdgeInsets.all(5.0),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(100)),
+                  color: t("body2").withOpacity(0.0),
+                  child: Icon(Icons.add_sharp, color: t("nice")),
+                  onPressed: () {},
+                ),
               ],
             ),
-          ),
-        ],
-      ),
-
-      /// Buttons
-      actionsPadding: EdgeInsets.fromLTRB(20, 5, 20, 5),
-      actions: [
-        Padding(
-          padding: const EdgeInsets.only(right: 10),
-          child: FlatButton(
-            //height: 42,
-            minWidth: 50,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(100)),
-            color: t("back_button2"),
-            child: Icon(Icons.arrow_back, color: t("on_back_button")),
-            onPressed: () {
-              Navigator.of(context).pop(); //popAndPushNamed();
-            },
-          ),
-        ),
-        FlatButton(
-          //height: 42,
-          minWidth: 150,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
-          color: Colors.redAccent,
-          child: Text("Auswählen", style: wNice()),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-      ],
+            SizedBox(height: 50),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                FlatButton(
+                  //height: 42,
+                  minWidth: 20,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(100)),
+                  color: t("back_button2"),
+                  child: Icon(Icons.arrow_back, color: t("on_back_button")),
+                  onPressed: () {
+                    Navigator.of(context).pop(); //popAndPushNamed();
+                  },
+                ),
+                FlatButton(
+                  //height: 42,
+                  minWidth: 150,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(100)),
+                  color: Colors.redAccent,
+                  child: Text("Auswählen", style: wNice()),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          ]),
     );
   }
 }

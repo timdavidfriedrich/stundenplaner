@@ -49,12 +49,13 @@ class StundenplanEditState extends State<StundenplanEdit> {
             child: Container(
               height: blockOnly ? 108 : 50,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  border:
-                      Border.all(color: t("stundenplan_outline"), width: 1.5)),
+                color: t("back_button"),
+                borderRadius: BorderRadius.circular(5),
+                //border: Border.all(color: t("stundenplan_outline"), width: 1.5),
+              ),
               child: FlatButton(
-                splashColor: t("nice"),
-                child: Text("+", style: nice()),
+                splashColor: t("on_back_button"),
+                child: Text("+", style: TextStyle(color: t("on_back_button"))),
                 onPressed: () {
                   showDialog(
                     context: context,

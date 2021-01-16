@@ -30,6 +30,9 @@ void main() async {
 }
 
 class AppHome extends StatelessWidget {
+  final int startIndex;
+  AppHome([this.startIndex]);
+
   /// StartWidget, Home = NavBar
   @override
   Widget build(BuildContext context) {
@@ -45,7 +48,7 @@ class AppHome extends StatelessWidget {
         scaffoldBackgroundColor: t("body"),
         primaryColor: t("body"),
       ),
-      home: Main(),
+      home: Main(startIndex),
 
       /// NavBar
     );
@@ -53,6 +56,9 @@ class AppHome extends StatelessWidget {
 }
 
 class Main extends StatefulWidget {
+  final int startIndex;
+  Main([this.startIndex]);
+
   @override
   _MainState createState() => _MainState();
 }
@@ -60,8 +66,14 @@ class Main extends StatefulWidget {
 class _MainState extends State<Main> with SingleTickerProviderStateMixin {
   TabController _tabController;
 
+  void getStartIndex() {
+    widget.startIndex == null
+        ? currentIndex = 1
+        : currentIndex = widget.startIndex;
+  }
+
   /// Legt den Start-Index fest (Start-Tab)
-  int currentIndex = 1;
+  int currentIndex;
 
   /// Dient als Limit bei Gesture-Detector
   var dragStopper = 0;
@@ -70,6 +82,7 @@ class _MainState extends State<Main> with SingleTickerProviderStateMixin {
   void initState() {
     // TODO: implement initState
     super.initState();
+    getStartIndex();
     _tabController =
         TabController(length: tabBody.length, vsync: this, initialIndex: 1);
     _tabController.animation.addListener(() {

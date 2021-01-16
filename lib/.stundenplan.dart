@@ -13,8 +13,6 @@ Map<String, dynamic> stundenplan = {
 };
 
 var fachListe = {};
-String newBezeichnung;
-Color newFarbe;
 
 Database database;
 User user;

@@ -6,9 +6,33 @@ import 'tabVertretungsplan.dart';
 colorBackHandler(c) {
   if (vertretung["klasse"][c] == ichBinHandler() ||
       vertretung["lehrer"][c] == ichBinHandler()) {
-    return t("eintragHighlight");
+    if (raumchange["lehrer"].contains(vertretung["lehrer"][c]) &&
+        raumchange["block"].contains(vertretung["block"][c]) &&
+        raumchange["fach"].contains(vertretung["fach"][c]) &&
+        raumchange["klasse"].contains(vertretung["klasse"][c]) &&
+        raumchange["raum"].contains(vertretung["raum"][c]) &&
+        raumchange["bemerkung"].contains(vertretung["bemerkung"][c])) {
+      return t("eintragRaumHighlight");
+    } else {
+      return t("eintragHighlight");
+    }
   } else {
     return t("eintragBackground"); // Colors.black
+  }
+}
+
+bemerkungHandler(c) {
+  if (raumchange["lehrer"].contains(vertretung["lehrer"][c]) &&
+      raumchange["block"].contains(vertretung["block"][c]) &&
+      raumchange["fach"].contains(vertretung["fach"][c]) &&
+      raumchange["klasse"].contains(vertretung["klasse"][c]) &&
+      raumchange["raum"].contains(vertretung["raum"][c]) &&
+      raumchange["bemerkung"].contains(vertretung["bemerkung"][c])) {
+    return (vertretung["bemerkung"][c] == ""
+        ? "Raumänderung"
+        : ("Raumänderung\n") + "(" + vertretung["bemerkung"][c] + ")");
+  } else {
+    return vertretung["bemerkung"][c];
   }
 }
 

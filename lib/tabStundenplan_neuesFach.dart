@@ -14,6 +14,7 @@ import '.settings.dart';
 import '.database.dart';
 import '.stundenplan.dart';
 import 'tabStundenplan_edit_alert.dart';
+import '.sharedprefs.dart';
 
 /// Importiert eigenes Style-File
 import 'main.dart';
@@ -97,6 +98,12 @@ class _NeuesFachState extends State<NeuesFach> {
   raumRefresh(String x) => setState(() => _raum = x);
   lehrerRefresh(String x) => setState(() => _lehrer = x);
 
+  final prefs = SharedPrefs();
+  setPrefs(selectedFach, selectedFarbe) async {
+    await prefs.setString("selectedFach", selectedFach);
+    await prefs.setInt("selectedFarbe", selectedFarbe);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -131,79 +138,39 @@ class _NeuesFachState extends State<NeuesFach> {
               ),
             ),
           ),
-          (sliderRGB != true)
-              ? ExpandableNotifier(
-                  child: ScrollOnExpand(
-                    scrollOnExpand: true,
-                    scrollOnCollapse: false,
-                    child: ExpandablePanel(
-                      hasIcon: false,
-                      header: ListTile(
-                        contentPadding: EdgeInsets.fromLTRB(25, 0, 0, 0),
-                        leading: Icon(Icons.circle,
-                            color: colors[sliderValue.toInt()]),
-                        title: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text("Farbe wählen", style: nice())),
-                      ),
-                      expanded: Container(
-                        color: t("nice").withOpacity(0.03),
-                        padding: EdgeInsets.fromLTRB(12, 5, 12, 5),
-                        child: Slider(
-                          value: sliderValue,
-                          min: 0,
-                          max: colors.length.toDouble() - 1,
-                          activeColor: colors[sliderValue.toInt()],
-                          inactiveColor: Colors.black,
-                          onChanged: (double value) {
-                            setState(() => sliderValue = value);
-                            farbeRefresh(colors[value.toInt()]);
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              : ExpandableNotifier(
-                  child: ScrollOnExpand(
-                    scrollOnExpand: true,
-                    scrollOnCollapse: false,
-                    child: ExpandablePanel(
-                      hasIcon: false,
-                      header: ListTile(
-                        contentPadding: EdgeInsets.fromLTRB(25, 0, 0, 0),
-                        leading: Icon(Icons.circle,
-                            color: colors[sliderValue.toInt()]),
-                        title: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text("Farbe wählen", style: nice())),
-                      ),
-                      expanded: Container(
-                        color: t("nice").withOpacity(0.03),
-                        padding: EdgeInsets.fromLTRB(12, 5, 12, 5),
-                        child: SliderTheme(
-                          data: SliderThemeData(
-                            trackHeight: 6,
-                            trackShape: GradientRectSliderTrackShape(
-                                gradient: LinearGradient(colors: colors),
-                                darkenInactive: false),
-                          ),
-                          child: Slider(
-                            value: sliderValue,
-                            min: 0,
-                            max: colors.length.toDouble() - 1,
-                            activeColor: colors[sliderValue.toInt()],
-                            //inactiveColor: Colors.black,
-                            onChanged: (double value) {
-                              setState(() => sliderValue = value);
-                              farbeRefresh(colors[value.toInt()]);
-                            },
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+          ExpandablePanel(
+            hasIcon: false,
+            header: ListTile(
+              contentPadding: EdgeInsets.fromLTRB(25, 0, 0, 0),
+              leading: Icon(Icons.circle, color: colors[sliderValue.toInt()]),
+              title: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Farbe wählen", style: nice())),
+            ),
+            expanded: Container(
+              color: t("nice").withOpacity(0.03),
+              padding: EdgeInsets.fromLTRB(12, 5, 12, 5),
+              child: SliderTheme(
+                data: SliderThemeData(
+                  trackHeight: 6,
+                  trackShape: GradientRectSliderTrackShape(
+                      gradient: LinearGradient(colors: colors),
+                      darkenInactive: false),
                 ),
+                child: Slider(
+                  value: sliderValue,
+                  min: 0,
+                  max: colors.length.toDouble() - 1,
+                  activeColor: colors[sliderValue.toInt()],
+                  //inactiveColor: Colors.black,
+                  onChanged: (double value) {
+                    setState(() => sliderValue = value);
+                    farbeRefresh(colors[value.toInt()]);
+                  },
+                ),
+              ),
+            ),
+          ),
           ListTile(
             contentPadding: EdgeInsets.fromLTRB(25, 0, 0, 0),
             leading: Icon(Icons.location_on_outlined, color: t("nice")),
@@ -246,7 +213,9 @@ class _NeuesFachState extends State<NeuesFach> {
             color: t("back_button2"),
             child: Icon(Icons.arrow_back, color: t("on_back_button")),
             onPressed: () {
-              Navigator.of(context).pop(); //popAndPushNamed();
+              setPrefs("Fach wählen", t("back_button2").value);
+              Navigator.pop(
+                  context, {"bezeichnung": "x", "farbe": t("back_button2")});
             },
           ),
         ),
@@ -260,9 +229,9 @@ class _NeuesFachState extends State<NeuesFach> {
           onPressed: () async {
             await Database(user.uid)
                 .setFach(_bezeichung, _farbe.value, _raum, _lehrer);
-            newBezeichnung = _bezeichung;
-            newFarbe = _farbe;
-            Navigator.of(context).pop();
+            setPrefs(_bezeichung, _farbe.value);
+            Navigator.pop(
+                context, {"bezeichnung": _bezeichung, "farbe": _farbe.value});
           },
         ),
       ],

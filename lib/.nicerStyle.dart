@@ -23,17 +23,26 @@ Map theme = {
 
   "eintragHighlight": [Colors.greenAccent[700], Colors.greenAccent[700]],
   "eintragBackground": [Colors.black, Colors.grey[850]],
-  //"eintragHighlight": [Colors.black, Colors.grey[600]],
-  //"eintragBackground": [Colors.grey[400], Colors.grey[900]],
-
+  "eintragRaumHighlight": [Colors.blueAccent[400], Colors.blueAccent[400]],
   "eintragFont": [Colors.white, Colors.white],
+
+  "fabVertretungsplan": [
+    Colors.grey[800],
+    Colors.grey[800]
+  ], // Colors.greenAccent[700]
   "kalender": [Colors.black, Colors.white],
+
   "back_button": [Colors.grey[200], Colors.grey[900]],
   "back_button2": [Colors.grey[200], Colors.grey[700]],
   "on_back_button": [Colors.grey[400], Colors.white],
+  "disabled_button": [Colors.grey[850], Colors.grey[700]],
+  "stundenplanHint": [Colors.grey[850], Colors.grey[500]],
+  "clip": [Colors.grey[200], Colors.grey[700]],
+  "clipIcon": [Colors.grey[750], Colors.grey[200]],
 
   "switch_off": [Colors.grey, Colors.grey[200]],
 
+  "fabStundenplan": [Colors.redAccent, Colors.redAccent],
   "tableHead": [Colors.redAccent, Colors.redAccent],
 
   "stundenplan_outline": [Colors.grey[800], Colors.grey[400]],
@@ -45,19 +54,31 @@ Map theme = {
   "page": [Colors.white, Colors.black],
   "bottomBar": [Colors.white, Colors.black],
   "icons": [Colors.black, Colors.white],
-  "fabStundenplan": [Colors.redAccent, Colors.redAccent],
-  "fabVertretungsplan": [
-    Colors.greenAccent[700],
-    Colors.greenAccent[700]
-  ], // Colors.greenAccent[700]
 };
 
 t(String j) {
   return theme[j][themeHandler()];
 }
 
+stundenplanHint() {
+  return GoogleFonts.montserrat(
+    fontSize: 16,
+    letterSpacing: 0.5,
+    fontWeight: FontWeight.w500,
+    color: t("stundenplanHint"),
+  );
+}
+
 nice() {
   return GoogleFonts.montserrat(color: t("nice"));
+}
+
+niceColor(Color color) {
+  return GoogleFonts.montserrat(color: color);
+}
+
+niceSize(double size) {
+  return GoogleFonts.montserrat(fontSize: size);
 }
 
 nice2() {
