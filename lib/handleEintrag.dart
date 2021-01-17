@@ -3,15 +3,39 @@ import '.settings.dart';
 import '.nicerStyle.dart';
 import 'tabVertretungsplan.dart';
 
+checkBemerkung(c) {
+  var raumchangeLehrer = [];
+  var raumchangeBlock = [];
+  var raumchangeFach = [];
+  var raumchangeKlasse = [];
+  var raumchangeRaum = [];
+  var raumchangeBemerkung = [];
+
+  for (int i = 0; i < raumchange.length; i++) {
+    raumchangeLehrer.add(raumchange[i].lehrer);
+    raumchangeBlock.add(raumchange[i].block);
+    raumchangeFach.add(raumchange[i].fach);
+    raumchangeKlasse.add(raumchange[i].klasse);
+    raumchangeRaum.add(raumchange[i].raum);
+    raumchangeBemerkung.add(raumchange[i].bemerkung);
+  }
+
+  if (raumchangeLehrer.contains(vertretung[c].lehrer) &&
+      raumchangeBlock.contains(vertretung[c].block) &&
+      raumchangeFach.contains(vertretung[c].fach) &&
+      raumchangeKlasse.contains(vertretung[c].klasse) &&
+      raumchangeRaum.contains(vertretung[c].raum) &&
+      raumchangeBemerkung.contains(vertretung[c].bemerkung)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 colorBackHandler(c) {
-  if (vertretung["klasse"][c] == ichBinHandler() ||
-      vertretung["lehrer"][c] == ichBinHandler()) {
-    if (raumchange["lehrer"].contains(vertretung["lehrer"][c]) &&
-        raumchange["block"].contains(vertretung["block"][c]) &&
-        raumchange["fach"].contains(vertretung["fach"][c]) &&
-        raumchange["klasse"].contains(vertretung["klasse"][c]) &&
-        raumchange["raum"].contains(vertretung["raum"][c]) &&
-        raumchange["bemerkung"].contains(vertretung["bemerkung"][c])) {
+  if (vertretung[c].klasse.contains(ichBinHandler().toString()) ||
+      vertretung[c].lehrer.contains(ichBinHandler().toString())) {
+    if (checkBemerkung(c)) {
       return t("eintragRaumHighlight");
     } else {
       return t("eintragHighlight");
@@ -22,17 +46,12 @@ colorBackHandler(c) {
 }
 
 bemerkungHandler(c) {
-  if (raumchange["lehrer"].contains(vertretung["lehrer"][c]) &&
-      raumchange["block"].contains(vertretung["block"][c]) &&
-      raumchange["fach"].contains(vertretung["fach"][c]) &&
-      raumchange["klasse"].contains(vertretung["klasse"][c]) &&
-      raumchange["raum"].contains(vertretung["raum"][c]) &&
-      raumchange["bemerkung"].contains(vertretung["bemerkung"][c])) {
-    return (vertretung["bemerkung"][c] == ""
+  if (checkBemerkung(c)) {
+    return (vertretung[c].bemerkung == "")
         ? "Raumänderung"
-        : ("Raumänderung\n") + "(" + vertretung["bemerkung"][c] + ")");
+        : ("Raumänderung\n") + ("(" + vertretung[c].bemerkung + ")");
   } else {
-    return vertretung["bemerkung"][c];
+    return vertretung[c].bemerkung;
   }
 }
 

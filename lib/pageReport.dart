@@ -71,6 +71,7 @@ class _ReportState extends State<Report> {
     return reports.doc(zeit).set({
       "datum": Timestamp.now(),
       "nachricht": nachricht,
+      "ichBin": ichBin.toString(),
     }).catchError((error) {
       setState(() => uploadError = true);
       print("FB ADD (ERROR): $error");

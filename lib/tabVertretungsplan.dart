@@ -18,23 +18,20 @@ import '.settings.dart';
 import '.nicerStyle.dart';
 import 'tabVertretungsplan_eintrag.dart';
 
-Map vertretung = {
-  "lehrer": [],
-  "block": [],
-  "fach": [],
-  "klasse": [],
-  "raum": [],
-  "bemerkung": [],
-};
+class VertretungsItem {
+  String lehrer;
+  String block;
+  String fach;
+  String klasse;
+  String raum;
+  String bemerkung;
 
-Map raumchange = {
-  "lehrer": [],
-  "block": [],
-  "fach": [],
-  "klasse": [],
-  "raum": [],
-  "bemerkung": [],
-};
+  VertretungsItem(this.lehrer, this.block, this.fach, this.klasse, this.raum,
+      this.bemerkung);
+}
+
+List<VertretungsItem> vertretung = [];
+List<VertretungsItem> raumchange = [];
 
 String annovation = "";
 
@@ -61,6 +58,9 @@ class _TabVertretungsplanBodyState extends State<TabVertretungsplanBody>
   List<Map<String, dynamic>> rawRaumchange;
   String rawAnnovation;
 
+  List<VertretungsItem> vertretungTemp = [];
+  List<VertretungsItem> vertretungTempOthers = [];
+
   String urlDatum = DateFormat('yyyyMMdd').format(datumHandler());
   String rawUrl = 'http://www.gymnasium-templin.de';
 
@@ -68,8 +68,6 @@ class _TabVertretungsplanBodyState extends State<TabVertretungsplanBody>
     //urlDatum = DateFormat('yyyyMMdd').format(datumHandler());
 
     final WebScraper webScraper = WebScraper(rawUrl);
-    List filteredVertretung = [];
-    List filteredRaumchange = [];
 
     if (await webScraper
         .loadWebPage('/typo3/vertretung/index13mob.php?d=' + dateInput)) {
@@ -77,6 +75,7 @@ class _TabVertretungsplanBodyState extends State<TabVertretungsplanBody>
           'div.clearfix > table.vertretung > tbody > tr > td', ['title']);
       rawRaumchange = webScraper
           .getElement('div.clearfix > table.raum > tbody > tr > td', ['title']);
+
       if (webScraper
           .getElement('div.clearfix > div.annotationv', ['title'])
           .toList()
@@ -89,34 +88,84 @@ class _TabVertretungsplanBodyState extends State<TabVertretungsplanBody>
             .toString();
       }
     }
-    if (rawVertretung[0]['title'] != "Es sind keine Einträge vorhanden.") {
-      for (int i = 0; i < rawVertretung.length; i++) {
-        filteredVertretung.add(rawVertretung[i]['title']);
-      }
-    }
-
-    for (int i = 0; i < rawRaumchange.length; i++) {
-      /// LISTEN WERDEN KOMBINIERT (RAUMCHANGE added to VERTRETUNG)
-      filteredVertretung.add(rawRaumchange[i]['title']);
-      filteredRaumchange.add(rawRaumchange[i]['title']);
-    }
 
     setState(() {
-      vertretung['lehrer'] = ente(filteredVertretung, 0);
-      vertretung['block'] = ente(filteredVertretung, 1);
-      vertretung['fach'] = ente(filteredVertretung, 2);
-      vertretung['klasse'] = ente(filteredVertretung, 3);
-      vertretung['raum'] = ente(filteredVertretung, 4);
-      vertretung['bemerkung'] = ente(filteredVertretung, 5);
+      int x = (rawVertretung.length ~/ 6);
+      int y = (rawRaumchange.length ~/ 6);
 
-      raumchange['lehrer'] = ente(filteredRaumchange, 0);
-      raumchange['block'] = ente(filteredRaumchange, 1);
-      raumchange['fach'] = ente(filteredRaumchange, 2);
-      raumchange['klasse'] = ente(filteredRaumchange, 3);
-      raumchange['raum'] = ente(filteredRaumchange, 4);
-      raumchange['bemerkung'] = ente(filteredRaumchange, 5);
+      if (rawVertretung[0]['title'] != "Es sind keine Einträge vorhanden.") {
+        for (int i = 0; i < x; i++) {
+          vertretungTemp.add(VertretungsItem(
+            ente(rawVertretung, 0)[i]['title'],
+            ente(rawVertretung, 1)[i]['title'],
+            ente(rawVertretung, 2)[i]['title'],
+            ente(rawVertretung, 3)[i]['title'],
+            ente(rawVertretung, 4)[i]['title'],
+            ente(rawVertretung, 5)[i]['title'],
+          ));
+        }
+      }
 
+      if (rawRaumchange[0]['title'] != "Es sind keine Einträge vorhanden.") {
+        for (int i = 0; i < y; i++) {
+          vertretungTemp.add(VertretungsItem(
+            ente(rawRaumchange, 0)[i]['title'],
+            ente(rawRaumchange, 1)[i]['title'],
+            ente(rawRaumchange, 2)[i]['title'],
+            ente(rawRaumchange, 3)[i]['title'],
+            ente(rawRaumchange, 4)[i]['title'],
+            ente(rawRaumchange, 5)[i]['title'],
+          ));
+          raumchange.add(VertretungsItem(
+            ente(rawRaumchange, 0)[i]['title'],
+            ente(rawRaumchange, 1)[i]['title'],
+            ente(rawRaumchange, 2)[i]['title'],
+            ente(rawRaumchange, 3)[i]['title'],
+            ente(rawRaumchange, 4)[i]['title'],
+            ente(rawRaumchange, 5)[i]['title'],
+          ));
+        }
+      }
+
+      vertretungSort();
+
+      vertretung = vertretungTemp;
       annovation = rawAnnovation;
+    });
+  }
+
+  vertretungSort() {
+    /// SORTIEREN NACH KLASSE (Zahlen aufwärts)
+    Comparator<VertretungsItem> sortByKlasse =
+        (a, b) => a.klasse.compareTo(b.klasse);
+    vertretungTemp.sort(sortByKlasse);
+
+    /// SORTIEREN NACH KLASSE (Zahlen abwärts)
+    //vertretung = vertretung.reversed.toList();
+
+    if (ichBin == "lehrer") {
+      vertretungTempOthers = vertretungTemp
+          .where((item) => !item.lehrer.contains(ichBinHandler().toString()))
+          .toList();
+      vertretungTemp.removeWhere(
+          (item) => !item.lehrer.contains(ichBinHandler().toString()));
+      vertretungTemp.addAll(vertretungTempOthers);
+    } else {
+      vertretungTempOthers = vertretungTemp
+          .where((item) => !item.klasse.contains(ichBinHandler().toString()))
+          .toList();
+      vertretungTemp.removeWhere(
+          (item) => !item.klasse.contains(ichBinHandler().toString()));
+      vertretungTemp.addAll(vertretungTempOthers);
+    }
+  }
+
+  vertretungReset() {
+    setState(() {
+      vertretung = [];
+      raumchange = [];
+      vertretungTemp = [];
+      vertretungTempOthers = [];
     });
   }
 
@@ -142,7 +191,7 @@ class _TabVertretungsplanBodyState extends State<TabVertretungsplanBody>
         ),
       );
     } else {
-      if (vertretung['klasse'].isEmpty && raumchange['klasse'].isEmpty) {
+      if (vertretung.isEmpty && raumchange.isEmpty) {
         return Center(
           child: Text("Keine Einträge vorhanden.", style: nice()),
         );
@@ -152,7 +201,7 @@ class _TabVertretungsplanBodyState extends State<TabVertretungsplanBody>
           padding: EdgeInsets.fromLTRB(15, 0, 15, 100),
 
           /// Ränder um Gesamtliste
-          itemCount: vertretung["klasse"].length,
+          itemCount: vertretung.length,
 
           /// Misst Länge für Einträge
           itemBuilder: (context, int i) {
@@ -190,7 +239,7 @@ class _TabVertretungsplanBodyState extends State<TabVertretungsplanBody>
     Timer(Duration(milliseconds: 200), () => _animationController.forward());
 
     initializeDateFormatting();
-    vertretungsplanData(urlDatum);
+    vertretungReset();
     onlineChecker();
     setState(() {
       urlDatum = DateFormat('yyyyMMdd').format(datumHandler());
@@ -243,6 +292,7 @@ class _TabVertretungsplanBodyState extends State<TabVertretungsplanBody>
                               borderRadius: BorderRadius.circular(100)),
                           color: t("fabVertretungsplan"),
                           onPressed: () {
+                            //vertretungsplanReset();
                             showDatePicker(
                               context: context,
                               locale: const Locale("de", "DE"),
@@ -284,6 +334,7 @@ class _TabVertretungsplanBodyState extends State<TabVertretungsplanBody>
                                     .format(datumHandler());
                               });
                               onlineChecker();
+                              vertretungReset();
                               vertretungsplanData(urlDatum);
                             });
                           },
@@ -311,11 +362,12 @@ class _TabVertretungsplanBodyState extends State<TabVertretungsplanBody>
                         ),
                       ),
                       expanded: ListTile(
-                        contentPadding: EdgeInsets.fromLTRB(15, 10, 15, 10),
+                        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
                         tileColor: t("back_button"),
                         title: Align(
                             alignment: Alignment.centerLeft,
-                            child: Text(annovation, style: niceSize(12))),
+                            child: Text(annovation,
+                                style: niceCustom(t("niceHint"), 12))),
                       ),
                     ),
                   ]),

@@ -25,6 +25,7 @@ Future<void> firebaseConnect() async {
   database = Database(user.uid);
 
   if (!(await database.checkIfUserExists())) {
+    database.createStundenplan();
     database.setFach("Fach hinzufügen", Colors.redAccent.value, "", "");
   }
 

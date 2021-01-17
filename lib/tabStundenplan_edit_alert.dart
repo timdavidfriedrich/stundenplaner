@@ -130,9 +130,7 @@ class _StundenplanEditAlertState extends State<StundenplanEditAlert> {
                                           color: Color(item["farbe"]),
                                         ),
                                   SizedBox(width: 10),
-                                  Text(
-                                    item["bezeichnung"],
-                                  ),
+                                  Text(item["bezeichnung"]),
                                 ],
                               ),
                             );
@@ -180,7 +178,7 @@ class _StundenplanEditAlertState extends State<StundenplanEditAlert> {
                   onDeleted: () {},
                 ),
                 FlatButton(
-                  minWidth: 10,
+                  minWidth: 36,
                   padding: EdgeInsets.all(5.0),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(100)),

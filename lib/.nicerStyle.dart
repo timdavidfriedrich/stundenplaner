@@ -81,6 +81,11 @@ niceSize(double size) {
   return GoogleFonts.montserrat(fontSize: size);
 }
 
+niceCustom(color, [double size]) {
+  return GoogleFonts.montserrat(
+      color: color, fontSize: size == null ? null : size);
+}
+
 nice2() {
   return GoogleFonts.montserrat(color: t("nice2"));
 }

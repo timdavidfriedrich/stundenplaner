@@ -22,6 +22,14 @@ tabStundenplanAppBarIcon() {
   return Colors.redAccent;
 }
 
+class StundenplanItem {
+  String bezeichung;
+  Color farbe;
+  String raum;
+  String lehrer;
+  StundenplanItem(this.bezeichung, this.farbe, this.raum, this.lehrer);
+}
+
 class TabStundenplanBody extends StatefulWidget {
   @override
   TabStundenplanBodyState createState() => TabStundenplanBodyState();
@@ -94,7 +102,7 @@ class TabStundenplanBodyState extends State<TabStundenplanBody>
             ),
           ),
         ),
-        abWoche
+        !abWoche
             ? Positioned(
                 right: 20,
                 bottom: 30,
@@ -112,7 +120,7 @@ class TabStundenplanBodyState extends State<TabStundenplanBody>
                       elevation: 10,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(100)),
-                      color: t("nice"),
+                      color: t("fabVertretungsplan"),
                       onPressed: () {
                         //
                       },

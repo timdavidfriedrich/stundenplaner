@@ -30,30 +30,40 @@ class _VertretungsEintragState extends State<VertretungsEintrag> {
                 Row(
                   children: [
                     Container(
-                        child: Text(
-                      vertretung["klasse"][widget.c],
-                      style: GoogleFonts.montserrat(
-                          color: t("eintragFont"),
-                          fontSize: 22,
-                          fontWeight: FontWeight.w800),
-                    )),
+                      child: Text(
+                        vertretung[widget.c].klasse.length < 6
+                            ? vertretung[widget.c].klasse
+                            : vertretung[widget.c].klasse.substring(0, 5) +
+                                vertretung[widget.c]
+                                    .klasse
+                                    .substring(5)
+                                    .replaceAll(" ", "\n"),
+                        style: GoogleFonts.montserrat(
+                            color: t("eintragFont"),
+                            fontSize: vertretung[widget.c].klasse.length < 6
+                                ? 22
+                                : 12,
+                            fontWeight: FontWeight.w800),
+                      ),
+                    ),
                     Spacer(),
                     Container(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                              child: Text(
-                            lehrerHandler(vertretung["lehrer"][widget.c]),
-                            style: GoogleFonts.montserrat(
-                                color: t("eintragFont"),
-                                fontSize: 14,
-                                fontWeight: FontWeight.w800),
-                          )),
+                            child: Text(
+                              lehrerHandler(vertretung[widget.c].lehrer),
+                              style: GoogleFonts.montserrat(
+                                  color: t("eintragFont"),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w800),
+                            ),
+                          ),
                           Container(
                               alignment: Alignment.topLeft,
                               child: Text(
-                                vertretung["fach"][widget.c],
+                                vertretung[widget.c].fach,
                                 style: GoogleFonts.montserrat(
                                     color: t("eintragFont"),
                                     fontSize: 12,
@@ -75,7 +85,7 @@ class _VertretungsEintragState extends State<VertretungsEintrag> {
                           children: [
                             Container(
                                 child: Text(
-                              blockHandler(vertretung["block"][widget.c]),
+                              blockHandler(vertretung[widget.c].block),
                               style: GoogleFonts.montserrat(
                                   color: t("eintragFont"),
                                   fontSize: 14,
@@ -84,7 +94,7 @@ class _VertretungsEintragState extends State<VertretungsEintrag> {
                             Container(
                                 alignment: Alignment.topLeft,
                                 child: Text(
-                                  raumHandler(vertretung["raum"][widget.c]),
+                                  raumHandler(vertretung[widget.c].raum),
                                   style: GoogleFonts.montserrat(
                                       color: t("eintragFont"),
                                       fontSize: 12,

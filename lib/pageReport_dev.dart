@@ -31,6 +31,7 @@ class _ReportDevState extends State<ReportDev> {
   List docList = [];
   List datumList = [];
   List nachrichtenList = [];
+  List ichBinList = [];
 
   Future getReports() async {
     QuerySnapshot snap = await reports.get();
@@ -40,15 +41,18 @@ class _ReportDevState extends State<ReportDev> {
         docList.add(a.id);
         datumList.add(a.data()["datum"]);
         nachrichtenList.add(a.data()["nachricht"]);
+        ichBinList.add(a.data()["ichBin"]);
       });
     }
     print("FB GET: (DocList) " + docList.toString());
     print("FB GET: (datumList) " + datumList.toString());
-    print("FB GET: (nachrichtenList) " + datumList.toString());
+    print("FB GET: (nachrichtenList) " + nachrichtenList.toString());
+    print("FB GET: (ichBinList) " + ichBinList.toString());
     setState(() {
       docList = docList.reversed.toList();
       datumList = datumList.reversed.toList();
       nachrichtenList = nachrichtenList.reversed.toList();
+      ichBinList = ichBinList.reversed.toList();
     });
   }
 
@@ -63,6 +67,7 @@ class _ReportDevState extends State<ReportDev> {
       docList.removeAt(i);
       datumList.removeAt(i);
       nachrichtenList.removeAt(i);
+      ichBinList.removeAt(i);
     });
   }
 
@@ -94,6 +99,7 @@ class _ReportDevState extends State<ReportDev> {
                         return Nachricht(
                           datumList[i],
                           nachrichtenList[i],
+                          ichBinList[i],
                           () => remove(i),
                         );
                       },
@@ -139,9 +145,10 @@ class _ReportDevState extends State<ReportDev> {
 class Nachricht extends StatefulWidget {
   final Timestamp xDatum;
   final String xNachricht;
+  final String xIchBin;
   final Function remove;
 
-  const Nachricht(this.xDatum, this.xNachricht, this.remove);
+  const Nachricht(this.xDatum, this.xNachricht, this.xIchBin, this.remove);
 
   @override
   _NachrichtState createState() => _NachrichtState();
@@ -207,6 +214,15 @@ class _NachrichtState extends State<Nachricht> {
                         fontSize: 18,
                         fontWeight: FontWeight.w800),
                   ),
+                  Text(
+                      "Ich bin " +
+                          widget.xIchBin[0].toUpperCase() +
+                          widget.xIchBin.substring(1) +
+                          ".",
+                      style: GoogleFonts.montserrat(
+                          color: t("niceHint"),
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400)),
                   Text(
                     DateFormat('HH:mm', 'de')
                             .format(widget.xDatum.toDate())

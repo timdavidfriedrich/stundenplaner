@@ -22,6 +22,7 @@ getPrefs() async {
   bool _blockOnly = await prefs.getBool("blockOnly");
   dark = _darkMode;
   abWoche = _abWoche;
+  blockOnly = _blockOnly;
 }
 
 /// OVERALL
@@ -44,8 +45,8 @@ bool blockOnly = false;
 var platzhalter = "lol";
 
 /// VERTRETUNGSPLAN
-var meineKlasse = "12";
-var meinName = "Frau Strohschein";
+var meineKlasse = "9b";
+var meinName = "Strohschein";
 bool vertretungHighlight = true;
 
 /// Handler

@@ -100,24 +100,19 @@ class _SettingsState extends State<Settings> {
                 ),
               ),
               ListTile(
-                title: Text("A/B-Woche", style: nice()),
+                title: Text("Corona-Modus", style: nice()),
+                subtitle:
+                    Text("Einzelstunden, keine A/B-Woche", style: niceHint()),
                 trailing: Switch(
                   inactiveTrackColor: t("switch_off"),
                   inactiveThumbColor: t("nice"),
                   value: xAbWoche,
                   onChanged: (value) {
-                    setState(() => xAbWoche = value);
-                  },
-                ),
-              ),
-              ListTile(
-                title: Text("Reiner Block-Unterricht", style: nice()),
-                trailing: Switch(
-                  inactiveTrackColor: t("switch_off"),
-                  inactiveThumbColor: t("nice"),
-                  value: xBlockOnly,
-                  onChanged: (value) {
-                    setState(() => xBlockOnly = value);
+                    setState(() {
+                      neustartErforderlich = true;
+                      xAbWoche = value;
+                      xBlockOnly = value;
+                    });
                   },
                 ),
               ),
@@ -127,37 +122,48 @@ class _SettingsState extends State<Settings> {
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.fromLTRB(0, 25, 0, 25),
-        child: Row(
-          //mainAxisAlignment: MainAxisAlignment.spaceAround,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Spacer(flex: 3),
-            FlatButton(
-              height: 42,
-              minWidth: 20,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(100)),
-              color: t("back_button"),
-              child: Icon(Icons.arrow_back, color: t("on_back_button")),
-              onPressed: () {
-                Navigator.of(context).pop(); //popAndPushNamed();
-              },
+            Padding(
+              padding: const EdgeInsets.only(bottom: 20),
+              child: neustartErforderlich
+                  ? Text("Eventuell Neustart erforderlich!", style: niceError())
+                  : Text(""),
             ),
-            Spacer(flex: 1),
-            FlatButton(
-              height: 42,
-              minWidth: 200,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(100)),
-              color: Colors.blueAccent,
-              child: Text("Speichern", style: wNice()),
-              onPressed: () {
-                print("DARK-MODE: " + xDark.toString());
-                setPrefs();
-                Navigator.of(context).pop();
-                neustartErforderlich ? main() : null;
-              },
+            Row(
+              //mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Spacer(flex: 3),
+                FlatButton(
+                  height: 42,
+                  minWidth: 20,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(100)),
+                  color: t("back_button"),
+                  child: Icon(Icons.arrow_back, color: t("on_back_button")),
+                  onPressed: () {
+                    Navigator.of(context).pop(); //popAndPushNamed();
+                  },
+                ),
+                Spacer(flex: 1),
+                FlatButton(
+                  height: 42,
+                  minWidth: 200,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(100)),
+                  color: Colors.blueAccent,
+                  child: Text("Speichern", style: wNice()),
+                  onPressed: () {
+                    print("DARK-MODE: " + xDark.toString());
+                    setPrefs();
+                    Navigator.of(context).pop();
+                    neustartErforderlich ? main() : null;
+                  },
+                ),
+                Spacer(flex: 3)
+              ],
             ),
-            Spacer(flex: 3)
           ],
         ),
       ),

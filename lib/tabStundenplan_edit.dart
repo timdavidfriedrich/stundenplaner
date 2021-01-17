@@ -24,7 +24,7 @@ class StundenplanEditState extends State<StundenplanEdit> {
   int anzahlZeilen;
 
   blockUnterricht() {
-    return anzahlZeilen = blockOnly ? 4 : 8;
+    return anzahlZeilen = !blockOnly ? 4 : 8;
   }
 
   tableCreator() {
@@ -47,7 +47,7 @@ class StundenplanEditState extends State<StundenplanEdit> {
           child: Container(
             padding: EdgeInsets.all(4),
             child: Container(
-              height: blockOnly ? 108 : 50,
+              height: !blockOnly ? 108 : 50,
               decoration: BoxDecoration(
                 color: t("back_button"),
                 borderRadius: BorderRadius.circular(5),
@@ -82,8 +82,8 @@ class StundenplanEditState extends State<StundenplanEdit> {
 
   @override
   void initState() {
-    tableCreator();
     super.initState();
+    tableCreator();
   }
 
   @override

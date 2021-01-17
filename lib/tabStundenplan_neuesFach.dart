@@ -138,6 +138,21 @@ class _NeuesFachState extends State<NeuesFach> {
               ),
             ),
           ),
+          ichBin != "lehrer"
+              ? Container()
+              : ListTile(
+                  contentPadding: EdgeInsets.fromLTRB(25, 0, 0, 0),
+                  leading: Icon(Icons.class__outlined, color: t("nice")),
+                  title: TextField(
+                    onChanged: lehrerRefresh,
+                    cursorColor: Colors.redAccent,
+                    style: nice(),
+                    decoration: InputDecoration.collapsed(
+                      hintText: "Mit welcher Klasse?",
+                      hintStyle: niceHint(),
+                    ),
+                  ),
+                ),
           ExpandablePanel(
             hasIcon: false,
             header: ListTile(
@@ -198,7 +213,7 @@ class _NeuesFachState extends State<NeuesFach> {
                     ),
                   ),
                 )
-              : null
+              : Container()
         ],
       ),
       actionsPadding: EdgeInsets.fromLTRB(20, 5, 20, 5),
@@ -227,11 +242,19 @@ class _NeuesFachState extends State<NeuesFach> {
           color: Colors.redAccent,
           child: Text("Hinzufügen", style: wNice()),
           onPressed: () async {
-            await Database(user.uid)
-                .setFach(_bezeichung, _farbe.value, _raum, _lehrer);
+            ichBin == "lehrer"
+                ? await Database(user.uid).setFach(
+                    _bezeichung + " ($_lehrer)", _farbe.value, _raum, _lehrer)
+                : await Database(user.uid)
+                    .setFach(_bezeichung, _farbe.value, _raum, _lehrer);
             setPrefs(_bezeichung, _farbe.value);
-            Navigator.pop(
-                context, {"bezeichnung": _bezeichung, "farbe": _farbe.value});
+            ichBin == "lehrer"
+                ? Navigator.pop(context, {
+                    "bezeichnung": _bezeichung + " ($_lehrer)",
+                    "farbe": _farbe.value
+                  })
+                : Navigator.pop(context,
+                    {"bezeichnung": _bezeichung, "farbe": _farbe.value});
           },
         ),
       ],

@@ -13,6 +13,14 @@ class Database {
     return stundenplan.doc(userID).snapshots();
   }
 
+  Future checkIfUserExists() async {
+    if ((await stundenplan.doc(userID).get()).exists) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   Future setFach(
       String bezeichnung, int farbe, String raum, String lehrer) async {
     return await stundenplan.doc(userID).set({
@@ -27,14 +35,6 @@ class Database {
     }, SetOptions(merge: true));
   }
 
-  Future checkIfUserExists() async {
-    if ((await stundenplan.doc(userID).get()).exists) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   Future<Map> getFach(String bezeichung) async {
     var x;
     await stundenplan
@@ -44,5 +44,37 @@ class Database {
       x = snapshot.data;
     });
     return x;
+  }
+
+  Future createStundenplan() async {
+    List tagesListe = ['1', '2', '3', '4', '5'];
+    List planList = ["plan_A", "plan_B"];
+    for (int ab = 0; ab < 2; ab++) {
+      for (int i = 0; i < tagesListe.length; i++) {
+        await stundenplan.doc(userID).set({
+          planList[ab]: {
+            tagesListe[i]: {
+              "1": "",
+              "2": "",
+              "3": "",
+              "4": "",
+              "5": "",
+              "6": "",
+              "7": "",
+              "8": "",
+            }
+          }
+        }, SetOptions(merge: true));
+      }
+    }
+  }
+
+  Future setStundenplanEintrag(
+      String plan, String tag, String block, String fach) async {
+    return await stundenplan.doc(userID).update({
+      plan: {
+        tag: {block: fach}
+      }
+    });
   }
 }
