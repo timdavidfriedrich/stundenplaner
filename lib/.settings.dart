@@ -45,7 +45,7 @@ bool blockOnly = false;
 var platzhalter = "lol";
 
 /// VERTRETUNGSPLAN
-var meineKlasse = "9b";
+var meineKlasse = "12";
 var meinName = "Strohschein";
 bool vertretungHighlight = true;
 

@@ -46,6 +46,12 @@ class Database {
     return x;
   }
 
+  Future delFach(String bezeichnung) async {
+    return await stundenplan.doc(userID).set({
+      "fachList": {bezeichnung: FieldValue.delete()}
+    }, SetOptions(merge: true));
+  }
+
   Future createStundenplan() async {
     List tagesListe = ['1', '2', '3', '4', '5'];
     List planList = ["plan_A", "plan_B"];
@@ -71,10 +77,10 @@ class Database {
 
   Future setStundenplanEintrag(
       String plan, String tag, String block, String fach) async {
-    return await stundenplan.doc(userID).update({
+    return await stundenplan.doc(userID).set({
       plan: {
         tag: {block: fach}
       }
-    });
+    }, SetOptions(merge: true));
   }
 }

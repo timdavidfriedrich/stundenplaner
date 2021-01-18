@@ -242,11 +242,8 @@ class _NeuesFachState extends State<NeuesFach> {
           color: Colors.redAccent,
           child: Text("Hinzufügen", style: wNice()),
           onPressed: () async {
-            ichBin == "lehrer"
-                ? await Database(user.uid).setFach(
-                    _bezeichung + " ($_lehrer)", _farbe.value, _raum, _lehrer)
-                : await Database(user.uid)
-                    .setFach(_bezeichung, _farbe.value, _raum, _lehrer);
+            await Database(user.uid)
+                .setFach(_bezeichung, _farbe.value, _raum, _lehrer);
             setPrefs(_bezeichung, _farbe.value);
             ichBin == "lehrer"
                 ? Navigator.pop(context, {

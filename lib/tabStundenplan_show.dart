@@ -3,14 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 
-import '.nicerStyle.dart';
 import 'tabStundenplan.dart';
+import 'tabStundenplan_edit_alert.dart';
+
+import '.nicerStyle.dart';
 import '.database.dart';
 import '.stundenplan.dart';
 import '.settings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class StundenplanShow extends StatefulWidget {
+  final String woche;
+  StundenplanShow(this.woche);
+
   @override
   StundenplanShowState createState() => StundenplanShowState();
 }
@@ -18,21 +23,83 @@ class StundenplanShow extends StatefulWidget {
 class StundenplanShowState extends State<StundenplanShow> {
   //
 
-  gridBuilder(i, aItems) {
-    List itemZahl = [0, 5, 10, 15, 20, 25, 30, 35, 40];
-    for (int x = 0; x < itemZahl.length - 1; x++) {
-      if (itemZahl[x] <= i && i < itemZahl[x + 1]) {
-        return Text(
-          aItems[i - itemZahl[x]][(x + 1).toString()],
-          style: nice(),
-        );
-      }
-    }
-  }
-
   @override
   void initState() {
     super.initState();
+  }
+
+  String neuesFach = "Leer";
+  bool done = false;
+
+  neuesFachDialog() async {
+    Map<String, dynamic> callback = await showDialog<Map<String, dynamic>>(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return StundenplanEditAlert();
+        });
+    setState(() {
+      neuesFach = callback["fach"];
+      done = callback["done"];
+    });
+  }
+
+  getFachIndex(fachBezeichungList, itemText) {
+    int fachIndex;
+    for (int f = 0; f < fachBezeichungList.length; f++) {
+      if (fachBezeichungList[f] == itemText) {
+        f != null ? fachIndex = f.toInt() : fachIndex = 99;
+      }
+    }
+    print("fachIndex: " + fachIndex.toString());
+    return fachIndex;
+  }
+
+  buttonPress() {}
+
+  gridBuilder(i, abItems, fachItems) {
+    List itemZahl = [0, 5, 10, 15, 20, 25, 30, 35, 40];
+    for (int x = 0; x < itemZahl.length - 1; x++) {
+      if (itemZahl[x] <= i && i < itemZahl[x + 1]) {
+        int _tag = i - itemZahl[x];
+        int tag = i - itemZahl[x] + 1;
+        String block = (x + 1).toString();
+
+        String itemText = abItems[_tag][block];
+        List fachBezeichungList = [];
+        fachItems.forEach((value) {
+          fachBezeichungList.add(value["bezeichnung"]);
+        });
+
+        print("fachBezeichungList: " + fachBezeichungList.toString());
+        return FlatButton(
+            padding: EdgeInsets.zero,
+            height: !blockOnly ? 108 : 50,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+            color: itemText == "" || !fachBezeichungList.contains(itemText)
+                ? t("back_button")
+                : Color(fachItems[getFachIndex(fachBezeichungList, itemText)]
+                    ["farbe"]),
+            onPressed: () async {
+              await neuesFachDialog();
+              done
+                  ? Database(user.uid).setStundenplanEintrag(
+                      widget.woche, tag.toString(), block, neuesFach)
+                  : null;
+            },
+            onLongPress: () {
+              Database(user.uid).setStundenplanEintrag(
+                  widget.woche, tag.toString(), block, "");
+            },
+            child: Text(
+              itemText,
+              style: itemText == "" || !fachBezeichungList.contains(itemText)
+                  ? niceCustom(t("wNice").withOpacity(0.0))
+                  : niceCustom(t("wNice"), 10),
+            ));
+      }
+    }
   }
 
   @override
@@ -55,13 +122,13 @@ class StundenplanShowState extends State<StundenplanShow> {
                   return Center(
                       child: CircularProgressIndicator(
                           valueColor:
-                              AlwaysStoppedAnimation<Color>(Colors.redAccent)));
+                              AlwaysStoppedAnimation<Color>(Colors.black)));
                 } else {
                   Map<String, dynamic> items = snapshot.data.data();
-                  var fachItems = items["fachList"].values;
-                  List aItems = items["plan_A"].values.toList();
-                  List bItems = items["plan_B"].values.toList();
-                  print("aItems: " + aItems.toString());
+                  List fachItems = items["fachList"].values.toList();
+                  List abItems = items[widget.woche].values.toList();
+                  print("fachItems: " + fachItems.toString());
+                  print("abItems: " + abItems.toString());
 
                   return Column(
                     mainAxisSize: MainAxisSize.min,
@@ -69,8 +136,8 @@ class StundenplanShowState extends State<StundenplanShow> {
                       Container(
                         height: 32,
                         child: GridView.builder(
-                          physics: BouncingScrollPhysics(),
-                          itemCount: aItems.length,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: abItems.length,
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 5),
@@ -80,30 +147,21 @@ class StundenplanShowState extends State<StundenplanShow> {
                                 padding: EdgeInsets.all(5),
                                 child: Align(
                                     alignment: Alignment.topCenter,
-                                    child:
-                                        Text(head[i], style: niceTableHead)));
+                                    child: Text(head[i], style: tableHead())));
                           },
                         ),
                       ),
                       Expanded(
                         child: GridView.builder(
                           physics: BouncingScrollPhysics(),
-                          itemCount: aItems.length * 8,
+                          itemCount: abItems.length * 8,
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 5),
+                                  crossAxisCount: 5, childAspectRatio: 1.2),
                           itemBuilder: (context, i) {
                             return Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: FlatButton(
-                                padding: EdgeInsets.zero,
-                                height: !blockOnly ? 108 : 50,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5)),
-                                color: t("back_button"),
-                                onPressed: () {},
-                                child: gridBuilder(i, aItems),
-                              ),
+                              padding: const EdgeInsets.all(4),
+                              child: gridBuilder(i, abItems, fachItems),
                             );
                           },
                         ),

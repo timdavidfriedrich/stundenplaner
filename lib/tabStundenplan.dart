@@ -12,7 +12,6 @@ import '.nicerStyle.dart';
 import '.settings.dart';
 
 import 'tabStundenplan_show.dart';
-import 'tabStundenplan_edit.dart';
 
 tabStundenplanAppBarTitle() {
   return "Stundenplan";
@@ -68,44 +67,11 @@ class TabStundenplanBodyState extends State<TabStundenplanBody>
     return Scaffold(
         body: Stack(
       children: [
-        editMode ? StundenplanEdit() : StundenplanShow(),
-        Positioned(
-          left: 20,
-          bottom: 25,
-          child: SlideTransition(
-            position: Tween<Offset>(
-              begin: Offset(0, 3),
-              end: Offset.zero,
-            )
-                .chain(CurveTween(curve: Curves.elasticOut))
-                .animate(_animationController),
-            child: ButtonTheme(
-              minWidth: 56,
-              height: 56,
-              child: RaisedButton(
-                elevation: 10,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(100)),
-                color: t("fabStundenplan"),
-                onPressed: () {
-                  setState(() => editMode = !editMode);
-                },
-                child: AnimatedContainer(
-                  duration: Duration(milliseconds: 1000),
-                  curve: Curves.easeInOut,
-                  child: editMode
-                      ? Icon(Icons.close_sharp, color: Colors.white)
-                      : Icon(Icons.edit_sharp, color: Colors.white),
-                ),
-                //child: Icon(Icons.edit_sharp, color: t("wNice")),
-              ),
-            ),
-          ),
-        ),
+        !editMode ? StundenplanShow("plan_A") : StundenplanShow("plan_B"),
         !abWoche
             ? Positioned(
-                right: 20,
-                bottom: 30,
+                left: 20,
+                bottom: 25,
                 child: SlideTransition(
                   position: Tween<Offset>(
                     begin: Offset(0, 3),
@@ -114,30 +80,53 @@ class TabStundenplanBodyState extends State<TabStundenplanBody>
                       .chain(CurveTween(curve: Curves.elasticOut))
                       .animate(_animationController),
                   child: ButtonTheme(
-                    minWidth: 175,
+                    minWidth: 160,
                     height: 50,
                     child: RaisedButton(
                       elevation: 10,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(100)),
-                      color: t("fabVertretungsplan"),
+                      color: t("fabStundenplan"),
                       onPressed: () {
-                        //
+                        setState(() => editMode = !editMode);
                       },
-                      child: RichText(
-                          text: TextSpan(style: nice2(), children: <TextSpan>[
-                        TextSpan(
-                            text: 'Aktuell:  ',
-                            style: TextStyle(fontWeight: FontWeight.w100)),
-                        TextSpan(
-                            text: 'A-Woche',
-                            style: TextStyle(fontWeight: FontWeight.w900))
-                      ])),
+                      child: AnimatedContainer(
+                        duration: Duration(milliseconds: 1000),
+                        curve: Curves.easeInOut,
+                        child: !editMode
+                            ? RichText(
+                                text: TextSpan(
+                                    style: wNice(),
+                                    children: <TextSpan>[
+                                    TextSpan(
+                                        text: 'Aktuell:  ',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w100)),
+                                    TextSpan(
+                                        text: 'A-Woche',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w900))
+                                  ]))
+                            : RichText(
+                                text: TextSpan(
+                                    style: wNice(),
+                                    children: <TextSpan>[
+                                    TextSpan(
+                                        text: 'Aktuell:  ',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w100)),
+                                    TextSpan(
+                                        text: 'B-Woche',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w900))
+                                  ])),
+                      ),
+                      //child: Icon(Icons.edit_sharp, color: t("wNice")),
                     ),
                   ),
                 ),
               )
-            : Container(),
+            : Container()
       ],
     ));
   }

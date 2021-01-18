@@ -349,25 +349,28 @@ class _TabVertretungsplanBodyState extends State<TabVertretungsplanBody>
             annovation == ""
                 ? Container()
                 : Column(mainAxisSize: MainAxisSize.min, children: [
-                    ExpandablePanel(
-                      hasIcon: false,
-                      header: Container(
-                        child: ListTile(
-                          title: Text("Weitere Informationen vorhanden!",
-                              style: nice()),
-                          trailing: Icon(
-                            Icons.keyboard_arrow_up_sharp,
-                            color: t("nice"),
+                    ExpandableTheme(
+                      data: ExpandableThemeData(
+                        expandIcon: Icons.keyboard_arrow_up_sharp,
+                        collapseIcon: Icons.keyboard_arrow_down_sharp,
+                        iconColor: t("nice"),
+                        iconPadding: EdgeInsets.fromLTRB(0, 15, 20, 5),
+                      ),
+                      child: ExpandablePanel(
+                        header: Container(
+                          child: ListTile(
+                            title: Text("Weitere Informationen vorhanden!",
+                                style: nice()),
                           ),
                         ),
-                      ),
-                      expanded: ListTile(
-                        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                        tileColor: t("back_button"),
-                        title: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(annovation,
-                                style: niceCustom(t("niceHint"), 12))),
+                        expanded: ListTile(
+                          contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+                          tileColor: t("back_button"),
+                          title: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(annovation,
+                                  style: niceCustom(t("niceHint"), 12))),
+                        ),
                       ),
                     ),
                   ]),

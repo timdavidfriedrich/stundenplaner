@@ -20,7 +20,6 @@ import 'tabStundenplan.dart';
 
 class StundenplanEditAlert extends StatefulWidget {
   @override
-  Function updateFach;
   _StundenplanEditAlertState createState() => _StundenplanEditAlertState();
 }
 
@@ -117,8 +116,40 @@ class _StundenplanEditAlertState extends State<StundenplanEditAlert> {
                           items:
                               fachItems.map<DropdownMenuItem<dynamic>>((item) {
                             return DropdownMenuItem<dynamic>(
-                              value: item,
-                              child: Row(
+                                value: item,
+                                child: ListTile(
+                                    contentPadding: EdgeInsets.zero,
+                                    leading:
+                                        item["bezeichnung"] == "Fach hinzufügen"
+                                            ? Icon(
+                                                Icons.add_sharp,
+                                                color: t("nice"),
+                                              )
+                                            : Icon(
+                                                Icons.bookmark_outline_sharp,
+                                                color: Color(item["farbe"]),
+                                              ),
+                                    title: Text(item["bezeichnung"],
+                                        style: nice()),
+                                    trailing: item["bezeichnung"] !=
+                                            "Fach hinzufügen"
+                                        ? IconButton(
+                                            onPressed: () async {
+                                              await database
+                                                  .delFach(item["bezeichnung"]);
+                                              setState(() {
+                                                selectedFach = "Fach wählen";
+                                                selectedFarbe =
+                                                    t("disabled_button");
+                                              });
+                                            },
+                                            icon: Icon(
+                                                Icons.delete_outline_sharp,
+                                                color: t("nice")),
+                                          )
+                                        : SizedBox(width: 1, height: 1))
+                                /*
+                              Row(
                                 children: <Widget>[
                                   item["bezeichnung"] == "Fach hinzufügen"
                                       ? Icon(
@@ -129,11 +160,15 @@ class _StundenplanEditAlertState extends State<StundenplanEditAlert> {
                                           Icons.bookmark_outline_sharp,
                                           color: Color(item["farbe"]),
                                         ),
-                                  SizedBox(width: 10),
+                                  Spacer(flex: 1),
                                   Text(item["bezeichnung"]),
+                                  Spacer(flex: 4),
+                                  Icon(Icons.delete_outline_sharp,
+                                      color: t("nice"))
                                 ],
                               ),
-                            );
+                              */
+                                );
                           }).toList(),
                         ),
                       ),
@@ -193,25 +228,27 @@ class _StundenplanEditAlertState extends State<StundenplanEditAlert> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 FlatButton(
-                  //height: 42,
                   minWidth: 20,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(100)),
                   color: t("back_button2"),
                   child: Icon(Icons.arrow_back, color: t("on_back_button")),
                   onPressed: () {
-                    Navigator.of(context).pop(); //popAndPushNamed();
+                    Navigator.pop(
+                        context, {"fach": selectedFach, "done": false});
                   },
                 ),
                 FlatButton(
-                  //height: 42,
                   minWidth: 150,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(100)),
                   color: Colors.redAccent,
                   child: Text("Auswählen", style: wNice()),
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    selectedFach != "Fach wählen"
+                        ? Navigator.pop(
+                            context, {"fach": selectedFach, "done": true})
+                        : null;
                   },
                 ),
               ],

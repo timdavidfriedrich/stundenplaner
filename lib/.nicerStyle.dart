@@ -133,13 +133,10 @@ niceSubtitle2Bold() {
 
 tableHead() {
   return GoogleFonts.montserrat(
-      fontSize: 18, fontWeight: FontWeight.w800, color: t("tableHead"));
+      fontSize: 18, fontWeight: FontWeight.w800, color: t("nice"));
 }
 
 var niceBar = GoogleFonts.montserrat(fontSize: 12, fontWeight: FontWeight.w500);
-
-var niceTableHead = GoogleFonts.montserrat(
-    fontSize: 18, fontWeight: FontWeight.w800, color: t("nice"));
 
 niceSwitch(Color i) {
   return GoogleFonts.montserrat(
