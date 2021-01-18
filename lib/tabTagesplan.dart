@@ -14,7 +14,7 @@ import '.settings.dart';
 import '.stundenplan.dart';
 import '.sharedprefs.dart';
 import '.database.dart';
-import 'tabStundenplan_neuesFach.dart';
+import 'tabStundenplan_new_edit.dart';
 
 tabTagesplanAppBarTitle() {
   return "Mein heutiger Tag";

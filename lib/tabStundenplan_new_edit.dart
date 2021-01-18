@@ -13,18 +13,29 @@ import '.nicerStyle.dart';
 import '.settings.dart';
 import '.database.dart';
 import '.stundenplan.dart';
-import 'tabStundenplan_edit_alert.dart';
+import 'tabStundenplan_add.dart';
 import '.sharedprefs.dart';
 
 /// Importiert eigenes Style-File
 import 'main.dart';
 
-class NeuesFach extends StatefulWidget {
+class NewEditFach extends StatefulWidget {
+  final bool editMode;
+  final String bezeichnungInput;
+  final Color farbeInput;
+  final String raumInput;
+  final String lehrerInput;
+  NewEditFach(this.editMode,
+      [this.bezeichnungInput,
+      this.farbeInput,
+      this.raumInput,
+      this.lehrerInput]);
+
   @override
-  _NeuesFachState createState() => _NeuesFachState();
+  _NewEditFachState createState() => _NewEditFachState();
 }
 
-class _NeuesFachState extends State<NeuesFach> {
+class _NewEditFachState extends State<NewEditFach> {
   Color selectedColor = Colors.redAccent;
 
   List<Color> colorList = [
@@ -93,6 +104,18 @@ class _NeuesFachState extends State<NeuesFach> {
   String _raum = "";
   String _lehrer = "";
 
+  void getSliderValue() {
+    for (int x = 0; x < colors.length; x++) {
+      if (colors[x] == widget.farbeInput) {
+        setState(() => sliderValue = x.toDouble());
+      }
+    }
+  }
+
+  export(input, toExport) {
+    return widget.editMode && input != "" && toExport == "" ? input : toExport;
+  }
+
   bezeichungRefresh(String x) => setState(() => _bezeichung = x);
   farbeRefresh(Color x) => setState(() => _farbe = x);
   raumRefresh(String x) => setState(() => _raum = x);
@@ -109,6 +132,7 @@ class _NeuesFachState extends State<NeuesFach> {
     super.initState();
     firebaseConnect();
     add2Colors();
+    widget.editMode && widget.farbeInput != null ? getSliderValue() : null;
   }
 
   @override
@@ -118,7 +142,8 @@ class _NeuesFachState extends State<NeuesFach> {
       backgroundColor: t("body3"),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       titleTextStyle: niceAppBarTitle(),
-      title: Text('Neues Fach', style: TextStyle(fontSize: 24)),
+      title: Text(widget.editMode ? 'Fach bearbeiten' : 'Neues Fach',
+          style: TextStyle(fontSize: 24)),
       contentPadding: EdgeInsets.fromLTRB(0, 15, 0, 15),
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -133,7 +158,9 @@ class _NeuesFachState extends State<NeuesFach> {
               cursorColor: Colors.redAccent,
               style: nice(),
               decoration: InputDecoration.collapsed(
-                hintText: "Bezeichnung",
+                hintText: widget.editMode && widget.bezeichnungInput != ""
+                    ? widget.bezeichnungInput
+                    : "Bezeichnung",
                 hintStyle: niceHint(),
               ),
             ),
@@ -148,7 +175,9 @@ class _NeuesFachState extends State<NeuesFach> {
                     cursorColor: Colors.redAccent,
                     style: nice(),
                     decoration: InputDecoration.collapsed(
-                      hintText: "Mit welcher Klasse?",
+                      hintText: widget.editMode && widget.lehrerInput != ""
+                          ? widget.lehrerInput
+                          : "Mit welcher Klasse?",
                       hintStyle: niceHint(),
                     ),
                   ),
@@ -160,7 +189,11 @@ class _NeuesFachState extends State<NeuesFach> {
               leading: Icon(Icons.circle, color: colors[sliderValue.toInt()]),
               title: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Farbe wählen", style: nice())),
+                  child: Text(
+                      widget.editMode && widget.bezeichnungInput != ""
+                          ? "Farbe ändern"
+                          : "Farbe wählen",
+                      style: nice())),
             ),
             expanded: Container(
               color: t("nice").withOpacity(0.03),
@@ -194,7 +227,9 @@ class _NeuesFachState extends State<NeuesFach> {
               cursorColor: Colors.redAccent,
               style: nice(),
               decoration: InputDecoration.collapsed(
-                hintText: "Raum",
+                hintText: widget.editMode && widget.raumInput != ""
+                    ? widget.raumInput
+                    : "Raum",
                 hintStyle: niceHint(),
               ),
             ),
@@ -208,7 +243,9 @@ class _NeuesFachState extends State<NeuesFach> {
                     cursorColor: Colors.redAccent,
                     style: nice(),
                     decoration: InputDecoration.collapsed(
-                      hintText: "Lehrer",
+                      hintText: widget.editMode && widget.lehrerInput != ""
+                          ? widget.lehrerInput
+                          : "Lehrer",
                       hintStyle: niceHint(),
                     ),
                   ),
@@ -242,16 +279,24 @@ class _NeuesFachState extends State<NeuesFach> {
           color: Colors.redAccent,
           child: Text("Hinzufügen", style: wNice()),
           onPressed: () async {
-            await Database(user.uid)
-                .setFach(_bezeichung, _farbe.value, _raum, _lehrer);
-            setPrefs(_bezeichung, _farbe.value);
+            await Database(user.uid).setFach(
+                export(widget.bezeichnungInput, _bezeichung),
+                export(widget.farbeInput, _farbe.value),
+                export(widget.raumInput, _raum),
+                export(widget.lehrerInput, _lehrer));
+            setPrefs(export(widget.farbeInput, _farbe.value),
+                export(widget.farbeInput, _farbe.value));
             ichBin == "lehrer"
                 ? Navigator.pop(context, {
-                    "bezeichnung": _bezeichung + " ($_lehrer)",
-                    "farbe": _farbe.value
+                    "bezeichnung":
+                        export(widget.bezeichnungInput, _bezeichung) +
+                            " ($_lehrer)",
+                    "farbe": export(widget.farbeInput, _farbe.value)
                   })
-                : Navigator.pop(context,
-                    {"bezeichnung": _bezeichung, "farbe": _farbe.value});
+                : Navigator.pop(context, {
+                    "bezeichnung": export(widget.bezeichnungInput, _bezeichung),
+                    "farbe": export(widget.farbeInput, _farbe.value)
+                  });
           },
         ),
       ],
@@ -279,7 +324,6 @@ class NiceTextFieldState extends State<NiceTextField> {
         style: nice(),
         minLines: 1,
         maxLines: 1,
-        //onChanged: null,
         decoration: InputDecoration(
           prefixIcon: widget.icon,
           //prefix: widget.icon,

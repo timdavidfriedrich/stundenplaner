@@ -40,7 +40,7 @@ class TabStundenplanBodyState extends State<TabStundenplanBody>
   AnimateIconController controller;
   AnimationController _animationController;
 
-  bool editMode = false;
+  bool aWoche = true;
 
   @override
   void initState() {
@@ -56,7 +56,6 @@ class TabStundenplanBodyState extends State<TabStundenplanBody>
 
   @override
   void dispose() {
-    //setState(() => editMode = false);
     _animationController.reverse();
     _animationController.dispose();
     super.dispose();
@@ -67,9 +66,9 @@ class TabStundenplanBodyState extends State<TabStundenplanBody>
     return Scaffold(
       body: Stack(
         children: [
-          !abWoche
+          abWoche
               ? StundenplanShow("plan_C")
-              : (!editMode
+              : (aWoche
                   ? StundenplanShow("plan_A")
                   : StundenplanShow("plan_B")),
           !abWoche
@@ -92,12 +91,12 @@ class TabStundenplanBodyState extends State<TabStundenplanBody>
                             borderRadius: BorderRadius.circular(100)),
                         color: t("fabStundenplan"),
                         onPressed: () {
-                          setState(() => editMode = !editMode);
+                          setState(() => aWoche = !aWoche);
                         },
                         child: AnimatedContainer(
                           duration: Duration(milliseconds: 1000),
                           curve: Curves.easeInOut,
-                          child: !editMode
+                          child: aWoche
                               ? RichText(
                                   text: TextSpan(
                                       style: wNice(),

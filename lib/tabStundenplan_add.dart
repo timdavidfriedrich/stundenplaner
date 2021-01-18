@@ -15,26 +15,28 @@ import '.database.dart';
 import '.stundenplan.dart';
 import '.sharedprefs.dart';
 
-import 'tabStundenplan_neuesFach.dart';
+import 'tabStundenplan_new_edit.dart';
 import 'tabStundenplan.dart';
 
-class StundenplanEditAlert extends StatefulWidget {
+class StundenplanAdd extends StatefulWidget {
   @override
-  _StundenplanEditAlertState createState() => _StundenplanEditAlertState();
+  _StundenplanAddState createState() => _StundenplanAddState();
 }
 
-class _StundenplanEditAlertState extends State<StundenplanEditAlert> {
+class _StundenplanAddState extends State<StundenplanAdd> {
   //
 
   String selectedFach = "Fach wählen";
   Color selectedFarbe = t("disabled_button");
 
-  neuesFachDialog() async {
+  newEditFachDialog(editMode,
+      [bezeichnungInput, farbeInput, raumInput, lehrerInput]) async {
     Map<String, dynamic> callback = await showDialog<Map<String, dynamic>>(
         barrierDismissible: false,
         context: context,
         builder: (context) {
-          return NeuesFach();
+          return NewEditFach(
+              editMode, bezeichnungInput, farbeInput, raumInput, lehrerInput);
         });
     if (callback["bezeichnung"] != "x") {
       setState(() {
@@ -111,7 +113,7 @@ class _StundenplanEditAlertState extends State<StundenplanEditAlert> {
                             });
                             item["bezeichnung"].toString() != "Fach hinzufügen"
                                 ? null
-                                : neuesFachDialog();
+                                : newEditFachDialog(false);
                           },
                           items:
                               fachItems.map<DropdownMenuItem<dynamic>>((item) {
@@ -133,19 +135,43 @@ class _StundenplanEditAlertState extends State<StundenplanEditAlert> {
                                         style: nice()),
                                     trailing: item["bezeichnung"] !=
                                             "Fach hinzufügen"
-                                        ? IconButton(
-                                            onPressed: () async {
-                                              await database
-                                                  .delFach(item["bezeichnung"]);
-                                              setState(() {
-                                                selectedFach = "Fach wählen";
-                                                selectedFarbe =
-                                                    t("disabled_button");
-                                              });
-                                            },
-                                            icon: Icon(
-                                                Icons.delete_outline_sharp,
-                                                color: t("nice")),
+                                        ? Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              IconButton(
+                                                onPressed: () async {
+                                                  newEditFachDialog(
+                                                      true,
+                                                      item["bezeichnung"],
+                                                      Color(item["farbe"]),
+                                                      item["raum"],
+                                                      item["lehrer"]);
+                                                  setState(() {
+                                                    selectedFach =
+                                                        "Fach wählen";
+                                                    selectedFarbe =
+                                                        t("disabled_button");
+                                                  });
+                                                },
+                                                icon: Icon(Icons.edit_outlined,
+                                                    color: t("nice")),
+                                              ),
+                                              IconButton(
+                                                onPressed: () async {
+                                                  await database.delFach(
+                                                      item["bezeichnung"]);
+                                                  setState(() {
+                                                    selectedFach =
+                                                        "Fach wählen";
+                                                    selectedFarbe =
+                                                        t("disabled_button");
+                                                  });
+                                                },
+                                                icon: Icon(
+                                                    Icons.delete_outline_sharp,
+                                                    color: t("nice")),
+                                              ),
+                                            ],
                                           )
                                         : SizedBox(width: 1, height: 1))
                                 /*

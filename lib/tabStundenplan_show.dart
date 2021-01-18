@@ -4,7 +4,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 
 import 'tabStundenplan.dart';
-import 'tabStundenplan_edit_alert.dart';
+import 'tabStundenplan_add.dart';
 
 import '.nicerStyle.dart';
 import '.database.dart';
@@ -36,7 +36,7 @@ class StundenplanShowState extends State<StundenplanShow> {
         barrierDismissible: false,
         context: context,
         builder: (context) {
-          return StundenplanEditAlert();
+          return StundenplanAdd();
         });
     setState(() {
       neuesFach = callback["fach"];
@@ -70,6 +70,14 @@ class StundenplanShowState extends State<StundenplanShow> {
         fachItems.forEach((value) {
           fachBezeichungList.add(value["bezeichnung"]);
         });
+
+        /// WENN EIN FACH GELÖSCHT WIRD, WERDEN AUCH SP-EINTRÄGE ENTFERNT
+        for (int x = 0; x < fachBezeichungList.length; x++) {
+          if (!fachBezeichungList.contains(itemText)) {
+            Database(user.uid)
+                .setStundenplanEintrag(widget.woche, tag.toString(), block, "");
+          }
+        }
 
         print("fachBezeichungList: " + fachBezeichungList.toString());
         return FlatButton(
@@ -154,10 +162,12 @@ class StundenplanShowState extends State<StundenplanShow> {
                       Expanded(
                         child: GridView.builder(
                           physics: BouncingScrollPhysics(),
-                          itemCount: abItems.length * 8,
+                          itemCount:
+                              abWoche ? abItems.length * 8 : abItems.length * 4,
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 5, childAspectRatio: 1.2),
+                                  crossAxisCount: 5,
+                                  childAspectRatio: abWoche ? 1.2 : 0.7),
                           itemBuilder: (context, i) {
                             return Padding(
                               padding: const EdgeInsets.all(4),
