@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +36,7 @@ class _SettingsState extends State<Settings> {
   ];
 
   bool neustartErforderlich = false;
+  bool coronaExpand = false;
 
   bool xDark = false;
   bool xAbWoche = false;
@@ -100,9 +102,21 @@ class _SettingsState extends State<Settings> {
                 ),
               ),
               ListTile(
-                title: Text("Corona-Modus", style: nice()),
-                subtitle:
-                    Text("Einzelstunden, keine A/B-Woche", style: niceHint()),
+                title: Row(
+                  children: [
+                    Text("Corona-Modus", style: nice()),
+                    SizedBox(width: 10),
+                    IconButton(
+                        onPressed: () {
+                          setState(() => coronaExpand = !coronaExpand);
+                        },
+                        icon:
+                            Icon(Icons.help_outline_sharp, color: niceHint())),
+                  ],
+                ),
+                subtitle: coronaExpand
+                    ? Text("Einzelstunden, keine A/B-Woche.", style: niceHint())
+                    : SizedBox(width: 0.01, height: 0.01),
                 trailing: Switch(
                   inactiveTrackColor: t("switch_off"),
                   inactiveThumbColor: t("nice"),

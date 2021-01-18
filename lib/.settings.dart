@@ -48,6 +48,7 @@ var platzhalter = "lol";
 var meineKlasse = "12";
 var meinName = "Strohschein";
 bool vertretungHighlight = true;
+int nextVertretung = 1530;
 
 /// Handler
 
@@ -74,11 +75,15 @@ betaChecker(context, String object, i) {
 }
 
 datumHandler() {
+  var _zeit = DateFormat.Hm("de").format(DateTime.now()).toString();
+  var zeit = _zeit.replaceAll(":", "");
   if (datum == null) {
     if (DateFormat.EEEE('de').format(DateTime.now()).toString() == 'Samstag') {
       return DateTime.now().add(Duration(days: 2));
     } else if (DateFormat.EEEE('de').format(DateTime.now()).toString() ==
         'Sonntag') {
+      return DateTime.now().add(Duration(days: 1));
+    } else if (int.parse(zeit) >= nextVertretung) {
       return DateTime.now().add(Duration(days: 1));
     } else {
       return DateTime.now();

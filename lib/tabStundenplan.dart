@@ -65,69 +65,74 @@ class TabStundenplanBodyState extends State<TabStundenplanBody>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(
-      children: [
-        !editMode ? StundenplanShow("plan_A") : StundenplanShow("plan_B"),
-        !abWoche
-            ? Positioned(
-                left: 20,
-                bottom: 25,
-                child: SlideTransition(
-                  position: Tween<Offset>(
-                    begin: Offset(0, 3),
-                    end: Offset.zero,
-                  )
-                      .chain(CurveTween(curve: Curves.elasticOut))
-                      .animate(_animationController),
-                  child: ButtonTheme(
-                    minWidth: 160,
-                    height: 50,
-                    child: RaisedButton(
-                      elevation: 10,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(100)),
-                      color: t("fabStundenplan"),
-                      onPressed: () {
-                        setState(() => editMode = !editMode);
-                      },
-                      child: AnimatedContainer(
-                        duration: Duration(milliseconds: 1000),
-                        curve: Curves.easeInOut,
-                        child: !editMode
-                            ? RichText(
-                                text: TextSpan(
-                                    style: wNice(),
-                                    children: <TextSpan>[
-                                    TextSpan(
-                                        text: 'Aktuell:  ',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w100)),
-                                    TextSpan(
-                                        text: 'A-Woche',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w900))
-                                  ]))
-                            : RichText(
-                                text: TextSpan(
-                                    style: wNice(),
-                                    children: <TextSpan>[
-                                    TextSpan(
-                                        text: 'Aktuell:  ',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w100)),
-                                    TextSpan(
-                                        text: 'B-Woche',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w900))
-                                  ])),
+      body: Stack(
+        children: [
+          !abWoche
+              ? StundenplanShow("plan_C")
+              : (!editMode
+                  ? StundenplanShow("plan_A")
+                  : StundenplanShow("plan_B")),
+          !abWoche
+              ? Positioned(
+                  left: 20,
+                  bottom: 25,
+                  child: SlideTransition(
+                    position: Tween<Offset>(
+                      begin: Offset(0, 3),
+                      end: Offset.zero,
+                    )
+                        .chain(CurveTween(curve: Curves.elasticOut))
+                        .animate(_animationController),
+                    child: ButtonTheme(
+                      minWidth: 160,
+                      height: 50,
+                      child: RaisedButton(
+                        elevation: 10,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100)),
+                        color: t("fabStundenplan"),
+                        onPressed: () {
+                          setState(() => editMode = !editMode);
+                        },
+                        child: AnimatedContainer(
+                          duration: Duration(milliseconds: 1000),
+                          curve: Curves.easeInOut,
+                          child: !editMode
+                              ? RichText(
+                                  text: TextSpan(
+                                      style: wNice(),
+                                      children: <TextSpan>[
+                                      TextSpan(
+                                          text: 'Aktuell:  ',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w100)),
+                                      TextSpan(
+                                          text: 'A-Woche',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w900))
+                                    ]))
+                              : RichText(
+                                  text: TextSpan(
+                                      style: wNice(),
+                                      children: <TextSpan>[
+                                      TextSpan(
+                                          text: 'Aktuell:  ',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w100)),
+                                      TextSpan(
+                                          text: 'B-Woche',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w900))
+                                    ])),
+                        ),
+                        //child: Icon(Icons.edit_sharp, color: t("wNice")),
                       ),
-                      //child: Icon(Icons.edit_sharp, color: t("wNice")),
                     ),
                   ),
-                ),
-              )
-            : Container()
-      ],
-    ));
+                )
+              : Container()
+        ],
+      ),
+    );
   }
 }

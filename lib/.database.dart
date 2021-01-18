@@ -54,7 +54,7 @@ class Database {
 
   Future createStundenplan() async {
     List tagesListe = ['1', '2', '3', '4', '5'];
-    List planList = ["plan_A", "plan_B"];
+    List planList = ["plan_A", "plan_B", "plan_C"];
     for (int ab = 0; ab < 2; ab++) {
       for (int i = 0; i < tagesListe.length; i++) {
         await stundenplan.doc(userID).set({
@@ -64,14 +64,26 @@ class Database {
               "2": "",
               "3": "",
               "4": "",
-              "5": "",
-              "6": "",
-              "7": "",
-              "8": "",
             }
           }
         }, SetOptions(merge: true));
       }
+    }
+    for (int i = 0; i < tagesListe.length; i++) {
+      await stundenplan.doc(userID).set({
+        planList[2]: {
+          tagesListe[i]: {
+            "1": "",
+            "2": "",
+            "3": "",
+            "4": "",
+            "5": "",
+            "6": "",
+            "7": "",
+            "8": "",
+          }
+        }
+      }, SetOptions(merge: true));
     }
   }
 
