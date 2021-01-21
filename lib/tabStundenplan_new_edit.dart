@@ -99,24 +99,28 @@ class _NewEditFachState extends State<NewEditFach> {
 
   bool sliderRGB = true;
 
-  String _bezeichung = "";
+  String _bezeichnung = "";
   Color _farbe = Color(0xfff44336);
   String _raum = "";
   String _lehrer = "";
 
   void getSliderValue() {
-    for (int x = 0; x < colors.length; x++) {
-      if (colors[x] == widget.farbeInput) {
-        setState(() => sliderValue = x.toDouble());
+    if (widget.editMode && widget.farbeInput != null) {
+      for (int x = 0; x < colors.length; x++) {
+        if (colors[x] == widget.farbeInput) {
+          setState(() => sliderValue = x.toDouble());
+        }
       }
     }
   }
 
   export(input, toExport) {
-    return widget.editMode && input != "" && toExport == "" ? input : toExport;
+    return widget.editMode && (input != "" || input != null) && toExport == ""
+        ? input
+        : toExport;
   }
 
-  bezeichungRefresh(String x) => setState(() => _bezeichung = x);
+  bezeichnungRefresh(String x) => setState(() => _bezeichnung = x);
   farbeRefresh(Color x) => setState(() => _farbe = x);
   raumRefresh(String x) => setState(() => _raum = x);
   lehrerRefresh(String x) => setState(() => _lehrer = x);
@@ -132,7 +136,7 @@ class _NewEditFachState extends State<NewEditFach> {
     super.initState();
     firebaseConnect();
     add2Colors();
-    widget.editMode && widget.farbeInput != null ? getSliderValue() : null;
+    getSliderValue();
   }
 
   @override
@@ -154,7 +158,7 @@ class _NewEditFachState extends State<NewEditFach> {
             contentPadding: EdgeInsets.fromLTRB(25, 0, 0, 0),
             leading: Icon(Icons.school_outlined, color: t("nice")),
             title: TextField(
-              onChanged: bezeichungRefresh,
+              onChanged: bezeichnungRefresh,
               cursorColor: Colors.redAccent,
               style: nice(),
               decoration: InputDecoration.collapsed(
@@ -266,8 +270,8 @@ class _NewEditFachState extends State<NewEditFach> {
             child: Icon(Icons.arrow_back, color: t("on_back_button")),
             onPressed: () {
               setPrefs("Fach wählen", t("back_button2").value);
-              Navigator.pop(
-                  context, {"bezeichnung": "x", "farbe": t("back_button2")});
+              Navigator.pop(context,
+                  {"bezeichnung": "x", "farbe": t("back_button2").value});
             },
           ),
         ),
@@ -277,24 +281,34 @@ class _NewEditFachState extends State<NewEditFach> {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
           color: Colors.redAccent,
-          child: Text("Hinzufügen", style: wNice()),
+          child: Text(widget.editMode ? "Speichern" : "Hinzufügen",
+              style: wNice()),
           onPressed: () async {
-            await Database(user.uid).setFach(
-                export(widget.bezeichnungInput, _bezeichung),
-                export(widget.farbeInput, _farbe.value),
-                export(widget.raumInput, _raum),
-                export(widget.lehrerInput, _lehrer));
-            setPrefs(export(widget.farbeInput, _farbe.value),
+            widget.editMode
+                ? await Database(user.uid).setFach(
+                    widget.bezeichnungInput,
+                    export(widget.bezeichnungInput, _bezeichnung),
+                    export(widget.farbeInput, _farbe.value),
+                    export(widget.raumInput, _raum),
+                    export(widget.lehrerInput, _lehrer))
+                : await Database(user.uid).setFach(
+                    _bezeichnung,
+                    export(widget.bezeichnungInput, _bezeichnung),
+                    export(widget.farbeInput, _farbe.value),
+                    export(widget.raumInput, _raum),
+                    export(widget.lehrerInput, _lehrer));
+            setPrefs(export(widget.bezeichnungInput, _bezeichnung),
                 export(widget.farbeInput, _farbe.value));
             ichBin == "lehrer"
                 ? Navigator.pop(context, {
                     "bezeichnung":
-                        export(widget.bezeichnungInput, _bezeichung) +
+                        export(widget.bezeichnungInput, _bezeichnung) +
                             " ($_lehrer)",
                     "farbe": export(widget.farbeInput, _farbe.value)
                   })
                 : Navigator.pop(context, {
-                    "bezeichnung": export(widget.bezeichnungInput, _bezeichung),
+                    "bezeichnung":
+                        export(widget.bezeichnungInput, _bezeichnung),
                     "farbe": export(widget.farbeInput, _farbe.value)
                   });
           },

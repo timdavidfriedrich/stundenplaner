@@ -44,10 +44,10 @@ class StundenplanShowState extends State<StundenplanShow> {
     });
   }
 
-  getFachIndex(fachBezeichungList, itemText) {
+  getFachIndex(fachIdList, itemText) {
     int fachIndex;
-    for (int f = 0; f < fachBezeichungList.length; f++) {
-      if (fachBezeichungList[f] == itemText) {
+    for (int f = 0; f < fachIdList.length; f++) {
+      if (fachIdList[f] == itemText) {
         f != null ? fachIndex = f.toInt() : fachIndex = 99;
       }
     }
@@ -66,29 +66,28 @@ class StundenplanShowState extends State<StundenplanShow> {
         String block = (x + 1).toString();
 
         String itemText = abItems[_tag][block];
-        List fachBezeichungList = [];
+        List fachIdList = [];
         fachItems.forEach((value) {
-          fachBezeichungList.add(value["bezeichnung"]);
+          fachIdList.add(value["id"]);
         });
 
         /// WENN EIN FACH GELÖSCHT WIRD, WERDEN AUCH SP-EINTRÄGE ENTFERNT
-        for (int x = 0; x < fachBezeichungList.length; x++) {
-          if (!fachBezeichungList.contains(itemText)) {
+        for (int x = 0; x < fachIdList.length; x++) {
+          if (!fachIdList.contains(itemText)) {
             Database(user.uid)
                 .setStundenplanEintrag(widget.woche, tag.toString(), block, "");
           }
         }
 
-        print("fachBezeichungList: " + fachBezeichungList.toString());
+        print("fachIdList: " + fachIdList.toString());
         return FlatButton(
             padding: EdgeInsets.zero,
             height: !blockOnly ? 108 : 50,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-            color: itemText == "" || !fachBezeichungList.contains(itemText)
+            color: itemText == "" || !fachIdList.contains(itemText)
                 ? t("back_button")
-                : Color(fachItems[getFachIndex(fachBezeichungList, itemText)]
-                    ["farbe"]),
+                : Color(fachItems[getFachIndex(fachIdList, itemText)]["farbe"]),
             onPressed: () async {
               await neuesFachDialog();
               done
@@ -102,7 +101,7 @@ class StundenplanShowState extends State<StundenplanShow> {
             },
             child: Text(
               itemText,
-              style: itemText == "" || !fachBezeichungList.contains(itemText)
+              style: itemText == "" || !fachIdList.contains(itemText)
                   ? niceCustom(t("wNice").withOpacity(0.0))
                   : niceCustom(t("wNice"), 10),
             ));

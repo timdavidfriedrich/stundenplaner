@@ -38,22 +38,22 @@ class _StundenplanAddState extends State<StundenplanAdd> {
           return NewEditFach(
               editMode, bezeichnungInput, farbeInput, raumInput, lehrerInput);
         });
-    if (callback["bezeichnung"] != "x") {
+    updateFromCallback(
+        callback["bezeichnung"].toString(), callback["farbe"].toInt());
+  }
+
+  void updateFromCallback(bezeichnung, farbe) {
+    if (bezeichnung != "x") {
       setState(() {
-        selectedFach = callback["bezeichnung"];
-        selectedFarbe = Color(callback["farbe"]);
+        selectedFach = bezeichnung;
+        selectedFarbe = Color(farbe);
       });
     } else {
       setState(() {
-        selectedFach = "Fach wählen";
+        selectedFach = "Fach wählen Call";
         selectedFarbe = t("disabled_button");
       });
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
   }
 
   @override
@@ -106,14 +106,14 @@ class _StundenplanAddState extends State<StundenplanAdd> {
                             padding: const EdgeInsets.only(left: 30),
                             child: Text(selectedFach, style: wNice()),
                           ),
-                          onChanged: (item) {
+                          onChanged: (item) async {
                             setState(() {
                               selectedFach = item["bezeichnung"].toString();
                               selectedFarbe = Color(item["farbe"]);
                             });
                             item["bezeichnung"].toString() != "Fach hinzufügen"
                                 ? null
-                                : newEditFachDialog(false);
+                                : await newEditFachDialog(false);
                           },
                           items:
                               fachItems.map<DropdownMenuItem<dynamic>>((item) {
@@ -140,18 +140,12 @@ class _StundenplanAddState extends State<StundenplanAdd> {
                                             children: [
                                               IconButton(
                                                 onPressed: () async {
-                                                  newEditFachDialog(
+                                                  await newEditFachDialog(
                                                       true,
                                                       item["bezeichnung"],
                                                       Color(item["farbe"]),
                                                       item["raum"],
                                                       item["lehrer"]);
-                                                  setState(() {
-                                                    selectedFach =
-                                                        "Fach wählen";
-                                                    selectedFarbe =
-                                                        t("disabled_button");
-                                                  });
                                                 },
                                                 icon: Icon(Icons.edit_outlined,
                                                     color: t("nice")),
@@ -173,28 +167,7 @@ class _StundenplanAddState extends State<StundenplanAdd> {
                                               ),
                                             ],
                                           )
-                                        : SizedBox(width: 1, height: 1))
-                                /*
-                              Row(
-                                children: <Widget>[
-                                  item["bezeichnung"] == "Fach hinzufügen"
-                                      ? Icon(
-                                          Icons.add_sharp,
-                                          color: t("nice"),
-                                        )
-                                      : Icon(
-                                          Icons.bookmark_outline_sharp,
-                                          color: Color(item["farbe"]),
-                                        ),
-                                  Spacer(flex: 1),
-                                  Text(item["bezeichnung"]),
-                                  Spacer(flex: 4),
-                                  Icon(Icons.delete_outline_sharp,
-                                      color: t("nice"))
-                                ],
-                              ),
-                              */
-                                );
+                                        : SizedBox(width: 1, height: 1)));
                           }).toList(),
                         ),
                       ),
