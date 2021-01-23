@@ -12,7 +12,6 @@ import '.nicerStyle.dart';
 import '.settings.dart';
 import '.transitions.dart';
 import '.database.dart';
-import '.stundenplan.dart';
 import '.sharedprefs.dart';
 
 import 'tabStundenplan_new_edit.dart';
@@ -38,21 +37,24 @@ class _StundenplanAddState extends State<StundenplanAdd> {
           return NewEditFach(
               editMode, bezeichnungInput, farbeInput, raumInput, lehrerInput);
         });
+    print("callback? " + callback["bezeichnung"]);
+
+    /// HIER TRITT EIN SCHEISS ERROR AUF (setState() ... called ... tree locked)
     updateFromCallback(
         callback["bezeichnung"].toString(), callback["farbe"].toInt());
   }
 
   void updateFromCallback(bezeichnung, farbe) {
     if (bezeichnung != "x") {
-      setState(() {
-        selectedFach = bezeichnung;
-        selectedFarbe = Color(farbe);
-      });
+      //setState(() {
+      selectedFach = bezeichnung;
+      selectedFarbe = Color(farbe);
+      //});
     } else {
-      setState(() {
-        selectedFach = "Fach wählen Call";
-        selectedFarbe = t("disabled_button");
-      });
+      //setState(() {
+      selectedFach = "Fach wählen Call";
+      selectedFarbe = t("disabled_button");
+      //});
     }
   }
 
@@ -152,8 +154,8 @@ class _StundenplanAddState extends State<StundenplanAdd> {
                                               ),
                                               IconButton(
                                                 onPressed: () async {
-                                                  await database.delFach(
-                                                      item["bezeichnung"]);
+                                                  await database
+                                                      .delFach(item["a_id"]);
                                                   setState(() {
                                                     selectedFach =
                                                         "Fach wählen";

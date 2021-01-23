@@ -26,7 +26,7 @@ class Database {
     return await stundenplan.doc(userID).set({
       "fachList": {
         id: {
-          "id": id,
+          "a_id": id,
           "bezeichnung": bezeichnung,
           "farbe": farbe,
           "raum": raum,
@@ -96,4 +96,28 @@ class Database {
       }
     }, SetOptions(merge: true));
   }
+}
+
+
+Database database;
+User user;
+
+Future<void> firebaseConnect() async {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  UserCredential result = await auth.signInAnonymously();
+  user = result.user;
+
+  database = Database(user.uid);
+
+  if (!(await database.checkIfUserExists())) {
+    database.createStundenplan();
+    database.setFach(
+        "FACH_ADD", "Fach hinzufügen", Colors.redAccent.value, "", "");
+  }
+
+/*
+  Stream userStream = database.getStundenplan();
+  userStream.listen((snap) => fachListe = snap.data()["fachList"]);
+  print("firebaseConnect / fachListe: " + fachListe.toString());
+  */
 }

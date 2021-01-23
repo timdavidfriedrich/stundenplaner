@@ -8,7 +8,6 @@ import 'tabStundenplan_add.dart';
 
 import '.nicerStyle.dart';
 import '.database.dart';
-import '.stundenplan.dart';
 import '.settings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -58,6 +57,8 @@ class StundenplanShowState extends State<StundenplanShow> {
   buttonPress() {}
 
   gridBuilder(i, abItems, fachItems) {
+    bool longPressed = false;
+
     List itemZahl = [0, 5, 10, 15, 20, 25, 30, 35, 40];
     for (int x = 0; x < itemZahl.length - 1; x++) {
       if (itemZahl[x] <= i && i < itemZahl[x + 1]) {
@@ -66,9 +67,10 @@ class StundenplanShowState extends State<StundenplanShow> {
         String block = (x + 1).toString();
 
         String itemText = abItems[_tag][block];
+        print("itemText: " + itemText);
         List fachIdList = [];
         fachItems.forEach((value) {
-          fachIdList.add(value["id"]);
+          fachIdList.add(value["a_id"]);
         });
 
         /// WENN EIN FACH GELÖSCHT WIRD, WERDEN AUCH SP-EINTRÄGE ENTFERNT
@@ -96,6 +98,7 @@ class StundenplanShowState extends State<StundenplanShow> {
                   : null;
             },
             onLongPress: () {
+              longPressed = true;
               Database(user.uid).setStundenplanEintrag(
                   widget.woche, tag.toString(), block, "");
             },

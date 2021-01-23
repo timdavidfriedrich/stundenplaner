@@ -12,7 +12,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '.nicerStyle.dart';
 import '.settings.dart';
 import '.database.dart';
-import '.stundenplan.dart';
 import 'tabStundenplan_add.dart';
 import '.sharedprefs.dart';
 

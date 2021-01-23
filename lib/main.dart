@@ -12,7 +12,7 @@ import 'handleTabs.dart';
 import 'pageReport.dart'; //#### Wie wär's mit KABOOM bei Front?
 import 'pageSettings.dart';
 import '.transitions.dart';
-import '.stundenplan.dart';
+import '.database.dart';
 import '.settings.dart';
 import '.sharedprefs.dart';
 
