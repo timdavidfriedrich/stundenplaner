@@ -10,10 +10,12 @@ class Database {
       FirebaseFirestore.instance.collection("stundenplan");
 
   Stream getStundenplan() {
+    print(".database/getStundenplan()");
     return stundenplan.doc(userID).snapshots();
   }
 
   Future checkIfUserExists() async {
+    print(".database/checkIfUserExists()");
     if ((await stundenplan.doc(userID).get()).exists) {
       return true;
     } else {
@@ -23,6 +25,7 @@ class Database {
 
   Future setFach(String id, String bezeichnung, int farbe, String raum,
       String lehrer) async {
+    print(".database/setFach");
     return await stundenplan.doc(userID).set({
       "fachList": {
         id: {
@@ -37,6 +40,7 @@ class Database {
   }
 
   Future<Map> getFach(String bezeichung) async {
+    print(".database/getFach()");
     var x;
     await stundenplan
         .doc(userID)
@@ -48,12 +52,14 @@ class Database {
   }
 
   Future delFach(String bezeichnung) async {
+    print(".database/delFach()");
     return await stundenplan.doc(userID).set({
       "fachList": {bezeichnung: FieldValue.delete()}
     }, SetOptions(merge: true));
   }
 
   Future createStundenplan() async {
+    print(".database/createStundenplan()");
     List tagesListe = ['1', '2', '3', '4', '5'];
     List planList = ["plan_A", "plan_B", "plan_C"];
     for (int ab = 0; ab < 2; ab++) {
@@ -98,11 +104,11 @@ class Database {
   }
 }
 
-
 Database database;
 User user;
 
 Future<void> firebaseConnect() async {
+  print(".database/firebaseConnect()");
   final FirebaseAuth auth = FirebaseAuth.instance;
   UserCredential result = await auth.signInAnonymously();
   user = result.user;

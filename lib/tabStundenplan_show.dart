@@ -76,8 +76,14 @@ class StundenplanShowState extends State<StundenplanShow> {
         /// WENN EIN FACH GELÖSCHT WIRD, WERDEN AUCH SP-EINTRÄGE ENTFERNT
         for (int x = 0; x < fachIdList.length; x++) {
           if (!fachIdList.contains(itemText)) {
+            print("tabStundenplan_show/gridBuilder/'delete' " +
+                (x + 1).toString() +
+                "/" +
+                fachIdList.length.toString());
+            /*
             Database(user.uid)
                 .setStundenplanEintrag(widget.woche, tag.toString(), block, "");
+                */
           }
         }
 
@@ -91,6 +97,7 @@ class StundenplanShowState extends State<StundenplanShow> {
                 ? t("back_button")
                 : Color(fachItems[getFachIndex(fachIdList, itemText)]["farbe"]),
             onPressed: () async {
+              print("tabStundenplan_show/gridBuilder/FlatButton/onPressed()");
               await neuesFachDialog();
               done
                   ? Database(user.uid).setStundenplanEintrag(
@@ -98,6 +105,7 @@ class StundenplanShowState extends State<StundenplanShow> {
                   : null;
             },
             onLongPress: () {
+              print("tabStundenplan_show/gridBuilder/FlatButton/onLongPress()");
               longPressed = true;
               Database(user.uid).setStundenplanEintrag(
                   widget.woche, tag.toString(), block, "");
