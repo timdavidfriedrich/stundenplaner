@@ -1,4 +1,5 @@
 # Stundenplaner Gymnasium Templin
+### [inaktiv]
 
 Integriert Vertretungsstunden automatisch in den eigenen Stundenplan, damit man nie den Überblick verliert.
 
